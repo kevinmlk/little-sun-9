@@ -1,5 +1,5 @@
 <?php
 
 interface iDb {
-  public function getConnection();
+  public static function getConnection();
 }
