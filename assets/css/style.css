@@ -11,8 +11,36 @@ main {
   height: 100vh;
 }
 
+h1 {
+  font-size: 2.4em;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+#login-links-container ul {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.input {
+  
+}
+
+.btn {
+  width: fit-content;
+  padding: 8px 16px;
+  border-radius: 36px;
+  font-size: 1em;
+  background-color: var(--little-sun-yellow);
+  border: none;
+  align-self: flex-end;
+}
+
 .card-login {
-  padding: 40px;
+  padding: 56px;
   background-color: var(--little-sun-black);
   color: var(--little-sun-white);
   width: fit-content;

@@ -22,6 +22,14 @@
 
         <input type="submit" value="Login" class="btn btn-primary">
       </form>
+
+      <div id="login-links-container">
+        <ul>
+          <li><a href="">Help</a></li>
+          <li><a href="">Privacy</a></li>
+          <li><a href="">Terms</a></li>
+        </ul>
+      </div>
     </section>
 
   </main>
