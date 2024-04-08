@@ -10,13 +10,16 @@
 </head>
 <body>
   <main class="bg-image">
-    <section>
+    <section class="card-login">
       <h1>Login</h1>
       <p>Use your Little Sun account to login</p>
       <!-- Login form -->
-      <form action="">
-        <input type="text" name="email-phone" placeholder="Email or phone">
-        <input type="password" name="password" placeholder="Password">
+      <form action="login.php" method="post" class="login-form">
+        <div class="form-field">
+          <input type="text" name="email-phone" placeholder="Email or phone">
+          <input type="password" name="password" placeholder="Password">
+        </div>
+
         <input type="submit" value="Login" class="btn btn-primary">
       </form>
     </section>

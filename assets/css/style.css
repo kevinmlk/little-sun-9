@@ -11,8 +11,34 @@ main {
   height: 100vh;
 }
 
+.card-login {
+  padding: 40px;
+  background-color: var(--little-sun-black);
+  color: var(--little-sun-white);
+  width: fit-content;
+  border-radius: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .bg-image {
   background-image: url('../images/little-sun-background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
