@@ -4,7 +4,7 @@ include_once(__DIR__ . '/../interfaces/iDb.php');
 
 // Class that implements the iDb interface
 class Db implements iDb {
-  private $conn;
+  private static $conn;
 
   // getConnection function - naming according the interface
   public static function getConnection() {
