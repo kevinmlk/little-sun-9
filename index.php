@@ -1,5 +1,10 @@
 <?php
   include_once(__DIR__ . '/bootstrap.php');
+
+  // Check if the user is logged in
+  if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+  }
   
 ?><!DOCTYPE html>
 <html lang="en">
