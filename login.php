@@ -16,8 +16,8 @@
       <!-- Login form -->
       <form action="login.php" method="post" class="login-form">
         <div class="form-field">
-          <input type="text" name="email-phone" placeholder="Email or phone">
-          <input type="password" name="password" placeholder="Password">
+          <input class="input-field" type="text" name="email-phone" placeholder="Email or phone">
+          <input class="input-field" type="password" name="password" placeholder="Password">
         </div>
 
         <input type="submit" value="Login" class="btn btn-primary">

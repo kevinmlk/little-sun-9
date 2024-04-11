@@ -25,8 +25,12 @@ p {
   justify-content: flex-end;
 }
 
-.input {
-  
+.input-field {
+  padding: 16px 16px;
+  background-color: transparent;
+  border-radius: 4px;
+  font-size: 1em;
+  color: var(--little-sun-gray);
 }
 
 .btn {
