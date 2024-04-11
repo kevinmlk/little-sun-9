@@ -1,9 +1,9 @@
 <?php
 
-include_once(__DIR__ . '/../interfaces/iDb.php');
+include_once(__DIR__ . '/../interfaces/IDb.php');
 
 // Class that implements the iDb interface
-class Db implements iDb {
+class Db implements IDb {
   private static $conn;
 
   // getConnection function - naming according the interface
