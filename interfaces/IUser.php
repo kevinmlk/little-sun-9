@@ -1,5 +1,6 @@
 <?php
 
 interface IUser {
-  public function login();
+  public function loginUser();
+  public function createUser();
 }
