@@ -13,6 +13,15 @@
     <section class="card-login">
       <h1>Login</h1>
       <p>Use your Little Sun account to login</p>
+      <!-- Login error message -->
+				<?php	if (isset($error)): ?>
+				<div class="form-error">
+					<p>
+						Sorry, we can't log you in with that email address and password. Can you try again?
+					</p>
+				</div>
+				<?php endif; ?>
+
       <!-- Login form -->
       <form action="login.php" method="post" class="login-form">
         <div class="form-field">
