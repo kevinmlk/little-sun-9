@@ -6,6 +6,10 @@
     $user->setFirstname($_POST['firstname']);
     $user->setLastname($_POST['lastname']);
     $user->setEmail($_POST['email']);
+
+    // Run create user method
+    $user->createUser();
+    echo 'User added!';
   }
 ?><!DOCTYPE html>
 <html lang="en">

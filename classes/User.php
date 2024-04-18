@@ -84,26 +84,49 @@ class User implements IUser {
 
   // Login function for login page
   public function loginUser() {
-    // Make a Db connection
-    $conn = Db::getConnection();
+    // // Make a Db connection
+    // $conn = Db::getConnection();
 
-    // Prepare query statement
-    $statement = $conn->prepare("SELECT * FROM users WHERE email = ':email';");
-    
+    // // Prepare query statement
+    // $statement = $conn->prepare("SELECT * FROM users WHERE email = ':email';");
+    $adminEmail = 'jane.doe@admin.zm';
+
     $email = $this->getEmail();
 
+    if ($email === $adminEmail) {
+      return true;
+    } else {
+      return false;
+    }
+
     // Bind query values
-    $statement->bindValue(':email', $email);
+    // $statement->bindValue(':email', $email);
 
     // Store the results of the query execution
-    $user = $statement->execute(PDO::FETCH_ASSOC);
+    // $statement->execute();
 
-    // Return the the result
-    return $user;
+    // $user = $statement->fetchAll(PDO::FETCH_ASSOC);
+
   }
 
   // Create user function for admin
   public function createUser() {
     $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('INSERT INTO users (firstname, lastname, email) VALUES(:firstname, :lastname, :email);');
+
+    // Plaats de input van de SETTERS in een variabele met GETTERS
+    $firstname = $this->getFirstname();
+    $lastname = $this->getLastname();
+    $email = $this->getEmail();
+
+    $statement->bindValue(':firstname', $firstname);
+    $statement->bindValue(':lastname', $lastname);
+    $statement->bindValue(':email', $email);
+
+    $result = $statement->execute();
+    // Return result
+    return $result;
   }
 }
