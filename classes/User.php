@@ -9,6 +9,7 @@ class User implements IUser {
   private $lastname;
   private $email;
   private $password;
+  private $role;
 
   /**
    * Get the value of firstname
@@ -82,6 +83,24 @@ class User implements IUser {
     return $this;
   }
 
+    /**
+   * Get the value of role
+   */
+  public function getRole()
+  {
+    return $this->role;
+  }
+
+  /**
+   * Set the value of role
+   */
+  public function setRole($role): self
+  {
+    $this->role = $role;
+
+    return $this;
+  }
+
   // Login function for login page
   public function loginUser() {
     // // Make a Db connection
@@ -114,7 +133,7 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password) VALUES(:firstname, :lastname, :email, :password);');
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, RoleId) VALUES(:firstname, :lastname, :email, :password, :role);');
 
     // Plaats de input van de SETTERS in een variabele met GETTERS
     $firstname = $this->getFirstname();
@@ -125,13 +144,31 @@ class User implements IUser {
 		$options = [
 			'cost' => 15,
 		];
-    
-		$password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
 
+		$password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
+    
+    $selectedRole = $this->getRole();
+
+    function roleSetter($r) {
+      switch ($r) {
+        case 'Manager':
+           return 3;
+          break;
+        case 'Admin':
+          return 2;
+          break;
+        default:
+          return 1;
+      }
+    }
+
+    $role = roleSetter($selectedRole);
+    
     $statement->bindValue(':firstname', $firstname);
     $statement->bindValue(':lastname', $lastname);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':password', $password);
+    $statement->bindValue(':role', $role);
 
     $result = $statement->execute();
     // Return result

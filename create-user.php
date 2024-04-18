@@ -6,7 +6,9 @@
     $user->setFirstname($_POST['firstname']);
     $user->setLastname($_POST['lastname']);
     $user->setEmail($_POST['email']);
-    
+    $user->setPassword($_POST['password']);
+    $user->setRole($_POST['roles']);
+
     // Run create user method
     $user->createUser();
     echo 'User added!';
@@ -37,6 +39,13 @@
           <input class="input-field" type="text" name="lastname" placeholder="Lastname">
           <input class="input-field" type="email" name="email" placeholder="Email">
           <input class="input-field" type="password" name="password" placeholder="Password">
+          
+          <label for="roles">Choose a role</label>
+          <select name="roles" id="roles">
+            <option value="Admin">Admin</option>
+            <option value="Employee">Employee</option>
+            <option value="Manager">Manager</option>
+          </select>
         </div>
 
         <input type="submit" value="Login" class="btn btn-primary">
