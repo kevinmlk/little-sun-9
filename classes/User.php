@@ -1,5 +1,9 @@
 <?php
+// Include IUser interface
 include_once(__DIR__ . '/../interfaces/IUser.php');
+// Include Db file
+include_once(__DIR__ . '/Db.php');
+
 class User implements IUser {
   private $firstname;
   private $lastname;
@@ -41,7 +45,7 @@ class User implements IUser {
 
     return $this;
   }
-  
+
   /**
    * Get the value of email
    */
@@ -80,11 +84,26 @@ class User implements IUser {
 
   // Login function for login page
   public function loginUser() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare("SELECT * FROM users WHERE email = ':email';");
     
+    $email = $this->getEmail();
+
+    // Bind query values
+    $statement->bindValue(':email', $email);
+
+    // Store the results of the query execution
+    $user = $statement->execute(PDO::FETCH_ASSOC);
+
+    // Return the the result
+    return $user;
   }
 
   // Create user function for admin
   public function createUser() {
-
+    $conn = Db::getConnection();
   }
 }

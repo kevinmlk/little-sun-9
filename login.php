@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+  // Include bootstrap
+  include_once(__DIR__ . '/bootstrap.php');
+
+  // Check if theres a login attempt
+  if (!empty($_POST)) {
+    $user = new User();
+    $user->setEmail($_POST['email']);
+    $user->loginUser();
+  }
+?><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -25,7 +35,7 @@
       <!-- Login form -->
       <form action="login.php" method="post" class="login-form">
         <div class="form-field">
-          <input class="input-field" type="text" name="email-phone" placeholder="Email or phone">
+          <input class="input-field" type="text" name="email" placeholder="Email or phone">
           <input class="input-field" type="password" name="password" placeholder="Password">
         </div>
 

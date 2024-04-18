@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php
+  include_once(__DIR__ . '/bootstrap.php');
+
+  if (!empty($_POST)) {
+    $user = new User();
+    $user->setFirstname($_POST['firstname']);
+    $user->setLastname($_POST['lastname']);
+    $user->setEmail($_POST['email']);
+  }
+?><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +24,7 @@
       <p>Create an user</p>
 
       <!-- Login form -->
-      <form action="login.php" method="post" class="login-form">
+      <form action="create-user.php" method="post" class="login-form">
         <div class="form-field">
           <input class="input-field" type="text" name="firstname" placeholder="Firstname">
           <input class="input-field" type="text" name="lastname" placeholder="Lastname">
