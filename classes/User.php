@@ -104,28 +104,25 @@ class User implements IUser {
   // Login function for login page
   public function loginUser() {
     // // Make a Db connection
-    // $conn = Db::getConnection();
+    $conn = Db::getConnection();
 
     // // Prepare query statement
-    // $statement = $conn->prepare("SELECT * FROM users WHERE email = ':email';");
-    $adminEmail = 'jane.doe@admin.zm';
+    $statement = $conn->prepare("SELECT * FROM users WHERE email = :email;");
 
     $email = $this->getEmail();
 
-    if ($email === $adminEmail) {
+    // Bind query values
+    $statement->bindValue(':email', $email);
+
+    // Store the results of the query execution
+    $statement->execute();
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if (password_verify($this->getPassword(), $user['Password'])) {
       return true;
     } else {
       return false;
     }
-
-    // Bind query values
-    // $statement->bindValue(':email', $email);
-
-    // Store the results of the query execution
-    // $statement->execute();
-
-    // $user = $statement->fetchAll(PDO::FETCH_ASSOC);
-
   }
 
   // Create user function for admin

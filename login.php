@@ -6,8 +6,11 @@
   if (!empty($_POST)) {
     $user = new User();
     $user->setEmail($_POST['email']);
-    $user->loginUser();
-    echo 'User is logged in!';
+    $user->setPassword($_POST['password']);
+
+    if ($user->loginUser()) {
+      echo 'User is logged in!';
+    }
   }
 ?><!DOCTYPE html>
 <html lang="en">
@@ -37,7 +40,7 @@
       <form action="login.php" method="post" class="login-form">
         <div class="form-field">
           <input class="input-field" type="text" name="email" placeholder="Email or phone">
-          <!-- <input class="input-field" type="password" name="password" placeholder="Password"> -->
+          <input class="input-field" type="password" name="password" placeholder="Password">
         </div>
 
         <input type="submit" value="Login" class="btn btn-primary">
