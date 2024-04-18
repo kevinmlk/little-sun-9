@@ -21,6 +21,7 @@
   <main>
     <h1>Little Sun</h1>
     <h2>Welcome!</h2>
+    <a href="logout.php">Hi, logout?</a>
   </main>
   <!-- Links JS -->
   <script src="./assets/js/app.js" ></script>
