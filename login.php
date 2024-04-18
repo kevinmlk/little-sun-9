@@ -9,7 +9,11 @@
     $user->setPassword($_POST['password']);
 
     if ($user->loginUser()) {
-      echo 'User is logged in!';
+      session_start();
+      $_SESSION['loggedin'] = true;
+			header('Location: index.php');
+    } else {
+      $error = true;
     }
   }
 ?><!DOCTYPE html>

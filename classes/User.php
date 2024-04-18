@@ -118,6 +118,7 @@ class User implements IUser {
     $statement->execute();
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
+    // Check if the given pwd from the input matches the pwd from the db
     if (password_verify($this->getPassword(), $user['Password'])) {
       return true;
     } else {

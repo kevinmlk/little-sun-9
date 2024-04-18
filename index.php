@@ -2,10 +2,10 @@
   include_once(__DIR__ . '/bootstrap.php');
 
   // Check if the user is logged in
+  session_start();
   if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
   }
-  
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,7 @@
 <body>
   <main>
     <h1>Little Sun</h1>
-
+    <h2>Welcome!</h2>
   </main>
   <!-- Links JS -->
   <script src="./assets/js/app.js" ></script>
