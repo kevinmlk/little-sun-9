@@ -120,6 +120,21 @@ class User implements IUser {
 
     // Check if the given pwd from the input matches the pwd from the db
     if (password_verify($this->getPassword(), $user['Password'])) {
+      // Store the role of the user in the session
+      function roleSetter($r) {
+        switch ($r) {
+          case 3:
+             return 'Manager';
+            break;
+          case 2:
+            return 'Admin';
+            break;
+          default:
+            return 'Employee';
+        }
+      }
+      session_start();
+      $_SESSION['role'] = roleSetter($user['RoleId']);
       return true;
     } else {
       return false;
