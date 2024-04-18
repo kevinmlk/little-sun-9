@@ -129,4 +129,15 @@ class User implements IUser {
     // Return result
     return $result;
   }
+
+  public static function getAllUsers() {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT * FROM users;');
+    $statement->execute();
+    $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $users;
+  }
 }

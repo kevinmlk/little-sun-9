@@ -8,5 +8,5 @@ interface IUser {
   public function createUser();
 
   // Function to get all users
-  public function getAllUsers();
+  public static function getAllUsers();
 }

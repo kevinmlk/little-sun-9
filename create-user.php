@@ -11,6 +11,9 @@
     $user->createUser();
     echo 'User added!';
   }
+
+  // Toon alle gebruikers
+  $users = User::getAllUsers();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +49,12 @@
           <li><a href="">Terms</a></li>
         </ul>
       </div>
+    </section>
+
+    <section>
+      <?php foreach ($users as $user): ?>
+        <h2><?php echo $user['Firstname']; ?></h2>
+      <?php endforeach; ?>
     </section>
 
   </main>
