@@ -114,16 +114,24 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (firstname, lastname, email) VALUES(:firstname, :lastname, :email);');
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password) VALUES(:firstname, :lastname, :email, :password);');
 
     // Plaats de input van de SETTERS in een variabele met GETTERS
     $firstname = $this->getFirstname();
     $lastname = $this->getLastname();
     $email = $this->getEmail();
 
+    // Hash password with bcrypt
+		$options = [
+			'cost' => 15,
+		];
+    
+		$password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
+
     $statement->bindValue(':firstname', $firstname);
     $statement->bindValue(':lastname', $lastname);
     $statement->bindValue(':email', $email);
+    $statement->bindValue(':password', $password);
 
     $result = $statement->execute();
     // Return result

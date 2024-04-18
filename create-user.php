@@ -6,7 +6,7 @@
     $user->setFirstname($_POST['firstname']);
     $user->setLastname($_POST['lastname']);
     $user->setEmail($_POST['email']);
-
+    
     // Run create user method
     $user->createUser();
     echo 'User added!';
@@ -42,6 +42,12 @@
         <input type="submit" value="Login" class="btn btn-primary">
       </form>
 
+      <div>
+        <?php foreach ($users as $user): ?>
+          <h2><?php echo $user['Firstname']; ?></h2>
+        <?php endforeach; ?>
+      </div>
+
       <div id="login-links-container">
         <ul>
           <li><a href="">Help</a></li>
@@ -49,12 +55,6 @@
           <li><a href="">Terms</a></li>
         </ul>
       </div>
-    </section>
-
-    <section>
-      <?php foreach ($users as $user): ?>
-        <h2><?php echo $user['Firstname']; ?></h2>
-      <?php endforeach; ?>
     </section>
 
   </main>
