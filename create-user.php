@@ -56,12 +56,13 @@
           </select>
         </div>
 
-        <input type="submit" value="Login" class="btn btn-primary">
+        <input type="submit" value="Add user" class="btn btn-primary">
       </form>
 
       <div>
+        <h2>Users:</h2>
         <?php foreach ($users as $user): ?>
-          <h2><?php echo $user['Firstname']; ?></h2>
+          <span><?php echo $user['Firstname']; ?></span>
         <?php endforeach; ?>
       </div>
 
