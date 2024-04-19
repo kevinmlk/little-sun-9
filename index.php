@@ -7,7 +7,6 @@
     header('Location: login.php');
   }
 
-  $name = $_SESSION['name'];
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +22,11 @@
 <body>
   <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Offcanvas navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <a class="navbar-brand" href="#"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</a>
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -65,7 +64,7 @@
   <main>
     <h1>Little Sun</h1>
     <h2>Welcome!</h2>
-    <a href="logout.php">Hi, <?php echo $name; ?> logout?</a>
+    <a href="logout.php">logout?</a>
     <a href="create-user.php">Create users</a>
   </main>
   <!-- Links JS -->
