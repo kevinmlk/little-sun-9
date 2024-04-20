@@ -11,16 +11,6 @@
         exit;
     }
 
-    // Checks if a form has been sent
-    if (!empty($_POST)) {
-        $location = new Location();
-        $location->setHubName($_POST['hub-name']);
-        $location->setHubLocation($_POST['hub-location']);
-
-        // Run create user method
-        $location->addHubLocation();
-    }
-
     // Toon alle gebruikers
     $locations = Location::getAllHubs();
 ?><!DOCTYPE html>
@@ -41,8 +31,8 @@
     <section class="col-4">
       <div class="card p-4 mb-3">
         <h1 class="card-title">Add a hub location</h1>
-        <!-- Login form -->
-        <form action="create-hub.php" method="post">
+        <!-- Add Hub Form -->
+        <form action="./includes/add-hub.inc.php" method="post">
           <!-- Hub Name Input -->
           <div class="mb-3">
             <label for="email" class="form-label">Hub name</label>
@@ -66,7 +56,7 @@
     <div class="card p-4 mb-3">
         <h1 class="card-title">All hub locations</h1>
         <!-- Hub Overview Form -->
-        <form action="create-hub.php" method="post">
+        <form action="./includes/remove-hub.inc.php" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Hub overview</label>
                 <select class="form-select" size="5" aria-label="Size 3 select example">
@@ -88,7 +78,7 @@
         <div class="card p-4 mb-3">
             <h1 class="card-title">Edit hub location</h1>
             <!-- Edit Hub Form -->
-            <form action="create-hub.php" method="post">
+            <form action="./includes/edit-hub.inc.php" method="post">
                 <!-- Hub Locations Selection -->
                 <div class="mb-3">
                     <label for="roles" class="form-label">Choose a hub</label>

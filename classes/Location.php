@@ -45,7 +45,7 @@ class Location implements ILocation {
   }
 
   public function addHubLocation() {
-    // // Make a Db connection
+    // Make a Db connection
     $conn = Db::getConnection();
 
     // Prepare query statement
@@ -63,11 +63,24 @@ class Location implements ILocation {
   }
 
   public function editHubLocation() {
-
+    // Make a Db connection
+    $conn = Db::getConnection();
   }
 
   public function removeHubLocation() {
+    // Make a Db connection
+    $conn = Db::getConnection();
 
+    // Prepare query statement
+    $statement = $conn->prepare('DELETE FROM locations WHERE Hubname = :hubname');
+
+    $hubName = $this->getHubName();
+
+    $statement->bindValue(':hubname', $hubName);
+
+    $result = $statement->execute();
+
+    return $result;
   }
 
   public static function getAllHubs() {
