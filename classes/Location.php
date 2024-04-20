@@ -7,6 +7,44 @@ include_once(__DIR__ . '/Db.php');
 class Location implements ILocation {
   private $hubName;
   private $hubLocation;
+  private $newHubName;
+  private $newHubLocation;
+
+  /**
+   * Get the value of newHubName
+   */
+  public function getNewHubName()
+  {
+    return $this->newHubName;
+  }
+
+  /**
+   * Set the value of newHubName
+   */
+  public function setNewHubName($newHubName): self
+  {
+    $this->newHubName = $newHubName;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of newHubLocation
+   */
+  public function getNewHubLocation()
+  {
+    return $this->newHubLocation;
+  }
+
+  /**
+   * Set the value of newHubLocation
+   */
+  public function setNewHubLocation($newHubLocation): self
+  {
+    $this->newHubLocation = $newHubLocation;
+
+    return $this;
+  }
 
   /**
    * Get the value of hubName
@@ -65,6 +103,21 @@ class Location implements ILocation {
   public function editHubLocation() {
     // Make a Db connection
     $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE locations SET Hubname = :newhubname, Hublocation = :newhublocation WHERE Hubname = :oldhubname;');
+
+    $oldHubName = $this->getHubName();
+    $newHubName = $this->getNewHubName();
+    $newHubLocation = $this->getNewHubLocation();
+
+    $statement->bindValue(':oldhubname', $oldHubName);
+    $statement->bindValue(':newhubname', $newHubName);
+    $statement->bindValue(':newhublocation', $newHubLocation);
+
+    $result = $statement->execute();
+
+    return $result;    
   }
 
   public function removeHubLocation() {

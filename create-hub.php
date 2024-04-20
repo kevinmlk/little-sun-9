@@ -30,17 +30,17 @@
     <!-- Add Hub Section -->
     <section class="col-4">
       <div class="card p-4 mb-3">
-        <h1 class="card-title">Add a hub location</h1>
+        <h1 class="card-title">Add hub location</h1>
         <!-- Add Hub Form -->
         <form action="./includes/add-hub.inc.php" method="post">
           <!-- Hub Name Input -->
           <div class="mb-3">
-            <label for="email" class="form-label">Hub name</label>
+            <label for="hub-name" class="form-label">Hub name</label>
             <input class="form-control form-control-lg" type="text" name="hub-name" placeholder="Name" required>
           </div>
           <!-- Hub Location Input -->
           <div class="mb-3">
-            <label for="password" class="form-label">Hub location</label>
+            <label for="hub-location" class="form-label">Hub location</label>
             <input class="form-control form-control-lg" type="text" name="hub-location" placeholder="Location" required>
           </div>
           <!-- Submit Button -->
@@ -82,7 +82,7 @@
                 <!-- Hub Locations Selection -->
                 <div class="mb-3">
                     <label for="roles" class="form-label">Choose a hub</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <select name="hub-select" class="form-select" aria-label="Default select example">
                         <?php foreach($locations as $location): ?>
                         <option value="<?php echo $location['Hubname']; ?>"><?php echo $location['Hubname']; ?></option>
                         <?php endforeach; ?>
@@ -90,13 +90,13 @@
                 </div>
                 <!-- Hub Name Input -->
                 <div class="mb-3">
-                    <label for="email" class="form-label">Hub name</label>
-                    <input class="form-control form-control-lg" type="text" name="hub-name" placeholder="Name" required>
+                    <label for="new-hub-name" class="form-label">Hub name</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="Name" required>
                 </div>
                 <!-- Hub Location Input -->
                 <div class="mb-3">
-                    <label for="password" class="form-label">Hub location</label>
-                    <input class="form-control form-control-lg" type="text" name="hub-location" placeholder="Location" required>
+                    <label for="new-hub-location" class="form-label">Hub location</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="Location" required>
                 </div>
                 <!-- Submit Button -->
                 <div class="d-grid">
