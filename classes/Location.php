@@ -69,4 +69,8 @@ class Location implements ILocation {
   public function removeHubLocation() {
 
   }
+
+  public function getAllHubs() {
+    
+  }
 }
