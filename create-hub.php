@@ -51,7 +51,7 @@
       </div>
     </section>
 
-    <!-- Hub Overview Section -->
+    <!-- Hub Overview/Remove Section -->
     <section>
     <div class="card p-4 mb-3">
         <h1 class="card-title">All hub locations</h1>
@@ -59,7 +59,7 @@
         <form action="./includes/remove-hub.inc.php" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Hub overview</label>
-                <select class="form-select" size="5" aria-label="Size 3 select example">
+                <select name="hub-overview" class="form-select" size="5" aria-label="Size 3 select example">
                     <?php foreach($locations as $location): ?>
                     <option value="<?php echo $location['Hubname']; ?>">Name: <?php echo $location['Hubname'];?>, Location: <?php echo $location['Hublocation']; ?></option>
                     <?php endforeach; ?>
@@ -73,7 +73,7 @@
       </div>
     </section>
 
-    <!-- Edit/Remove Hub Section -->
+    <!-- Edit Hub Section -->
     <section>
         <div class="card p-4 mb-3">
             <h1 class="card-title">Edit hub location</h1>
