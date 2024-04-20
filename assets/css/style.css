@@ -11,66 +11,8 @@ main {
   height: 100vh;
 }
 
-h1 {
-  font-size: 2.4em;
-}
-
-p {
-  font-size: 1.2em;
-}
-
-#login-links-container ul {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.input-field {
-  padding: 16px 16px;
-  background-color: transparent;
-  border-radius: 4px;
-  font-size: 1em;
-  color: var(--little-sun-gray);
-}
-
-.btn {
-  width: fit-content;
-  padding: 8px 16px;
-  border-radius: 36px;
-  font-size: 1em;
-  background-color: var(--little-sun-yellow);
-  border: none;
-  align-self: flex-end;
-}
-
-.card-login {
-  padding: 56px;
-  background-color: var(--little-sun-black);
-  color: var(--little-sun-white);
-  width: fit-content;
-  border-radius: 36px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .bg-image {
   background-image: url('../images/little-sun-background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
