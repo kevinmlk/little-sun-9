@@ -70,7 +70,14 @@ class Location implements ILocation {
 
   }
 
-  public function getAllHubs() {
-    
+  public static function getAllHubs() {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT * FROM locations;');
+    $statement->execute();
+    $locations = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $locations;
   }
 }

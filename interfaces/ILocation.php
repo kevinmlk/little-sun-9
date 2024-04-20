@@ -11,5 +11,5 @@ interface ILocation {
   public function removeHubLocation();
 
   // Function to get all the current hubs from the db
-  public function getAllHubs();
+  public static function getAllHubs();
 }
