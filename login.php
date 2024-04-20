@@ -32,10 +32,10 @@
   <!-- Tab Title -->
   <title>Login | Little Sun Shiftplanner</title>
 </head>
-<body>
-  <main class="container d-flex">
+<body class="bg-image d-flex align-items-center justify-content-center">
+  <main class="container row justify-content-evenly align-items-center">
     <!-- Intro Text -->
-    <section>
+    <section class="col-5">
       <h1>Little Sun Shifplanner</h1>
       <p>
         Welcome to Little Sun Shiftplanner, the ultimate platform fro shift planner in Zambia!
@@ -47,34 +47,45 @@
     </section>
 
     <!-- Login Form -->
-    <section class="card">
-      <h1>Welcome</h1>
-      <!-- Login error message -->
-				<?php	if (isset($error)): ?>
-				<div class="form-error">
-					<p>
-						Sorry, we can't log you in with that email address and password. Can you try again?
-					</p>
-				</div>
-				<?php endif; ?>
+    <section class="col-4">
+      <div class="card p-4 mb-3">
+        <h1 class="card-title text-center">Welcome</h1>
+        <!-- Login error message -->
+        <?php	if (isset($error)): ?>
+        <div class="form-error">
+          <p>
+            Sorry, we can't log you in with that email address and password. Can you try again?
+          </p>
+        </div>
+        <?php endif; ?>
         <!-- Login form -->
-        <form action="login.php" method="post" class="card">
-          <div class="form-field">
-            <label for="email">Email</label>
-            <input class="input-field" type="text" name="email" placeholder="Email or phone">
-            <label for="password">Password</label>
-            <input class="input-field" type="password" name="password" placeholder="Password">
+        <form action="login.php" method="post">
+          <!-- Email Input -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input class="form-control form-control-lg" type="text" name="email" placeholder="Email or phone" required>
           </div>
-
-          <input type="submit" value="Login" class="btn btn-primary">
+          <!-- Password Input -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" required>
+          </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <input type="submit" value="Login" class="btn btn-primary">
+          </div>
         </form>
-        <!-- Extra links -->
-      <ul>
+      </div>
+      <!-- Extra links -->
+      <ul class="text-center">
         <li><a href="">Forgot password?</a></li>
         <li><a href="">Don't have an account?</a></li>
       </ul>
-      
     </section>
   </main>
+
+  <!-- Links JS -->
+  <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./assets/js/app.js" ></script>
 </body>
 </html>
