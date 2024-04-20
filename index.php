@@ -29,11 +29,11 @@
       <a class="navbar-brand" href="profile.php"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</a>
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Little Sun</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Calendar</a>
             </li>
@@ -53,15 +53,15 @@
               <a class="nav-link" href="#">Vacation days</a>
             </li>
           </ul>
-          <a class="btn btn-outline-success" href="logout.php">Logout</a>
+          <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>
         </div>
       </div>
     </div>
   </nav>
   <!-- Start main content -->
   <main class="container mt-5 pt-5">
-    <h1>Little Sun</h1>
-    <h2>Welcome!</h2>
+    <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
+    <h2>Calendar</h2>
     <a href="create-user.php">Create users</a>
   </main>
   <!-- Links JS -->

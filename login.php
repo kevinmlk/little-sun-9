@@ -1,7 +1,11 @@
 <?php
   // Include bootstrap
   include_once(__DIR__ . '/bootstrap.php');
-
+  // Check if the user is logged in
+  session_start();
+  if (isset($_SESSION['loggedin'])) {
+    header('Location: index.php');
+  }
   // Check if theres a login attempt
   if (!empty($_POST)) {
     $user = new User();
@@ -24,7 +28,7 @@
   <!-- Links CSS -->
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <title>Shiftplanner - Login</title>
+  <title>Login | Little Sun</title>
 </head>
 <body>
   <main class="bg-image">
