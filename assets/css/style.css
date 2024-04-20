@@ -5,9 +5,15 @@
   --little-sun-gray: #F4F4F4;
 }
 
-/* Id's & classes */
 main {
   height: 100vh;
+}
+
+/* Id's & classes */
+.btn-primary {
+  background-color: var(--little-sun-yellow);
+  border: none;
+  color: var(--little-sun-black);
 }
 
 .bg-image {

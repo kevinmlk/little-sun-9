@@ -78,8 +78,8 @@
       </div>
       <!-- Extra links -->
       <ul class="text-center">
-        <li><a href="">Forgot password?</a></li>
-        <li><a href="">Don't have an account?</a></li>
+        <li><a href="" class="link-light">Forgot password?</a></li>
+        <li><a href="" class="link-light">Don't have an account?</a></li>
       </ul>
     </section>
   </main>
