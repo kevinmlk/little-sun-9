@@ -13,20 +13,16 @@
 
     // Checks if a form has been sent
     if (!empty($_POST)) {
-        $user = new User();
-        $user->setFirstname($_POST['firstname']);
-        $user->setLastname($_POST['lastname']);
-        $user->setEmail($_POST['email']);
-        $user->setPassword($_POST['password']);
-        $user->setRole($_POST['roles']);
+        $location = new Location();
+        $location->setHubName($_POST['hub-name']);
+        $location->setHubLocation($_POST['hub-location']);
 
         // Run create user method
-        $user->createUser();
-        echo 'User added!';
+        $location->addHubLocation();
     }
 
     // Toon alle gebruikers
-    $users = User::getAllUsers();
+    $locations = Location::getAllHubs();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +60,7 @@
         </form>
       </div>
     </section>
+
     <!-- Hub Overview Section -->
     <section>
     <div class="card p-4 mb-3">
@@ -73,7 +70,9 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Hub overview</label>
                 <select class="form-select" size="5" aria-label="Size 3 select example">
-                    <option value="1">One</option>
+                    <?php foreach($locations as $location): ?>
+                    <option value="<?php echo $location['Hubname']; ?>">Name: <?php echo $location['Hubname'];?>, Location: <?php echo $location['Hublocation']; ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <!-- Submit Button -->
@@ -83,6 +82,7 @@
         </form>
       </div>
     </section>
+
     <!-- Edit/Remove Hub Section -->
     <section>
         <div class="card p-4 mb-3">
@@ -93,7 +93,9 @@
                 <div class="mb-3">
                     <label for="roles" class="form-label">Choose a hub</label>
                     <select class="form-select" aria-label="Default select example">
-                        <option value="1">One</option>
+                        <?php foreach($locations as $location): ?>
+                        <option value="<?php echo $location['Hubname']; ?>"><?php echo $location['Hubname']; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <!-- Hub Name Input -->
