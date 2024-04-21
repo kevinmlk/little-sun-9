@@ -9,6 +9,7 @@ class User implements IUser {
   private $lastname;
   private $email;
   private $password;
+  private $newPassword;
   private $role;
 
   /**
@@ -79,6 +80,25 @@ class User implements IUser {
   public function setPassword($password): self
   {
     $this->password = $password;
+
+    return $this;
+  }
+
+  
+  /**
+   * Get the value of newPassword
+   */
+  public function getNewPassword()
+  {
+    return $this->newPassword;
+  }
+
+  /**
+   * Set the value of newPassword
+   */
+  public function setNewPassword($newPassword): self
+  {
+    $this->newPassword = $newPassword;
 
     return $this;
   }
@@ -189,6 +209,30 @@ class User implements IUser {
     return $result;
   }
 
+  public function editUserPassword() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET Password = :newpassword WHERE Firstname = :firstname;');
+
+    $firstname = $this->getFirstname();
+
+    // Hash password with bcrypt
+		$options = [
+			'cost' => 15,
+		];
+
+		$newPassword = password_hash($this->getNewPassword(), PASSWORD_DEFAULT, $options);
+
+    $statement->bindValue(':newpassword', $newPassword);
+    $statement->bindValue(':firstname', $firstname);
+
+    $result = $statement->execute();
+
+    return $result;  
+  }
+
   public static function getAllUsers() {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
@@ -199,4 +243,5 @@ class User implements IUser {
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
+
 }

@@ -9,20 +9,6 @@
     header("Location: index.php");
     exit;
   }
-  
-
-  if (!empty($_POST)) {
-    $user = new User();
-    $user->setFirstname($_POST['firstname']);
-    $user->setLastname($_POST['lastname']);
-    $user->setEmail($_POST['email']);
-    $user->setPassword($_POST['password']);
-    $user->setRole($_POST['roles']);
-
-    // Run create user method
-    $user->createUser();
-    echo 'User added!';
-  }
 
   // Toon alle gebruikers
   $users = User::getAllUsers();
@@ -89,52 +75,90 @@
       </div>
     </div>
   </nav>
+
   <!-- Start Main Content -->
   <main class="container d-flex justify-content-between align-items-center vh-100">
     <section class="col-4">
       <div class="card p-4 mb-3">
         <h1 class="card-title">Create User</h1>
-      <!-- Add User Form -->
-      <form action="create-user.php" method="post" class="login-form">
-        <div class="mb-3">
-          <label for="firstname" class="form-label">Firstname</label>
-          <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
-        </div>
+        <!-- Add User Form -->
+        <form action="create-user.php" method="post" class="login-form">
+          <div class="mb-3">
+            <label for="firstname" class="form-label">Firstname</label>
+            <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
+          </div>
 
-        <div class="mb-3">
-          <label for="lastname" class="form-label">Lastname</label>
-          <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
-        </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Lastname</label>
+            <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
+          </div>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
-        </div>
-        <!-- Password Input -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
-        </div>
-        <!-- Roles Select -->
-        <div class="mb-3">
-          <label for="roles">Choose a role</label>
-          <select name="roles" class="form-select">
-            <option value="Admin">Admin</option>
-            <option value="Employee">Employee</option>
-            <option value="Manager">Manager</option>
-          </select>
-        </div>
-        <!-- Submit Button -->
-        <div class="d-grid">
-          <input type="submit" value="Add user" class="btn btn-primary">
-        </div>
-      </form>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
+          </div>
+          <!-- Password Input -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
+          </div>
+          <!-- Roles Select -->
+          <div class="mb-3">
+            <label for="roles">Choose a role</label>
+            <select name="roles" class="form-select form-control-lg">
+              <option value="Admin">Admin</option>
+              <option value="Employee">Employee</option>
+              <option value="Manager">Manager</option>
+            </select>
+          </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <input type="submit" value="Add user" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </section>
 
-      <div>
-        <h2>Users:</h2>
-        <?php foreach ($users as $user): ?>
-          <span><?php echo $user['Firstname']; ?></span>
-        <?php endforeach; ?>
+    <!-- Users Overview Section -->
+    <section>
+      <div class="card p-4">
+        <h1 class="card-title mb-3">All Users</h1>
+        <!-- Users Overview Form -->
+        <div class="card" style="width: 18rem;">
+          <ul class="list-group list-group-flush">
+            <?php foreach ($users as $user): ?>
+            <li class="list-group-item"><?php echo $user['Firstname']; ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Edit User Password Section -->
+    <section>
+      <div class="card p-4 mb-3">
+        <h1 class="card-title">Edit User Password</h1>
+        <!-- Edit Hub Form -->
+        <form action="./includes/edit-hub.inc.php" method="post">
+          <!-- Hub Locations Selection -->
+          <div class="mb-3">
+            <label for="user-select" class="form-label">Choose User</label>
+            <select name="user-select" class="form-select form-control-lg" aria-label="Default select example">
+              <?php foreach ($users as $user): ?>
+              <option value="<?php echo $user['Firstname']; ?>"><?php echo $user['Firstname']; ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <!-- Hub Name Input -->
+          <div class="mb-3">
+            <label for="new-password" class="form-label">New Password</label>
+            <input class="form-control form-control-lg" type="password" name="new-password" placeholder="New Password" required>
+          </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <input type="submit" value="Edit password" class="btn btn-primary">
+          </div>
+        </form>
       </div>
     </section>
   </main>
