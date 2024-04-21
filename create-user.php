@@ -82,7 +82,7 @@
       <div class="card p-4 mb-3">
         <h1 class="card-title">Create User</h1>
         <!-- Add User Form -->
-        <form action="create-user.php" method="post" class="login-form">
+        <form action="./includes/create-user.inc.php" method="post" class="login-form">
           <div class="mb-3">
             <label for="firstname" class="form-label">Firstname</label>
             <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
@@ -139,7 +139,7 @@
       <div class="card p-4 mb-3">
         <h1 class="card-title">Edit User Password</h1>
         <!-- Edit Hub Form -->
-        <form action="./includes/edit-hub.inc.php" method="post">
+        <form action="./includes/edit-user.inc.php" method="post">
           <!-- Hub Locations Selection -->
           <div class="mb-3">
             <label for="user-select" class="form-label">Choose User</label>

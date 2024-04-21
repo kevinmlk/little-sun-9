@@ -45,20 +45,22 @@
             <li class="nav-item">
               <a class="nav-link" href="create-hub.php">Hub Overview</a>
             </li>
-            <?php endif; ?>
             <hr>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="#">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Time Tracker</a>
             </li>
+            <hr>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftplan</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
             </li>
+            <hr>
             <li class="nav-item">
               <a class="nav-link" href="#">Working hours</a>
             </li>

@@ -4,14 +4,11 @@
 
   if (!empty($_POST)) {
     $user = new User();
-    $user->setFirstname($_POST['firstname']);
-    $user->setLastname($_POST['lastname']);
-    $user->setEmail($_POST['email']);
-    $user->setPassword($_POST['password']);
-    $user->setRole($_POST['roles']);
+    $user->setFirstname($_POST['user-select']);
+    $user->setNewPassword($_POST['new-password']);
 
     // Run create user method
-    $user->createUser();
+    $user->editUserPassword();
   }
 
   // Redirect user to login page or show an error message
