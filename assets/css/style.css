@@ -10,6 +10,19 @@ main {
 }
 
 /* Id's & classes */
+.navbar {
+  border-radius: 16px;
+  background: var(--little-sun-black) !important;
+}
+
+.navbar img {
+  width: 48px;
+}
+
+.navbar a {
+  color: var(--little-sun-white);
+}
+
 .btn-primary {
   background-color: var(--little-sun-yellow);
   border: none;

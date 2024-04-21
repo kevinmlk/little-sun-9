@@ -36,19 +36,24 @@
   <!-- Navigation -->
   <nav class="container navbar bg-body-tertiary mt-4">
     <div class="container-fluid">
-      <a class="navbar-brand">Little Sun</a>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Button</button>
-      </form>
+      <a class="navbar-brand d-flex align-items-center gap-3" href="index.php">
+        <img src="./assets/images/sun.png" alt="Little Sun Logo">
+        <p class="fs-3 mb-0">Little Sun</p>
+      </a>
+      <div class="d-flex">
+        <a class="navbar-brand" href="">Link</a>
+        <a class="navbar-brand" href="">Link</a>
+        <a class="navbar-brand" href="">Help</a>
+        <a class="btn btn-secondary" type="submit">Button</a>
+      </div>
     </div>
   </nav>
   <!-- Main Content -->
   <main class="container d-flex justify-content-between align-items-center vh-100">
     <!-- Intro Text -->
     <section class="col-5">
-      <h1>Little Sun Shifplanner</h1>
-      <p class="lh-base">
+      <h1 class="mb-3">Little Sun Shifplanner</h1>
+      <p class="fs-5 lh-base">
         Welcome to Little Sun Shiftplanner, the ultimate platform fro shift planner in Zambia!
         At Little Sun Shiftplanner, we empower workers to take control of their schedules by
         defining their roles and selecting preferred work locations. Our user-friendly interface
