@@ -77,7 +77,7 @@
   </nav>
 
   <!-- Start Main Content -->
-  <main class="container d-flex justify-content-between align-items-center vh-100">
+  <main class="container d-flex justify-content-between align-items-center mt-5 pt-5">
     <section class="col-4">
       <div class="card p-4 mb-3">
         <h1 class="card-title">Create User</h1>
@@ -111,6 +111,12 @@
               <option value="Manager">Manager</option>
             </select>
           </div>
+          <!-- Profile Picture Input -->
+          <div class="input-group mb-3">
+            <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
+            <input type="file" class="form-control form-control-lg" name="profile-picture" id="inputGroupFile01">
+          </div>
+
           <!-- Submit Button -->
           <div class="d-grid">
             <input type="submit" value="Add user" class="btn btn-primary">

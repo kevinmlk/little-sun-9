@@ -8,6 +8,7 @@
     $user->setLastname($_POST['lastname']);
     $user->setEmail($_POST['email']);
     $user->setPassword($_POST['password']);
+    // $user->setProfilePicture($_POST['profile-picture']);
     $user->setRole($_POST['roles']);
 
     // Run create user method

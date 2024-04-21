@@ -10,6 +10,7 @@ class User implements IUser {
   private $email;
   private $password;
   private $newPassword;
+  private $profilePicture;
   private $role;
 
   /**
@@ -99,6 +100,24 @@ class User implements IUser {
   public function setNewPassword($newPassword): self
   {
     $this->newPassword = $newPassword;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of profilePicture
+   */
+  public function getProfilePicture()
+  {
+    return $this->profilePicture;
+  }
+
+  /**
+   * Set the value of profilePicture
+   */
+  public function setProfilePicture($profilePicture): self
+  {
+    $this->profilePicture = $profilePicture;
 
     return $this;
   }
@@ -243,5 +262,4 @@ class User implements IUser {
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
-
 }
