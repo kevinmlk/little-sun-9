@@ -20,7 +20,7 @@
   <title>Little Sun</title>
 </head>
 <body>
-  <!-- Start navbar -->
+  <!-- Start Navbar -->
   <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -35,10 +35,23 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Calendar</a>
+              <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
+            </li>
+            <hr>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Time track</a>
+              <a class="nav-link" href="create-hub.php">Hub Overview</a>
+            </li>
+            <?php endif; ?>
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Calendar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Time Tracker</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftplan</a>
@@ -61,8 +74,8 @@
   <!-- Start main content -->
   <main class="container mt-5 pt-5">
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
-    <h2>Calendar</h2>
-    <a href="create-user.php">Create users</a>
+    <h2>Dashboard</h2>
+    
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>

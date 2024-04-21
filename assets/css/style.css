@@ -10,17 +10,20 @@ main {
 }
 
 /* Id's & classes */
-.navbar {
-  border-radius: 16px;
+#login-navbar {
   background: var(--little-sun-black) !important;
 }
 
-.navbar img {
+#login-navbar img {
   width: 48px;
 }
 
-.navbar a {
+#login-navbar a {
   color: var(--little-sun-white);
+}
+
+#login-navbar a:hover {
+  color: var(--little-sun-gray);
 }
 
 .btn-primary {

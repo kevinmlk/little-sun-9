@@ -34,8 +34,8 @@
 </head>
 <body class="bg-image d-flex flex-column vh-100">
   <!-- Navigation -->
-  <nav class="container navbar bg-body-tertiary mt-4">
-    <div class="container-fluid">
+  <nav id="login-navbar" class="container-fluid navbar bg-body-tertiary">
+    <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-3" href="index.php">
         <img src="./assets/images/sun.png" alt="Little Sun Logo">
         <p class="fs-3 mb-0">Little Sun</p>
