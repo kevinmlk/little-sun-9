@@ -1,4 +1,5 @@
 <?php
+  // Include bootstrap
   include_once(__DIR__ . '/bootstrap.php');
 
   // Check if the user is logged in
@@ -7,6 +8,8 @@
     header('Location: login.php');
   }
 
+  // Toon alle gebruikers
+  $locations = Location::getAllHubs();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +19,7 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <!-- Title -->
-  <title>Little Sun</title>
+  <title>Create Hub Locations | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -33,10 +35,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <img src="" class="rounded mx-auto d-block" alt="...">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
+              <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
@@ -44,24 +45,22 @@
               <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="hubs.php">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
             </li>
-            <hr>
             <?php endif; ?>
+            <hr>
             <li class="nav-item">
               <a class="nav-link" href="#">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Time Tracker</a>
             </li>
-            <hr>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftplan</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
             </li>
-            <hr>
             <li class="nav-item">
               <a class="nav-link" href="#">Working hours</a>
             </li>
@@ -74,12 +73,32 @@
       </div>
     </div>
   </nav>
-  <!-- Start main content -->
-  <main class="container mt-5 pt-5">
-    <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
-    <h2>Dashboard</h2>
-    
+
+<!-- Main Content -->
+<main class="container pt-5">
+    <!-- Add Hub Section -->
+    <section class="mt-5">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Hub name</strong></th>
+            <th scope="col"><strong>Location</strong></th>
+            <th scope="col"><strong>Manager</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($locations as $key => $l): ?>
+            <tr>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $l['Hubname']; ?></th>
+              <td><?php echo $l['Hublocation']; ?></td>
+              <td>Manager</td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </section>
   </main>
+  
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/js/app.js" ></script>

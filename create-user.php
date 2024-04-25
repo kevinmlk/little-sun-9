@@ -104,7 +104,7 @@
           </div>
           <!-- Roles Select -->
           <div class="mb-3">
-            <label for="roles">Choose a role</label>
+            <label for="roles" class="form-label">Choose a role</label>
             <select name="roles" class="form-select form-control-lg">
               <option value="Admin">Admin</option>
               <option value="Employee">Employee</option>
