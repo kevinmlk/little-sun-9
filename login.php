@@ -12,6 +12,7 @@
     $user->setEmail($_POST['email']);
     $user->setPassword($_POST['password']);
 
+
     if ($user->loginUser()) {
       session_start();
       $_SESSION['loggedin'] = true;
@@ -30,6 +31,7 @@
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Tab Title -->
+  <h1>Test</h1>
   <title>Login | Little Sun Shiftplanner</title>
 </head>
 <body class="bg-image d-flex flex-column vh-100">
