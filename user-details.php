@@ -8,8 +8,21 @@
     header('Location: login.php');
   }
 
-  // Toon alle gebruikers
+  // Controleert of dat er een id werd meegegeven
+  if (!isset($_GET['id'])) {
+    exit('404 - not found');
+  } else {
+    // Get the id from the URL with $_GET
+    $id = $_GET['id'];
+    // echo $id;
+  }
+
+  $id = $_GET['id'];
+
+  // Toon alle hubs
   $users = User::getAllUsers();
+
+  $user = $users[$id];
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +32,7 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <title>Create Hub Locations | Little Sun Shiftplanner</title>
+  <title><?php echo $user['Firstname']; ?> <?php echo $user['Lastname']; ?> Profile | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -42,7 +55,7 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Users Overview</a>
+              <a class="nav-link active" aria-current="page" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="hubs.php">Hubs Overview</a>
@@ -76,35 +89,34 @@
 
 <!-- Main Content -->
 <main class="container pt-5">
-    <!-- Add Hub Section -->
+    <!-- Edit Hub Section -->
     <section class="mt-5">
-      <h1 class="mb-3">Hubs</h1>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Overview</h2>
-        <a href="create-user.php" class="btn btn-primary">Add hub location</a>
-      </div>
-
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col"><strong>Name</strong></th>
-            <th scope="col"><strong>Role</strong></th>
-            <th scope="col"><strong>Activity</strong></th>
-            <th scope="col"><strong>Hub</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($users as $key => $user): ?>
-            
-            <tr>
-              <th scope="row"><a href="user-details.php?id=<?php echo $key; ?>"><?php echo $user['Firstname']; ?> <?php echo $user['Lastname']; ?></a></th>
-              <td><?php echo $user['RoleName']; ?></td>
-              <td>Manager</td>
-              <td>Manager</td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+      <h1 class="mb-3"><?php echo $user['Firstname']; ?></h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Hub information</h2>
+          <a href="users.php" class="btn btn-primary">Back to overview</a>
+        </div>
+        <div class="card p-4 mb-3">
+            <h1 class="card-title">Edit hub location</h1>
+            <!-- Edit Hub Form -->
+            <form action="./includes/edit-hub.inc.php" method="post">
+                <!-- Hub Name Input -->
+                <div class="mb-3">
+                    <label for="new-hub-name" class="form-label">Hub name</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $user['Firstname']; ?>" required>
+                </div>
+                <!-- Hub Location Input -->
+                <div class="mb-3">
+                    <label for="new-hub-location" class="form-label">Hub location</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $user['Lastname']; ?>" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="">
+                    <input type="submit" value="Edit hub" class="btn btn-primary">
+                    <input type="submit" value="Delete hub" class="btn btn-secondary">
+                </div>
+            </form>
+        </div>
     </section>
   </main>
   
