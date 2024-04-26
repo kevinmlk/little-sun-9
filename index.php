@@ -41,7 +41,7 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="create-user.php">Users Overview</a>
+              <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="hubs.php">Hub Overview</a>

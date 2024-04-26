@@ -9,7 +9,7 @@
   }
 
   // Toon alle gebruikers
-  $locations = Location::getAllHubs();
+  $users = User::getAllUsers();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,10 +42,10 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="create-user.php">Users Overview</a>
+              <a class="nav-link" href="#">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="hubs.php">Hubs Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -87,17 +87,19 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col"><strong>Hub name</strong></th>
-            <th scope="col"><strong>Location</strong></th>
-            <th scope="col"><strong>Manager</strong></th>
+            <th scope="col"><strong>Name</strong></th>
+            <th scope="col"><strong>Role</strong></th>
+            <th scope="col"><strong>Activity</strong></th>
+            <th scope="col"><strong>Hub</strong></th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach($locations as $key => $location): ?>
+          <?php foreach($users as $key => $user): ?>
             
             <tr>
-              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $location['Hubname']; ?></a></th>
-              <td><?php echo $location['Hublocation']; ?></td>
+              <th scope="row"><a href="user-details.php?id=<?php echo $key; ?>"><?php echo $user['Firstname']; ?> <?php echo $user['Lastname']; ?></a></th>
+              <td><?php echo $user['RoleName']; ?></td>
+              <td>Manager</td>
               <td>Manager</td>
             </tr>
           <?php endforeach; ?>

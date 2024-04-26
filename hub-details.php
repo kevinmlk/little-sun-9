@@ -8,8 +8,21 @@
     header('Location: login.php');
   }
 
-  // Toon alle gebruikers
+  // Controleert of dat er een id werd meegegeven
+  if (!isset($_GET['id'])) {
+    exit('404 - not found');
+  } else {
+    // Get the id from the URL with $_GET
+    $id = $_GET['id'];
+    // echo $id;
+  }
+
+  $id = $_GET['id'];
+
+  // Toon alle hubs
   $locations = Location::getAllHubs();
+
+  $item = $locations[$id];
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,28 +89,34 @@
 
 <!-- Main Content -->
 <main class="container pt-5">
-    <!-- Add Hub Section -->
+    <!-- Edit Hub Section -->
     <section class="mt-5">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col"><strong>Hub name</strong></th>
-            <th scope="col"><strong>Location</strong></th>
-            <th scope="col"><strong>Manager</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($locations as $key => $l): ?>
-            <a href="">
-            <tr>
-              <th scope="row"><?php echo $l['Hubname']; ?></th>
-              <td><?php echo $l['Hublocation']; ?></td>
-              <td>Manager</td>
-            </tr>
-          </a>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+      <h1 class="mb-3"><?php echo $item['Hubname']; ?></h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2>Hub information</h2>
+          <a href="hubs.php" class="btn btn-primary">Back to overview</a>
+        </div>
+        <div class="card p-4 mb-3">
+            <h1 class="card-title">Edit hub location</h1>
+            <!-- Edit Hub Form -->
+            <form action="./includes/edit-hub.inc.php" method="post">
+                <!-- Hub Name Input -->
+                <div class="mb-3">
+                    <label for="new-hub-name" class="form-label">Hub name</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $item['Hubname']; ?>" required>
+                </div>
+                <!-- Hub Location Input -->
+                <div class="mb-3">
+                    <label for="new-hub-location" class="form-label">Hub location</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $item['Hublocation']; ?>" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="">
+                    <input type="submit" value="Edit hub" class="btn btn-primary">
+                    <input type="submit" value="Delete hub" class="btn btn-secondary">
+                </div>
+            </form>
+        </div>
     </section>
   </main>
   

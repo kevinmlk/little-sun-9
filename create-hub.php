@@ -124,39 +124,6 @@
         </form>
       </div>
     </section>
-
-    <!-- Edit Hub Section -->
-    <section>
-        <div class="card p-4 mb-3">
-            <h1 class="card-title">Edit hub location</h1>
-            <!-- Edit Hub Form -->
-            <form action="./includes/edit-hub.inc.php" method="post">
-                <!-- Hub Locations Selection -->
-                <div class="mb-3">
-                    <label for="roles" class="form-label">Choose a hub</label>
-                    <select name="hub-select" class="form-select" aria-label="Default select example">
-                        <?php foreach($locations as $location): ?>
-                        <option value="<?php echo $location['Hubname']; ?>"><?php echo $location['Hubname']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <!-- Hub Name Input -->
-                <div class="mb-3">
-                    <label for="new-hub-name" class="form-label">Hub name</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="Name" required>
-                </div>
-                <!-- Hub Location Input -->
-                <div class="mb-3">
-                    <label for="new-hub-location" class="form-label">Hub location</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="Location" required>
-                </div>
-                <!-- Submit Button -->
-                <div class="d-grid">
-                    <input type="submit" value="Edit hub" class="btn btn-primary">
-                </div>
-            </form>
-        </div>
-    </section>
   </main>
 
   <!-- Links JS -->
