@@ -175,6 +175,7 @@ class User implements IUser {
       session_start();
       $_SESSION['role'] = roleSetter($user['RoleId']);
       $_SESSION['name'] = $user['Firstname'];
+      $_SESSION['profile-picture'] = $user['ProfilePicture'];
       return true;
     } else {
       return false;
