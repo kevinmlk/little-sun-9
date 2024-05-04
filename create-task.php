@@ -2,16 +2,14 @@
   // Include bootstrap
   include_once(__DIR__ . '/bootstrap.php');
 
+  // Start session
   session_start();
-
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Manager') {
-    // Redirect user to login page or show an error message
-    header("Location: index.php");
-    exit;
+  // Check if the logged in user has an admin role
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+      // Redirect user to login page or show an error message
+      header("Location: index.php");
+      exit;
   }
-
-  // Toon alle gebruikers
-  $tasks = Task::getAllTaskTypes();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +19,7 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <title>Tasks | Little Sun Shiftplanner</title>
+  <title>Create Hub Locations | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -44,13 +42,13 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
+              <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
+              <a class="nav-link" href="create-hub.php">Hub Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
+              <a class="nav-link active" aria-current="page" href="tasks.php">Task Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -80,34 +78,32 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="container pt-5">
+  <main class="container d-flex justify-content-between align-items-center vh-100">
     <!-- Add Hub Section -->
-    <section class="mt-5">
+    <section class="col-4">
       <h1 class="mb-3">Tasks</h1>
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Tasks overview</h2>
-        <a href="create-task.php" class="btn btn-primary">Add new task type</a>
+        <h2>Add task type</h2>
+        <a href="tasks.php" class="btn btn-primary">Back to overview</a>
       </div>
-
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col"><strong>Id</strong></th>
-            <th scope="col"><strong>Task type name</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($tasks as $key => $task): ?>
-            <tr>
-              <th scope="row"><?php echo $task['Id']; ?></th>
-              <td><?php echo $task['Taskname']; ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+      <div class="card p-4 mb-3">
+        <h1 class="card-title">Add task type</h1>
+        <!-- Add Hub Form -->
+        <form action="./includes/add-task.inc.php" method="post">
+          <!-- Task Type Name Input -->
+          <div class="mb-3">
+            <label for="task-typ-name" class="form-label">Task type name</label>
+            <input class="form-control form-control-lg" type="text" name="task-type-name" placeholder="Task type name" required>
+          </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <input type="submit" value="Add task type" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
     </section>
   </main>
-  
+
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/js/app.js" ></script>

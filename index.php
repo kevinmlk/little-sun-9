@@ -41,7 +41,7 @@
               <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
             </li>
