@@ -32,11 +32,29 @@
 
     // Task method to create new task types (admin only)
     public function createTaskType() {
-      
+      // Make db connection
+      $conn = Db::getConnection();
+
+      // Prepare query statement
+      $statement = $conn->prepare('INSERT INTO tasks (Taskname) VALUES (:taskname);');
+
+      // Bind query values
+      $statement->bindValue(':taskname', $this->getTaskName());
+
+      // Execute the query
+      $result = $statement->execute();
+      return $result;
     }
 
     // Task method to get all task types
     public static function getAllTaskTypes() {
+      // Make db connection
+      $conn = Db::getConnection();
 
+      // Prepare query statement
+      $statement = $conn->prepare('SELECT * FROM tasks;');
+      $statement->execute();
+      $tasks = $statement->fetchAll(PDO::FETCH_ASSOC);
+      return $tasks;
     }
   }
