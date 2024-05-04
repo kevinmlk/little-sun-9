@@ -78,10 +78,10 @@
 <main class="container pt-5">
     <!-- Add Hub Section -->
     <section class="mt-5">
-      <h1 class="mb-3">Hubs</h1>
+      <h1 class="mb-3">Users</h1>
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Overview</h2>
-        <a href="create-user.php" class="btn btn-primary">Add hub location</a>
+        <a href="create-user.php" class="btn btn-primary">Add user</a>
       </div>
 
       <table class="table table-striped table-hover">
@@ -89,7 +89,6 @@
           <tr>
             <th scope="col"><strong>Name</strong></th>
             <th scope="col"><strong>Role</strong></th>
-            <th scope="col"><strong>Activity</strong></th>
             <th scope="col"><strong>Hub</strong></th>
           </tr>
         </thead>
@@ -99,8 +98,7 @@
             <tr>
               <th scope="row"><a href="user-details.php?id=<?php echo $key; ?>"><?php echo $user['Firstname']; ?> <?php echo $user['Lastname']; ?></a></th>
               <td><?php echo $user['RoleName']; ?></td>
-              <td>Manager</td>
-              <td>Manager</td>
+              <td>Hub</td>
             </tr>
           <?php endforeach; ?>
         </tbody>

@@ -186,12 +186,13 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, RoleId) VALUES(:firstname, :lastname, :email, :password, :role);');
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, ProfilePicture, RoleId) VALUES(:firstname, :lastname, :email, :password, :profilepicture, :role);');
 
     // Plaats de input van de SETTERS in een variabele met GETTERS
     $firstname = $this->getFirstname();
     $lastname = $this->getLastname();
     $email = $this->getEmail();
+    $profilePicture = $this->getProfilePicture();
 
     // Hash password with bcrypt
 		$options = [
@@ -221,6 +222,7 @@ class User implements IUser {
     $statement->bindValue(':lastname', $lastname);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':password', $password);
+    $statement->bindValue(':profilepicture', $profilePicture);
     $statement->bindValue(':role', $role);
 
     $result = $statement->execute();

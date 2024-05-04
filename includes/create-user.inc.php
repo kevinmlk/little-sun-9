@@ -8,7 +8,22 @@
     $user->setLastname($_POST['lastname']);
     $user->setEmail($_POST['email']);
     $user->setPassword($_POST['password']);
-    // $user->setProfilePicture($_POST['profile-picture']);
+
+    $profileImageName = $_POST['firstname'] . '-' . $_POST['lastname'] . '-' . $_FILES["profile-picture-input"]["name"];
+
+    // For image upload
+    $imageFolder = "../images/profile/";
+    $imageFile = $imageFolder . basename($profileImageName);
+
+    if(move_uploaded_file($_FILES["profile-picture-input"]["tmp_name"], $imageFile)) {
+      $user->setProfilePicture($profileImageName);
+    } else {
+      $error = 'There was an error uploading the file.';
+      // Redirect user to login page or show an error message
+      header("Location: ../create-user.php");
+      exit;
+    }
+
     $user->setRole($_POST['roles']);
 
     // Run create user method

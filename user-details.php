@@ -90,6 +90,33 @@
 <!-- Main Content -->
 <main class="container pt-5">
     <!-- Edit Hub Section -->
+    <!-- Edit User Password Section -->
+    <section>
+      <div class="card p-4 mb-3">
+        <h1 class="card-title">Edit User Password</h1>
+        <!-- Edit Hub Form -->
+        <form action="./includes/edit-user.inc.php" method="post">
+          <!-- Hub Locations Selection -->
+          <div class="mb-3">
+            <label for="user-select" class="form-label">Choose User</label>
+            <select name="user-select" class="form-select form-control-lg" aria-label="Default select example">
+              <?php foreach ($users as $user): ?>
+              <option value="<?php echo $user['Firstname']; ?>"><?php echo $user['Firstname']; ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <!-- Hub Name Input -->
+          <div class="mb-3">
+            <label for="new-password" class="form-label">New Password</label>
+            <input class="form-control form-control-lg" type="password" name="new-password" placeholder="New Password" required>
+          </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <input type="submit" value="Edit password" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </section>
     <section class="mt-5">
       <h1 class="mb-3"><?php echo $user['Firstname']; ?></h1>
         <div class="d-flex justify-content-between align-items-center mb-3">
