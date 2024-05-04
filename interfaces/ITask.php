@@ -1,13 +1,8 @@
 <?php
   interface ITask {
-    // User login method
-    public function loginUser();
+    // Method to create new task types (admin only)
+    public function createTaskType();
 
-    // User creation method for Admin only
-    public function createUser();
-
-    public function editUserPassword();
-
-    // Function to get all users
-    public static function getAllUsers();
+    // Function to get all task types
+    public static function getAllTaskTypes();
   }
