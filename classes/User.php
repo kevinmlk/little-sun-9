@@ -12,6 +12,7 @@ class User implements IUser {
   private $newPassword;
   private $profilePicture;
   private $role;
+  
 
   /**
    * Get the value of firstname
@@ -262,4 +263,5 @@ class User implements IUser {
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
+
 }
