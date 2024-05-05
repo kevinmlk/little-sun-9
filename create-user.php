@@ -3,7 +3,7 @@
 
   session_start();
 
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Manager') {
     // Redirect user to login page or show an error message
     header("Location: index.php");
     exit;

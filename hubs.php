@@ -40,7 +40,7 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
             </li>
@@ -98,7 +98,7 @@
             <tr>
               <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $location['Hubname']; ?></a></th>
               <td><?php echo $location['Hublocation']; ?></td>
-              <td>Manager</td>
+              <td><?php echo $location['Firstname'] . ' ' . $location['Lastname'];?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
