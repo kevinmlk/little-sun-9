@@ -34,6 +34,9 @@
 
   $currentHub = filterHub($id, $locations);
 
+  // Shifts
+  $shifts = Shift::getAllShifts();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,40 +102,120 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="container pt-5">
-    <section>
-      
-    </section>
-
-    <!-- Edit Hub Location -->
-    <section class="mt-5">
-      <h1 class="mb-3"><?php echo $currentHub['Hubname']; ?></h1>
+  <main class="container pt-5 d-flex flex-column">
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+      <h1>Hub information</h1>
+      <a href="hubs.php" class="btn btn-primary">Back to overview</a>
+    </div>
+    
+    <div>
+      <!-- User list -->
+      <section class="mt-5">
+        <h1 class="mb-3">Users</h1>
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2>Hub information</h2>
-          <a href="hubs.php" class="btn btn-primary">Back to overview</a>
+          <h2>Overview</h2>
+          <a href="create-user.php" class="btn btn-primary">Add user</a>
         </div>
+
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col"><strong>Employee name</strong></th>
+              <th scope="col"><strong>Task</strong></th>
+              <th scope="col"><strong>Hub</strong></th>
+              <th scope="col"><strong>Location</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($shifts as $s): ?>
+              <tr>
+                <th scope="row"><?php echo $s['Firstname']; ?> <?php echo $s['Lastname']; ?></a></th>
+                <td><?php echo $s['Taskname']; ?></td>
+                <td><?php echo $s['Hubname']; ?></td>
+                <td><?php echo $s['Hublocation']; ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <!-- Add Employee Section -->
+      <section class="col-4 pt-5">
         <div class="card p-4 mb-3">
-            <h1 class="card-title">Edit hub location</h1>
-            <!-- Edit Hub Form -->
-            <form action="./includes/edit-hub.inc.php" method="post">
-                <!-- Hub Name Input -->
-                <div class="mb-3">
-                    <label for="new-hub-name" class="form-label">Hub name</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
-                </div>
-                <!-- Hub Location Input -->
-                <div class="mb-3">
-                    <label for="new-hub-location" class="form-label">Hub location</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
-                </div>
-                <!-- Submit Button -->
-                <div class="">
-                    <input type="submit" value="Edit hub" class="btn btn-primary">
-                    <input type="submit" value="Delete hub" class="btn btn-secondary">
-                </div>
-            </form>
+          <h3 class="card-title">Add employee to current hub</h3>
+          <!-- Error message -->
+          <?php if (isset($error)): ?>
+          <div>
+            <p><?php echo $error; ?></p>
+          </div>
+          <?php endif; ?>
+          <!-- Add User Form -->
+          <form action="./includes/create-user.inc.php" method="post" class="login-form" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="firstname" class="form-label">Firstname</label>
+              <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
+            </div>
+  
+            <div class="mb-3">
+              <label for="lastname" class="form-label">Lastname</label>
+              <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
+            </div>
+  
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
+            </div>
+            <!-- Password Input -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
+            </div>
+            <!-- Roles Input -->
+            <div class="mb-3">
+              <label for="role" class="form-label">Role</label>
+              <input class="form-control form-control-lg" type="text" name="role" placeholder="Employee" value="Employee" disabled>
+            </div>
+            <!-- Profile Picture Input -->
+            <div class="input-group mb-3">
+              <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
+              <input type="file" class="form-control form-control-lg" name="profile-picture-input" id="inputGroupFile01">
+            </div>
+  
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <input type="submit" value="Add user" class="btn btn-primary">
+            </div>
+          </form>
         </div>
-    </section>
+      </section>
+  
+      <!-- Edit Hub Location -->
+      <section class=" col-4 pt-5 mt-5">
+        <div class="card p-4 mb-3">
+          <h3 class="card-title">Edit hub location</h3>
+          <!-- Edit Hub Form -->
+          <form action="./includes/edit-hub.inc.php" method="post">
+              <!-- Hub Name Input -->
+              <div class="mb-3">
+                  <label for="new-hub-name" class="form-label">Hub name</label>
+                  <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
+              </div>
+              <!-- Hub Location Input -->
+              <div class="mb-3">
+                  <label for="new-hub-location" class="form-label">Hub location</label>
+                  <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
+              </div>
+              <!-- Submit Button -->
+              <div class="">
+                  <input type="submit" value="Edit hub" class="btn btn-primary">
+                  <input type="submit" value="Delete hub" class="btn btn-secondary">
+              </div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
   
   <!-- Links JS -->
