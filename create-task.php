@@ -1,18 +1,15 @@
 <?php
-    // Include bootstrap
-    include_once(__DIR__ . '/bootstrap.php');
+  // Include bootstrap
+  include_once(__DIR__ . '/bootstrap.php');
 
-    // Start session
-    session_start();
-    // Check if the logged in user has an admin role
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
-        // Redirect user to login page or show an error message
-        header("Location: index.php");
-        exit;
-    }
-
-    // Toon alle gebruikers
-    $locations = Location::getAllHubs();
+  // Start session
+  session_start();
+  // Check if the logged in user has an admin role
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+      // Redirect user to login page or show an error message
+      header("Location: index.php");
+      exit;
+  }
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +45,10 @@
               <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
+              <a class="nav-link" href="create-hub.php">Hub Overview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="tasks.php">Task Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -77,50 +77,28 @@
     </div>
   </nav>
 
-<!-- Main Content -->
-<main class="container d-flex justify-content-between align-items-center vh-100">
+  <!-- Main Content -->
+  <main class="container d-flex justify-content-between align-items-center vh-100">
     <!-- Add Hub Section -->
     <section class="col-4">
+      <h1 class="mb-3">Tasks</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Add task type</h2>
+        <a href="tasks.php" class="btn btn-primary">Back to overview</a>
+      </div>
       <div class="card p-4 mb-3">
-        <h1 class="card-title">Add hub location</h1>
+        <h1 class="card-title">Add task type</h1>
         <!-- Add Hub Form -->
-        <form action="./includes/add-hub.inc.php" method="post">
-          <!-- Hub Name Input -->
+        <form action="./includes/add-task.inc.php" method="post">
+          <!-- Task Type Name Input -->
           <div class="mb-3">
-            <label for="hub-name" class="form-label">Hub name</label>
-            <input class="form-control form-control-lg" type="text" name="hub-name" placeholder="Name" required>
-          </div>
-          <!-- Hub Location Input -->
-          <div class="mb-3">
-            <label for="hub-location" class="form-label">Hub location</label>
-            <input class="form-control form-control-lg" type="text" name="hub-location" placeholder="Location" required>
+            <label for="task-typ-name" class="form-label">Task type name</label>
+            <input class="form-control form-control-lg" type="text" name="task-type-name" placeholder="Task type name" required>
           </div>
           <!-- Submit Button -->
           <div class="d-grid">
-            <input type="submit" value="Add hub" class="btn btn-primary">
+            <input type="submit" value="Add task type" class="btn btn-primary">
           </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- Hub Overview/Remove Section -->
-    <section>
-    <div class="card p-4 mb-3">
-        <h1 class="card-title">All hub locations</h1>
-        <!-- Hub Overview Form -->
-        <form action="./includes/remove-hub.inc.php" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Hub overview</label>
-                <select name="hub-overview" class="form-select" size="5" aria-label="Size 3 select example">
-                    <?php foreach($locations as $location): ?>
-                    <option value="<?php echo $location['Hubname']; ?>">Name: <?php echo $location['Hubname'];?>, Location: <?php echo $location['Hublocation']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <!-- Submit Button -->
-            <div class="d-grid">
-                <input type="submit" value="Remove hub" class="btn btn-primary">
-            </div>
         </form>
       </div>
     </section>

@@ -1,14 +1,17 @@
 <?php
+  // Include bootstrap
   include_once(__DIR__ . '/bootstrap.php');
 
   session_start();
 
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Manager') {
     // Redirect user to login page or show an error message
     header("Location: index.php");
     exit;
   }
 
+  // Toon alle gebruikers
+  $tasks = Task::getAllTaskTypes();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +21,7 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <title>Shiftplanner - Create User</title>
+  <title>Tasks | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -39,12 +42,15 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="create-user.php">Users Overview</a>
+              <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="create-hub.php">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tasks.php">Task Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -73,62 +79,35 @@
     </div>
   </nav>
 
-  <!-- Start Main Content -->
-  <main class="container d-flex justify-content-between align-items-center mt-5 pt-5">
-    <section class="col-4 pt-5">
-      <div class="card p-4 mb-3">
-        <h1 class="card-title">Create User</h1>
-        <!-- Error message -->
-        <?php if (isset($error)): ?>
-        <div>
-          <p><?php echo $error; ?></p>
-        </div>
-        <?php endif; ?>
-        <!-- Add User Form -->
-        <form action="./includes/create-user.inc.php" method="post" class="login-form" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="firstname" class="form-label">Firstname</label>
-            <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
-          </div>
-
-          <div class="mb-3">
-            <label for="lastname" class="form-label">Lastname</label>
-            <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
-          </div>
-
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
-          </div>
-          <!-- Password Input -->
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
-          </div>
-          <!-- Roles Select -->
-          <div class="mb-3">
-            <label for="roles" class="form-label">Choose a role</label>
-            <select name="roles" class="form-select form-control-lg">
-              <option value="Admin">Admin</option>
-              <option value="Employee">Employee</option>
-              <option value="Manager">Manager</option>
-            </select>
-          </div>
-          <!-- Profile Picture Input -->
-          <div class="input-group mb-3">
-            <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
-            <input type="file" class="form-control form-control-lg" name="profile-picture-input" id="inputGroupFile01">
-          </div>
-
-          <!-- Submit Button -->
-          <div class="d-grid">
-            <input type="submit" value="Add user" class="btn btn-primary">
-          </div>
-        </form>
+  <!-- Main Content -->
+  <main class="container pt-5">
+    <!-- Add Hub Section -->
+    <section class="mt-5">
+      <h1 class="mb-3">Tasks</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Tasks overview</h2>
+        <a href="create-task.php" class="btn btn-primary">Add new task type</a>
       </div>
+
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Id</strong></th>
+            <th scope="col"><strong>Task type name</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($tasks as $key => $task): ?>
+            <tr>
+              <th scope="row"><?php echo $task['Id']; ?></th>
+              <td><?php echo $task['Taskname']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </section>
   </main>
-
+  
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/js/app.js" ></script>

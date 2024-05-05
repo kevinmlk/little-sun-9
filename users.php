@@ -1,18 +1,15 @@
 <?php
-    // Include bootstrap
-    include_once(__DIR__ . '/bootstrap.php');
+  // Include bootstrap
+  include_once(__DIR__ . '/bootstrap.php');
 
-    // Start session
-    session_start();
-    // Check if the logged in user has an admin role
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
-        // Redirect user to login page or show an error message
-        header("Location: index.php");
-        exit;
-    }
+  // Check if the user is logged in
+  session_start();
+  if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+  }
 
-    // Toon alle gebruikers
-    $locations = Location::getAllHubs();
+  // Toon alle gebruikers
+  $users = User::getAllUsers();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,10 +42,10 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="create-user.php">Users Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
+              <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -78,54 +75,37 @@
   </nav>
 
 <!-- Main Content -->
-<main class="container d-flex justify-content-between align-items-center vh-100">
+<main class="container pt-5">
     <!-- Add Hub Section -->
-    <section class="col-4">
-      <div class="card p-4 mb-3">
-        <h1 class="card-title">Add hub location</h1>
-        <!-- Add Hub Form -->
-        <form action="./includes/add-hub.inc.php" method="post">
-          <!-- Hub Name Input -->
-          <div class="mb-3">
-            <label for="hub-name" class="form-label">Hub name</label>
-            <input class="form-control form-control-lg" type="text" name="hub-name" placeholder="Name" required>
-          </div>
-          <!-- Hub Location Input -->
-          <div class="mb-3">
-            <label for="hub-location" class="form-label">Hub location</label>
-            <input class="form-control form-control-lg" type="text" name="hub-location" placeholder="Location" required>
-          </div>
-          <!-- Submit Button -->
-          <div class="d-grid">
-            <input type="submit" value="Add hub" class="btn btn-primary">
-          </div>
-        </form>
+    <section class="mt-5">
+      <h1 class="mb-3">Users</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Overview</h2>
+        <a href="create-user.php" class="btn btn-primary">Add user</a>
       </div>
-    </section>
 
-    <!-- Hub Overview/Remove Section -->
-    <section>
-    <div class="card p-4 mb-3">
-        <h1 class="card-title">All hub locations</h1>
-        <!-- Hub Overview Form -->
-        <form action="./includes/remove-hub.inc.php" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Hub overview</label>
-                <select name="hub-overview" class="form-select" size="5" aria-label="Size 3 select example">
-                    <?php foreach($locations as $location): ?>
-                    <option value="<?php echo $location['Hubname']; ?>">Name: <?php echo $location['Hubname'];?>, Location: <?php echo $location['Hublocation']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <!-- Submit Button -->
-            <div class="d-grid">
-                <input type="submit" value="Remove hub" class="btn btn-primary">
-            </div>
-        </form>
-      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Name</strong></th>
+            <th scope="col"><strong>Role</strong></th>
+            <th scope="col"><strong>Hub</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($users as $key => $user): ?>
+            
+            <tr>
+              <th scope="row"><a href="user-details.php?id=<?php echo $key; ?>"><?php echo $user['Firstname']; ?> <?php echo $user['Lastname']; ?></a></th>
+              <td><?php echo $user['RoleName']; ?></td>
+              <td>Hub</td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </section>
   </main>
-
+  
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/js/app.js" ></script>
