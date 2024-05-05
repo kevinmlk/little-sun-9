@@ -22,7 +22,18 @@
   // Toon alle hubs
   $locations = Location::getAllHubs();
 
-  $item = $locations[$id];
+  // Loop through the array
+  function filterHub($hubId, $hubs) {
+    foreach ($hubs as $h) {
+      if ($h['Id'] == $hubId) {
+          $hub = $h;
+          return $hub;
+      }
+    }
+  }
+
+  $currentHub = filterHub($id, $locations);
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,11 +98,15 @@
     </div>
   </nav>
 
-<!-- Main Content -->
-<main class="container pt-5">
-    <!-- Edit Hub Section -->
+  <!-- Main Content -->
+  <main class="container pt-5">
+    <section>
+      
+    </section>
+
+    <!-- Edit Hub Location -->
     <section class="mt-5">
-      <h1 class="mb-3"><?php echo $item['Hubname']; ?></h1>
+      <h1 class="mb-3"><?php echo $currentHub['Hubname']; ?></h1>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h2>Hub information</h2>
           <a href="hubs.php" class="btn btn-primary">Back to overview</a>
@@ -103,12 +118,12 @@
                 <!-- Hub Name Input -->
                 <div class="mb-3">
                     <label for="new-hub-name" class="form-label">Hub name</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $item['Hubname']; ?>" required>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
                 </div>
                 <!-- Hub Location Input -->
                 <div class="mb-3">
                     <label for="new-hub-location" class="form-label">Hub location</label>
-                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $item['Hublocation']; ?>" required>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
                 </div>
                 <!-- Submit Button -->
                 <div class="">

@@ -14,12 +14,12 @@
   // Array to store rows with ManagerId 3
   $managerHubs = [];
 
-// Loop through the array and store rows where ManagerId is 3
-foreach ($locations as $l) {
-  if ($l['ManagerId'] === $_SESSION['id']) {
-      $managerHubs[] = $l;
+  // Loop through the array and store rows where ManagerId is 3
+  foreach ($locations as $l) {
+    if ($l['ManagerId'] === $_SESSION['id']) {
+        $managerHubs[] = $l;
+    }
   }
-}
   
 ?><!DOCTYPE html>
 <html lang="en">
@@ -145,9 +145,9 @@ foreach ($locations as $l) {
           </tr>
         </thead>
         <tbody>
-          <?php foreach($managerHubs as $key => $h): ?>
+          <?php foreach($managerHubs as $h): ?>
             <tr>
-              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $h['Hubname']; ?></a></th>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $h['Id']; ?>"><?php echo $h['Hubname']; ?></a></th>
               <td><?php echo $h['Hublocation']; ?></td>
               <td><?php echo $h['Firstname'] . ' ' . $h['Lastname'];?></td>
             </tr>
