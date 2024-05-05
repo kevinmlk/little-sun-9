@@ -1,6 +1,5 @@
 <?php
 
-
 class Task {
     private $dbconnection;
 
@@ -9,8 +8,8 @@ class Task {
     }
 
     public function getTaskByUserId(int $userId): array {
-        $statement = $this->dbconnection->prepare('SELECT TaskID, TaskName FROM Task WHERE user_id = ?');
-        $statement->bind_param("i", $userId);
+        $statement = $this->dbconnection->prepare ("SELECT * FROM Task WHERE UserID = :userid;");
+        $statement->bind_param(":userid", $userId);
         $statement->execute();
         $result = $statement->get_result();
         $tasks = $result->fetch_all(MYSQLI_ASSOC);
