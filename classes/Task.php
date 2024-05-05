@@ -57,4 +57,21 @@
       $tasks = $statement->fetchAll(PDO::FETCH_ASSOC);
       return $tasks;
     }
+
+    // Method to fetch all tasks assigned to users
+    public static function getAllAssignedTasks() {
+      // Establish database connection
+      $conn = Db::getConnection();
+
+      // Prepare SQL query to fetch all tasks with assigned user details
+      $sql = "SELECT t.TaskID, t.TaskName, u.Firstname, u.Lastname, u.Id AS UserID 
+              FROM Tasks t 
+              JOIN users u ON t.UserID = u.Id;";
+      
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      
+      // Fetch all tasks
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
   }
