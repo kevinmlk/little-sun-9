@@ -47,6 +47,11 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="tasks.php">Task Overview</a>
+            </li>
+            
             <?php endif; ?>
             <hr>
             <li class="nav-item">
