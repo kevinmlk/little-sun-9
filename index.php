@@ -7,6 +7,9 @@
     header('Location: login.php');
   }
 
+  // Shifts
+  $shifts = Shift::getAllShifts();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,6 +87,31 @@
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
     <h2>Dashboard</h2>
     
+    <?php if ($_SESSION['role'] === 'Employee'): ?>
+    <!-- User list -->
+    <section class="mt-5">
+        <h2 class="mb-3">My tasks</h2>
+
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col"><strong>Task</strong></th>
+              <th scope="col"><strong>Hub</strong></th>
+              <th scope="col"><strong>Location</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($shifts as $s): ?>
+              <tr>
+                <td><?php echo $s['Taskname']; ?></td>
+                <td><?php echo $s['Hubname']; ?></td>
+                <td><?php echo $s['Hublocation']; ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </section>
+    <?php endif; ?>
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
