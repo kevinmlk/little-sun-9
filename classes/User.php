@@ -266,4 +266,15 @@ class User implements IUser {
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
+
+  public static function getLastAddedUser() {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT * FROM users ORDER BY Id DESC LIMIT 1;');
+    $statement->execute();
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    return $user;
+  }
 }

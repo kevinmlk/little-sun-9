@@ -111,11 +111,7 @@
     <div>
       <!-- User list -->
       <section class="mt-5">
-        <h1 class="mb-3">Users</h1>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2>Overview</h2>
-          <a href="create-user.php" class="btn btn-primary">Add user</a>
-        </div>
+        <h2 class="mb-3">Employees</h2>
 
         <table class="table table-striped table-hover">
           <thead>
@@ -140,81 +136,89 @@
       </section>
     </div>
 
-    <div class="d-flex justify-content-between">
-      <!-- Add Employee Section -->
-      <section class="col-4 pt-5">
-        <div class="card p-4 mb-3">
-          <h3 class="card-title">Add employee to current hub</h3>
-          <!-- Error message -->
-          <?php if (isset($error)): ?>
-          <div>
-            <p><?php echo $error; ?></p>
-          </div>
-          <?php endif; ?>
-          <!-- Add User Form -->
-          <form action="./includes/create-user.inc.php" method="post" class="login-form" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="firstname" class="form-label">Firstname</label>
-              <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
+    <div class="mt-5">
+      <h2>Hub settings</h2>
+      <div class="d-flex gap-5 mt-5 align-items-top">
+        <!-- Add Employee Section -->
+        <section class="col-4">
+          <div class="card p-4 mb-3">
+            <h3 class="card-title">Add employee to current hub</h3>
+            <!-- Error message -->
+            <?php if (isset($error)): ?>
+            <div>
+              <p><?php echo $error; ?></p>
             </div>
-  
-            <div class="mb-3">
-              <label for="lastname" class="form-label">Lastname</label>
-              <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
-            </div>
-  
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
-            </div>
-            <!-- Password Input -->
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
-            </div>
-            <!-- Roles Input -->
-            <div class="mb-3">
-              <label for="role" class="form-label">Role</label>
-              <input class="form-control form-control-lg" type="text" name="role" placeholder="Employee" value="Employee" disabled>
-            </div>
-            <!-- Profile Picture Input -->
-            <div class="input-group mb-3">
-              <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
-              <input type="file" class="form-control form-control-lg" name="profile-picture-input" id="inputGroupFile01">
-            </div>
-  
-            <!-- Submit Button -->
-            <div class="d-grid">
-              <input type="submit" value="Add user" class="btn btn-primary">
-            </div>
-          </form>
-        </div>
-      </section>
-  
-      <!-- Edit Hub Location -->
-      <section class=" col-4 pt-5 mt-5">
-        <div class="card p-4 mb-3">
-          <h3 class="card-title">Edit hub location</h3>
-          <!-- Edit Hub Form -->
-          <form action="./includes/edit-hub.inc.php" method="post">
-              <!-- Hub Name Input -->
+            <?php endif; ?>
+            <!-- Add User Form -->
+            <form action="./includes/add-employee.inc.php" method="post" class="login-form" enctype="multipart/form-data">
               <div class="mb-3">
-                  <label for="new-hub-name" class="form-label">Hub name</label>
-                  <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
+                <label for="firstname" class="form-label">Firstname</label>
+                <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
               </div>
-              <!-- Hub Location Input -->
+    
               <div class="mb-3">
-                  <label for="new-hub-location" class="form-label">Hub location</label>
-                  <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
+                <label for="lastname" class="form-label">Lastname</label>
+                <input class="form-control form-control-lg" type="text" name="lastname" placeholder="Lastname">
               </div>
+    
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
+              </div>
+              <!-- Password Input -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input class="form-control form-control-lg" type="password" name="password" placeholder="Password">
+              </div>
+              <!-- Roles Input -->
+              <div class="mb-3 visually-hidden">
+                <label for="role" class="form-label">Role</label>
+                <input class="form-control form-control-lg" type="text" name="role" placeholder="Employee" value="Employee">
+              </div>
+              <!-- Location Input -->
+              <div class="mb-3 visually-hidden">
+                <label for="location" class="form-label">Location</label>
+                <input class="form-control form-control-lg" type="text" name="location" placeholder="<?php echo $id; ?>" value="<?php echo $id; ?>">
+              </div>
+              <!-- Profile Picture Input -->
+              <div class="input-group mb-3">
+                <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
+                <input type="file" class="form-control form-control-lg" name="profile-picture-input" id="inputGroupFile01">
+              </div>
+    
               <!-- Submit Button -->
-              <div class="">
-                  <input type="submit" value="Edit hub" class="btn btn-primary">
-                  <input type="submit" value="Delete hub" class="btn btn-secondary">
+              <div class="d-grid">
+                <input type="submit" value="Add user" class="btn btn-primary">
               </div>
-          </form>
-        </div>
-      </section>
+            </form>
+          </div>
+        </section>
+    
+        <!-- Edit Hub Location -->
+        <section class=" col-4 pt-5 mt-5">
+          <div class="card p-4 mb-3">
+            <h3 class="card-title">Edit hub location</h3>
+            <!-- Edit Hub Form -->
+            <form action="./includes/edit-hub.inc.php" method="post">
+                <!-- Hub Name Input -->
+                <div class="mb-3">
+                    <label for="new-hub-name" class="form-label">Hub name</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-name" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
+                </div>
+                <!-- Hub Location Input -->
+                <div class="mb-3">
+                    <label for="new-hub-location" class="form-label">Hub location</label>
+                    <input class="form-control form-control-lg" type="text" name="new-hub-location" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="">
+                    <input type="submit" value="Edit hub" class="btn btn-primary">
+                    <input type="submit" value="Delete hub" class="btn btn-secondary">
+                </div>
+            </form>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
   
