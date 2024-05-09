@@ -7,7 +7,7 @@ include_once(__DIR__ . '/Db.php');
 
 class Shift implements IShift {
 
-
+  // Shifts properties
   private $schedule;
   private $startTime;
   private $endTime;
