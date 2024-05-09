@@ -150,4 +150,18 @@ class Shift implements IShift {
     $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $shifts;
   }
+
+  public static function getUserShifts($userId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT Taskname, StartTime, EndTime FROM shifts INNER JOIN tasks ON shifts.TaskId = tasks.Id WHERE EmployeeId = :employeeId;');
+    $statement->bindValue(':employeeId', $userId);
+    $statement->execute();
+    $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $shifts;
+  }
+
+
 }

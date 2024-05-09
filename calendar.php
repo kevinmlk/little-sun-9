@@ -6,10 +6,6 @@
   if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
   }
-
-  // Shifts
-  $shifts = Shift::getAllShifts();
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

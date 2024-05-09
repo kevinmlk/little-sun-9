@@ -58,7 +58,7 @@
             <hr>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Calendar</a>
+              <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Time Tracker</a>
@@ -87,11 +87,6 @@
   <main class="container mt-5 pt-5">
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
     <h2>Dashboard</h2>
-
-    <!-- Calendar Section -->
-    <div id="calendar">
-
-    </div>
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>

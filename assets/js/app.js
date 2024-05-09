@@ -15,7 +15,7 @@ const setup = () => {
       center: 'timeGridDay,timeGridWeek,dayGridMonth',
       right: 'today prev,next'
     },
-    events: './test.php',
+    events: 'includes/get-user-shifts.inc.php',
   });
 
   calendar.render();
