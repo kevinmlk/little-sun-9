@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Title -->
-  <title>Little Sun</title>
+  <title>Calendar | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -85,12 +85,10 @@
   </nav>
   <!-- Start main content -->
   <main class="container mt-5 pt-5">
-    <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
-    <h2>Dashboard</h2>
+    <h2><?php echo $_SESSION['name']; ?>'s calendar</h2>
 
     <!-- Calendar Section -->
     <div id="calendar">
-
     </div>
   </main>
   <!-- Links JS -->
