@@ -18,7 +18,7 @@
   <!-- Links CSS -->
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./assets/bootstrap/icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Title -->
   <title>Little Sun</title>
@@ -114,10 +114,6 @@
       </section>
     <?php endif; ?>
 
-    <svg class="bi bi-exclamation-triangle text-success" width="32" height="32" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-  ...
-</svg>
-
     <!-- Calendar Section -->
     <div id="calendar">
 
@@ -126,6 +122,6 @@
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
-  <script src="./assets/js/app.js" ></script>
+  <script src="./assets/js/app.js"></script>
 </body>
 </html>
