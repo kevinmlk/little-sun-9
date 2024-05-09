@@ -33,6 +33,7 @@
     
       $shift = new Shift();
       $shift->setEmployee($newEmployee['Id']);
+      $shift->setTask(1);
       $shift->setLocation($_POST['location']);
       $shift->addShift();
     }

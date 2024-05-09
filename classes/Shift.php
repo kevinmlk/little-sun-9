@@ -127,10 +127,11 @@ class Shift implements IShift {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO shifts (EmployeeId, LocationId) VALUES (:employeeid, :locationid);');
+    $statement = $conn->prepare('INSERT INTO shifts (EmployeeId, TaskId, LocationId) VALUES (:employeeid, :taskid, :locationid);');
 
     // Bind query values
     $statement->bindValue(':employeeid', $this->getEmployee());
+    $statement->bindValue(':taskid', $this->getTask());
     $statement->bindValue(':locationid', $this->getLocation());
 
     // Execute the query
