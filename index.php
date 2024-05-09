@@ -49,6 +49,12 @@
             <hr>
             <?php endif; ?>
             <li class="nav-item">
+              <a class="nav-link" href="checkIn.php">Check-in</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="checkOut.php">Check-out</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#">Calendar</a>
             </li>
             <li class="nav-item">
