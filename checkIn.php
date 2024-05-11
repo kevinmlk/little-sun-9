@@ -21,7 +21,7 @@ $password = "root";
 $dbname = "little_sun1";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
@@ -30,8 +30,13 @@ if ($conn->connect_error) {
 echo "Connected successfully";
 
 $currentDateTime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO workingHours (check_in_time) VALUES ('$currentDateTime')";
+$sql = "INSERT INTO workingHours (check_in_time) VALUES ('$currentDateTime')";
 
+ if ($conn->query($sql) === TRUE) {
+        echo "Check-in successful";
+    } else {
+        echo "Error: " . $conn->error;
+    }
 ?>
 
 
