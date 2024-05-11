@@ -1,9 +1,9 @@
 <?php
   include_once(__DIR__ . '/../bootstrap.php');
 
-  
+  session_start();
   // Shifts
-  $shifts = Shift::getUserShifts(3);
+  $shifts = Shift::getUserShifts($_SESSION['id']);
   $data = [];
 
   foreach ($shifts as $s) {

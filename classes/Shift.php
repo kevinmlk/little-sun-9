@@ -145,6 +145,4 @@ class Shift implements IShift {
     $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $shifts;
   }
-
-
 }
