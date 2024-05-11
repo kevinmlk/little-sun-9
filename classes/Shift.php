@@ -8,7 +8,6 @@ include_once(__DIR__ . '/Db.php');
 class Shift implements IShift {
 
   // Shifts properties
-  private $schedule;
   private $startTime;
   private $endTime;
   private $employee;
@@ -104,35 +103,19 @@ class Shift implements IShift {
 
     return $this;
   }
-  
-  /**
-   * Get the value of schedule
-   */
-  public function getSchedule()
-  {
-    return $this->schedule;
-  }
-
-  /**
-   * Set the value of schedule
-   */
-  public function setSchedule($schedule): self
-  {
-    $this->schedule = $schedule;
-
-    return $this;
-  }
 
   public function addShift() {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO shifts (EmployeeId, TaskId, LocationId) VALUES (:employeeid, :taskid, :locationid);');
+    $statement = $conn->prepare('INSERT INTO shifts (LocationId, EmployeeId, TaskId, StartTime, EndTime) VALUES (:locationid, :employeeid, :taskid, :starttime, :endtime);');
 
     // Bind query values
+    $statement->bindValue(':locationid', $this->getLocation());
     $statement->bindValue(':employeeid', $this->getEmployee());
     $statement->bindValue(':taskid', $this->getTask());
-    $statement->bindValue(':locationid', $this->getLocation());
+    $statement->bindValue(':starttime', $this->getStartTime());
+    $statement->bindValue(':endtime', $this->getEndTime());
 
     // Execute the query
     $result = $statement->execute();

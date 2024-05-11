@@ -261,7 +261,7 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT Firstname, Lastname, Email, RoleName FROM users INNER JOIN roles ON users.RoleId = roles.Id;');
+    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, RoleName FROM users INNER JOIN roles ON users.RoleId = roles.Id;');
     $statement->execute();
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;

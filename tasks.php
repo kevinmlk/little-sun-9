@@ -10,8 +10,34 @@
     exit;
   }
 
-  // Toon alle gebruikers
+  // Get all tasks from db
   $tasks = Task::getAllTaskTypes();
+
+  // Get all hub locations from db
+  $locations = Location::getAllHubs();
+
+  // Array to store rows with ManagerId 3
+  $managerHubs = [];
+
+  // Loop through the array and store rows where ManagerId is 3
+  foreach ($locations as $l) {
+    if ($l['ManagerId'] === $_SESSION['id']) {
+        $managerHubs[] = $l;
+    }
+  }
+
+  // Get all employees from db
+  $users = User::getAllUsers();
+
+  $employees = [];
+
+  foreach ($users as $u) {
+    if ($u['RoleName'] === 'Employee') {
+      $employees[] = $u;
+    }
+  }
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,10 +74,10 @@
               <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="hubs.php">Hub Overview</a>
+              <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Task Overview</a>
             </li>
             <hr>
             <?php endif; ?>
@@ -93,13 +119,76 @@
 
     <!-- Calendar Section -->
     <section id="calendar-section" class="mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Shift's week overview</h2>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add shift</button>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Add shift</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="./includes/add-shift.inc.php" method="post">
+                <!-- Hub Select -->
+                <div class="mb-3">
+                  <label for="hub-select" class="col-form-label">Choose hub:</label>
+                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
+                    <?php foreach($managerHubs as $h): ?>
+                      <option value="<?php echo $h['Id']; ?>"><?php echo $h['Hubname'];?> (<?php echo $h['Hublocation']; ?>)</option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Employee Select -->
+                <div class="mb-3">
+                  <label for="employee-select" class="col-form-label">Choose an employee from hub:</label>
+                  <select name="employee-select" class="form-select" aria-label="Employee select" required>
+                    <?php foreach($employees as $e): ?>
+                      <option value="<?php echo $e['Id']; ?>"><?php echo $e['Firstname'];?> <?php echo $e['Lastname']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Task -->
+                <div class="mb-3">
+                  <label for="task-select" class="col-form-label">Assign task:</label>
+                  <select name="task-select" class="form-select" aria-label="Task select" required>
+                    <?php foreach($tasks as $t): ?>
+                      <option value="<?php echo $t['Id']; ?>"><?php echo $t['Taskname'];?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Start Shift -->
+                <div class="mb-3">
+                  <label for="start-time" class="col-form-label">Start shift:</label>
+                  <input name="start-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
+                </div>
+                <!-- End Shift -->
+                <div class="mb-3">
+                  <label for="end-time" class="col-form-label">End shift:</label>
+                  <input name="end-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add new shift</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="calendar"></div>
     </section>
 
     <!-- Task Types Section -->
     <section id="task-type-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Tasks overview</h2>
+        <h2 class="mb-0">Tasks types overview</h2>
         <a href="create-task.php" class="btn btn-primary">Add new task type</a>
       </div>
 
@@ -144,7 +233,7 @@
         initialView: 'listWeek',
         headerToolbar: {
           left: 'title',
-          right: 'today prev,next'
+          right: 'today prev,next',
         },
         events: 'includes/get-all-shifts.inc.php',
       });
