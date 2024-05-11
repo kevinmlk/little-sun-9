@@ -1,31 +1,26 @@
 <?php
+//test if my button works
+if(isset($_POST['checkIn'])){
+    echo "Check-in successful";
+}
 $servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "little_sun1";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password);
 
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+echo "Connected successfully";
 
-// Get the check-in datetime from the form
-$checkInTime = $_POST['checkIn'];
-
-// SQL to insert check-in time
-$sql = "INSERT INTO your_table_name (check_in) VALUES ('$checkInTime')";
-
-if ($conn->query($sql) === TRUE) {
-  echo "Check-in recorded successfully";
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
-$conn->close();
 ?>
+
+
+
 
     
 
@@ -43,9 +38,9 @@ $conn->close();
     <h1>Check-in</h1>
     <p>Check-in to your shift</p>
     <form action="checkIn.php" method="POST">
-        <label for="checkIn">Check-in:</label>
-        <input type="datetime-local" name="checkIn" id="checkIn">
-        <button type="submit">Check-in</button>
+        <label for="checkIn">Check-in</label>
+        <input type="submit" name="checkIn" value="Check-in">
+
     </form>
 </body>
 </html>
