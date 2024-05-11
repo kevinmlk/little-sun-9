@@ -31,7 +31,7 @@ main {
   border-radius: 50%;
 }
 
-.btn-primary {
+.btn.btn-primary {
   background-color: var(--little-sun-yellow);
   border: none;
   color: var(--little-sun-black);

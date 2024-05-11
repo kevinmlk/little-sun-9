@@ -20,6 +20,7 @@
   <!-- Links CSS -->
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <title>Tasks | Little Sun Shiftplanner</title>
 </head>
@@ -42,20 +43,20 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
+              <a class="nav-link" href="hubs.php">Hub Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Task Overview</a>
             </li>
-            <?php endif; ?>
             <hr>
+            <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Calendar</a>
+              <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Time Tracker</a>
@@ -81,11 +82,27 @@
 
   <!-- Main Content -->
   <main class="container pt-5">
-    <!-- Add Hub Section -->
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Task types</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+
+    <!-- Calendar Section -->
+    <section>
+      <div id="calendar"></div>
+    </section>
+
+    <!-- Task Types Section -->
     <section class="mt-5">
-      <h1 class="mb-3">Tasks</h1>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Tasks overview</h2>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Tasks overview</h2>
         <a href="create-task.php" class="btn btn-primary">Add new task type</a>
       </div>
 
@@ -110,6 +127,33 @@
   
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="./assets/js/app.js" ></script>
+  <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
+  <script>
+    'use strict';
+
+    // Setup function - loads when the DOM content is loaded
+    const setup = () => {
+      // Calendar
+      const calendarEl = document.querySelector('#calendar');
+
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap5',
+        initialView: 'listWeek',
+        headerToolbar: {
+          left: 'title',
+          right: 'today prev,next'
+        },
+        events: 'includes/get-all-shifts.inc.php',
+      });
+
+      calendar.render();
+
+      // Event listeners
+
+    }
+
+    // Load setup when the DOM content is loaded
+    document.addEventListener('DOMContentLoaded', setup);
+  </script>
 </body>
 </html>

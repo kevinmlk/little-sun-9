@@ -40,15 +40,18 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Users Overview</a>
+              <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="hubs.php">Hubs Overview</a>
+              <a class="nav-link" href="hubs.php">Hub Overview</a>
             </li>
-            <?php endif; ?>
+            <li class="nav-item">
+              <a class="nav-link" href="tasks.php">Task Overview</a>
+            </li>
             <hr>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="#">Calendar</a>
             </li>
