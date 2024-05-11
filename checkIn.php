@@ -1,5 +1,17 @@
+
+
+
 <?php
-//test if my button works
+//button to check-in[x]
+//check if the button is clicked[x]
+//if the button is clicked, echo "Check-in successful"[x]
+//connect to the database[x]
+//create a connection[x]
+//check if the connection is successful[x]
+//if the connection is successful, echo "Connected successfully[x]"
+//if click on the button, insert a new row in the database with the current date and time[]
+
+
 if(isset($_POST['checkIn'])){
     echo "Check-in successful";
 }
@@ -16,6 +28,9 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 echo "Connected successfully";
+
+$currentDateTime = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO workingHours (check_in_time) VALUES ('$currentDateTime')";
 
 ?>
 
