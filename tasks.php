@@ -84,23 +84,20 @@
   <main class="container pt-5">
     <ul class="nav nav-tabs mt-5">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Calendar</a>
+        <a id="tab-link-calendar" class="nav-link active" href="#">Calendar</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Task types</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a id="tab-link-task-types" class="nav-link" href="#">Task types</a>
       </li>
     </ul>
 
     <!-- Calendar Section -->
-    <section>
+    <section id="calendar-section" class="mt-5">
       <div id="calendar"></div>
     </section>
 
     <!-- Task Types Section -->
-    <section class="mt-5">
+    <section id="task-type-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Tasks overview</h2>
         <a href="create-task.php" class="btn btn-primary">Add new task type</a>
@@ -131,6 +128,12 @@
   <script>
     'use strict';
 
+    // Global variables
+    const calendarSection = document.querySelector('#calendar-section');
+    const taskTypeSection = document.querySelector('#task-type-section');
+    const calendarTabLink = document.querySelector('#tab-link-calendar');
+    const taskTypeTabLink = document.querySelector('#tab-link-task-types');
+
     // Setup function - loads when the DOM content is loaded
     const setup = () => {
       // Calendar
@@ -149,7 +152,26 @@
       calendar.render();
 
       // Event listeners
+      calendarTabLink.addEventListener('click', showCalendar);
+      taskTypeTabLink.addEventListener('click', showTaskTypes);
+    }
 
+    const showCalendar = () => {
+      if (calendarSection.classList.contains('d-none')) {
+        taskTypeSection.classList.add('d-none');
+        calendarSection.classList.remove('d-none');
+        calendarTabLink.classList.add('active');
+        taskTypeTabLink.classList.remove('active');
+      }
+    }
+
+    const showTaskTypes = () => {
+      if (taskTypeSection.classList.contains('d-none')) {
+        calendarSection.classList.add('d-none');
+        taskTypeSection.classList.remove('d-none');
+        taskTypeTabLink.classList.add('active');
+        calendarTabLink.classList.remove('active');
+      }
     }
 
     // Load setup when the DOM content is loaded
