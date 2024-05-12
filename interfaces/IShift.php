@@ -10,4 +10,6 @@ interface IShift {
   public function checkIn($shiftId);
 
   public function checkOut($shiftId);
+
+  public static function getUserDaysOff($employeeId);
 }

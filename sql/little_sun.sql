@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2024 at 09:54 PM
+-- Generation Time: May 12, 2024 at 09:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,25 +92,30 @@ INSERT INTO `schedules` (`Id`, `Title`, `Description`, `Day`) VALUES
 
 CREATE TABLE `shifts` (
   `Id` int(11) NOT NULL,
-  `StartTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `StartTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `EndTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `EmployeeId` int(11) NOT NULL,
   `TaskId` int(11) NOT NULL,
-  `LocationId` int(11) NOT NULL
+  `LocationId` int(11) NOT NULL,
+  `CheckIn` timestamp NULL DEFAULT NULL,
+  `CheckOut` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `shifts`
 --
 
-INSERT INTO `shifts` (`Id`, `StartTime`, `EndTime`, `EmployeeId`, `TaskId`, `LocationId`) VALUES
-(1, '2024-05-13 07:00:00', '2024-05-13 15:30:00', 3, 2, 1),
-(2, '2024-05-14 08:00:00', '2024-05-14 14:00:00', 6, 3, 2),
-(11, '2024-05-14 07:00:00', '2024-05-14 15:30:30', 17, 2, 2),
-(12, '2024-05-16 07:00:00', '2024-05-16 15:30:00', 20, 2, 3),
-(13, '2024-05-17 12:00:00', '2024-05-17 16:00:00', 19, 3, 3),
-(14, '2024-05-20 08:00:00', '2024-05-20 10:00:00', 16, 3, 1),
-(15, '2024-05-21 12:00:00', '2024-05-21 14:00:00', 16, 2, 1);
+INSERT INTO `shifts` (`Id`, `StartTime`, `EndTime`, `EmployeeId`, `TaskId`, `LocationId`, `CheckIn`, `CheckOut`) VALUES
+(12, '2024-05-16 07:00:00', '2024-05-16 15:30:00', 20, 2, 3, NULL, NULL),
+(13, '2024-05-17 08:30:00', '2024-05-17 16:00:00', 19, 3, 3, NULL, NULL),
+(14, '2024-05-20 08:00:00', '2024-05-20 10:00:00', 16, 3, 1, NULL, NULL),
+(15, '2024-05-21 10:00:00', '2024-05-21 14:00:00', 16, 2, 1, NULL, NULL),
+(16, '2024-05-16 08:00:00', '2024-05-16 10:00:00', 19, 2, 1, NULL, NULL),
+(17, '2024-05-12 18:30:00', '2024-05-12 21:59:00', 16, 2, 1, '2024-05-12 18:56:14', '2024-05-12 18:56:33'),
+(18, '2024-05-23 08:00:00', '2024-05-23 14:00:00', 6, 2, 1, NULL, NULL),
+(27, '2024-05-13 08:00:00', '2024-05-13 10:00:00', 16, 3, 1, NULL, NULL),
+(28, '2024-05-14 12:00:00', '2024-05-14 14:00:00', 16, 2, 1, NULL, NULL),
+(29, '2024-05-23 07:00:00', '2024-05-23 10:00:00', 20, 2, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -158,6 +163,13 @@ CREATE TABLE `timeoffrequests` (
   `StartDate` datetime DEFAULT NULL,
   `EndDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `timeoffrequests`
+--
+
+INSERT INTO `timeoffrequests` (`Id`, `UserId`, `Type`, `StartDate`, `EndDate`) VALUES
+(1, 20, 'marriage party', '2024-05-22 00:00:00', '2024-05-22 23:59:59');
 
 -- --------------------------------------------------------
 
@@ -271,7 +283,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `shiftswap`
@@ -289,7 +301,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `timeoffrequests`
 --
 ALTER TABLE `timeoffrequests`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`

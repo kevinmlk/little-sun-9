@@ -37,7 +37,6 @@
     }
   }
 
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,6 +133,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+              <!-- Login error message -->
+              <?php	if (!empty($error)): ?>
+              <div class="form-error">
+                <p>
+                  Sorry, the selected employee has a day off on that day. Select another day to plan the shift.
+                </p>
+              </div>
+              <?php endif; ?>
               <form action="./includes/add-shift.inc.php" method="post">
                 <!-- Hub Select -->
                 <div class="mb-3">
@@ -165,7 +172,7 @@
                 <!-- Start Shift -->
                 <div class="mb-3">
                   <label for="start-time" class="col-form-label">Start shift:</label>
-                  <input name="start-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
+                  <input name="start-time" id="start-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
                 </div>
                 <!-- End Shift -->
                 <div class="mb-3">
@@ -262,6 +269,21 @@
         calendarTabLink.classList.remove('active');
       }
     }
+
+    // Disable specific dates
+    var disabledDates = ['2024-05-22']; // Add your disabled dates here
+    var inputDate = document.getElementById('start-time');
+    
+    inputDate.addEventListener('input', function() {
+        var selectedDate = new Date(inputDate.value);
+        var formattedDate = selectedDate.toISOString().slice(0, 10); // Get the date in YYYY-MM-DD format
+        
+        if (disabledDates.includes(formattedDate)) {
+            inputDate.setCustomValidity('Employee has time off on this date, please select another date.');
+        } else {
+            inputDate.setCustomValidity('');
+        }
+    });
 
     // Load setup when the DOM content is loaded
     document.addEventListener('DOMContentLoaded', setup);

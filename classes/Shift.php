@@ -215,4 +215,16 @@ class Shift implements IShift {
     $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $shifts;
   }
+
+  public static function getUserDaysOff($employeeId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT * FROM timeoffrequests WHERE UserId = :employeeid;');
+    $statement->bindValue(':employeeid', $employeeId);
+    $statement->execute();
+    $daysOff = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $daysOff;
+  }
 }
