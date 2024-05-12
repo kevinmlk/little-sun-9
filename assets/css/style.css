@@ -26,11 +26,6 @@ main {
   color: var(--little-sun-gray);
 }
 
-#img-navbar {
-  width: fit-content !important;
-  border-radius: 50%;
-}
-
 .btn-primary {
   background-color: var(--little-sun-yellow);
   border: none;

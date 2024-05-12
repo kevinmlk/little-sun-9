@@ -175,7 +175,6 @@ class User implements IUser {
       session_start();
       $_SESSION['role'] = roleSetter($user['RoleId']);
       $_SESSION['name'] = $user['Firstname'];
-      $_SESSION['profile-picture'] = $user['ProfilePicture'];
       return true;
     } else {
       return false;
@@ -187,13 +186,12 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, ProfilePicture, RoleId) VALUES(:firstname, :lastname, :email, :password, :profilepicture, :role);');
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, RoleId) VALUES(:firstname, :lastname, :email, :password, :role);');
 
     // Plaats de input van de SETTERS in een variabele met GETTERS
     $firstname = $this->getFirstname();
     $lastname = $this->getLastname();
     $email = $this->getEmail();
-    $profilePicture = $this->getProfilePicture();
 
     // Hash password with bcrypt
 		$options = [
@@ -223,7 +221,6 @@ class User implements IUser {
     $statement->bindValue(':lastname', $lastname);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':password', $password);
-    $statement->bindValue(':profilepicture', $profilePicture);
     $statement->bindValue(':role', $role);
 
     $result = $statement->execute();
@@ -260,7 +257,7 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT Firstname, Lastname, Email, RoleName FROM users INNER JOIN roles ON users.RoleId = roles.Id;');
+    $statement = $conn->prepare('SELECT * FROM users;');
     $statement->execute();
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;

@@ -42,16 +42,11 @@
             <hr>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
+              <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
+              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
-            </li>
-            
             <?php endif; ?>
             <hr>
             <li class="nav-item">
@@ -83,12 +78,6 @@
 <main class="container pt-5">
     <!-- Add Hub Section -->
     <section class="mt-5">
-      <h1 class="mb-3">Hubs</h1>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Overview</h2>
-        <a href="create-hub.php" class="btn btn-primary">Add hub location</a>
-      </div>
-
       <table class="table table-striped table-hover">
         <thead>
           <tr>
@@ -98,11 +87,10 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($locations as $key => $location): ?>
-            
+          <?php foreach($locations as $key => $l): ?>
             <tr>
-              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $location['Hubname']; ?></a></th>
-              <td><?php echo $location['Hublocation']; ?></td>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $l['Hubname']; ?></th>
+              <td><?php echo $l['Hublocation']; ?></td>
               <td>Manager</td>
             </tr>
           <?php endforeach; ?>

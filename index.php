@@ -33,23 +33,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <?php if (!empty($_SESSION['profile-picture'])): ?>
-          <img src="./images/profile/<?php echo $_SESSION['profile-picture']; ?>" id="img-navbar" class="h-50" alt="<?php echo $_SESSION['name']; ?> profile picture">
-          <?php endif; ?>
+          <img src="" class="rounded mx-auto d-block" alt="...">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
+              <a class="nav-link" href="create-user.php">Users Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="hubs.php">Hub Overview</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
             </li>
             <hr>
             <?php endif; ?>
