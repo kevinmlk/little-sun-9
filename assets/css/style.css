@@ -27,7 +27,8 @@ main {
 }
 
 #img-navbar {
-  width: fit-content !important;
+  max-width: 450px !important;
+  height: 400px !important;
   border-radius: 50%;
 }
 

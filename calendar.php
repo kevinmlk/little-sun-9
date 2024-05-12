@@ -57,7 +57,7 @@
               <a class="nav-link" href="#">Calendar</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Time Tracker</a>
+              <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
             <hr>
             <li class="nav-item">

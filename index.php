@@ -61,7 +61,7 @@
               <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Time Tracker</a>
+              <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
             <hr>
             <li class="nav-item">
@@ -91,6 +91,8 @@
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
-  <script src="./assets/js/app.js"></script>
+  <script>
+    
+  </script>
 </body>
 </html>

@@ -13,6 +13,8 @@ class Shift implements IShift {
   private $employee;
   private $task;
   private $location;
+  private $checkIn;
+  private $CheckOut;
 
   /**
    * Get the value of startTime
@@ -104,6 +106,42 @@ class Shift implements IShift {
     return $this;
   }
 
+  /**
+   * Get the value of checkIn
+   */
+  public function getCheckIn()
+  {
+    return $this->checkIn;
+  }
+
+  /**
+   * Set the value of checkIn
+   */
+  public function setCheckIn($checkIn): self
+  {
+    $this->checkIn = $checkIn;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of CheckOut
+   */
+  public function getCheckOut()
+  {
+    return $this->CheckOut;
+  }
+
+  /**
+   * Set the value of CheckOut
+   */
+  public function setCheckOut($CheckOut): self
+  {
+    $this->CheckOut = $CheckOut;
+
+    return $this;
+  }
+
   public function addShift() {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
@@ -116,6 +154,38 @@ class Shift implements IShift {
     $statement->bindValue(':taskid', $this->getTask());
     $statement->bindValue(':starttime', $this->getStartTime());
     $statement->bindValue(':endtime', $this->getEndTime());
+
+    // Execute the query
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function checkIn($shiftId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE shifts SET CheckIn = :checkin WHERE Id = :shiftid;');
+
+    // Bind query values
+    $statement->bindValue(':checkin', $this->getCheckIn());
+    $statement->bindValue(':shiftid', $shiftId);
+
+    // Execute the query
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function checkOut($shiftId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE shifts SET CheckOut = :checkout WHERE Id = :shiftid;');
+
+    // Bind query values
+    $statement->bindValue(':checkout', $this->getCheckOut());
+    $statement->bindValue(':shiftid', $shiftId);
 
     // Execute the query
     $result = $statement->execute();
@@ -139,7 +209,7 @@ class Shift implements IShift {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT Taskname, StartTime, EndTime FROM shifts INNER JOIN tasks ON shifts.TaskId = tasks.Id WHERE EmployeeId = :employeeId;');
+    $statement = $conn->prepare('SELECT shifts.Id, Taskname, StartTime, EndTime, CheckIn, CheckOut FROM shifts INNER JOIN tasks ON shifts.TaskId = tasks.Id WHERE EmployeeId = :employeeId;');
     $statement->bindValue(':employeeId', $userId);
     $statement->execute();
     $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
