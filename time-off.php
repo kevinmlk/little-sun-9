@@ -4,10 +4,10 @@ include_once(__DIR__ . '/classes/PTO.php');
 
 session_start();
 
-if (!isset($_SESSION['role']) || !isset($_SESSION['id'])) {
-    header("Location: index.php");
-    exit;
-}
+// if (!isset($_SESSION['role']) || !isset($_SESSION['id'])) {
+//     header("Location: index.php");
+//     exit;
+// }
 
 // Debugging session variables
 echo '<pre>';
