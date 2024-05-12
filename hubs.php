@@ -8,8 +8,19 @@
     header('Location: login.php');
   }
 
-  // Toon alle gebruikers
+  // Show all users
   $locations = Location::getAllHubs();
+
+  // Array to store rows with ManagerId 3
+  $managerHubs = [];
+
+  // Loop through the array and store rows where ManagerId is 3
+  foreach ($locations as $l) {
+    if ($l['ManagerId'] === $_SESSION['id']) {
+        $managerHubs[] = $l;
+    }
+  }
+  
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,12 +51,15 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="create-user.php">Users Overview</a>
+              <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="create-hub.php">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
             <?php endif; ?>
             <hr>
@@ -74,10 +88,57 @@
     </div>
   </nav>
 
-<!-- Main Content -->
-<main class="container pt-5">
-    <!-- Add Hub Section -->
+  <!-- Main Content -->
+  <main class="container pt-5">
+    <!-- All Hubs Section -->
     <section class="mt-5">
+      <h1 class="mb-3">Hubs</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>All hubs overview</h2>
+        <?php if ($_SESSION['role'] === 'Admin'): ?>
+        <a href="create-hub.php" class="btn btn-primary">Add hub location</a>
+        <?php endif; ?>
+      </div>
+
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Hub name</strong></th>
+            <th scope="col"><strong>Location</strong></th>
+            <th scope="col"><strong>Manager</strong></th>
+          </tr>
+        </thead>
+        <!-- Show when admin -->
+        <?php if ($_SESSION['role'] === 'Admin'): ?>
+        <tbody>
+          <?php foreach($locations as $key => $location): ?>
+            <tr>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $location['Hubname']; ?></a></th>
+              <td><?php echo $location['Hublocation']; ?></td>
+              <td><?php echo $location['Firstname'] . ' ' . $location['Lastname'];?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+        <?php endif; ?>
+        <!-- Show when not admin -->
+        <?php if ($_SESSION['role'] !== 'Admin'): ?>
+        <tbody>
+          <?php foreach($locations as $location): ?>
+            <tr>
+              <th scope="row"><?php echo $location['Hubname']; ?></th>
+              <td><?php echo $location['Hublocation']; ?></td>
+              <td><?php echo $location['Firstname'] . ' ' . $location['Lastname'];?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+        <?php endif; ?>
+      </table>
+    </section>
+    
+    <!-- My Hubs Section -->
+    <?php if (!empty($managerHubs)): ?>
+    <section class="mt-5">
+      <h2 class="mb-3">My Hubs</h2>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
@@ -87,16 +148,17 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($locations as $key => $l): ?>
+          <?php foreach($managerHubs as $h): ?>
             <tr>
-              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $l['Hubname']; ?></th>
-              <td><?php echo $l['Hublocation']; ?></td>
-              <td>Manager</td>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $h['Id']; ?>"><?php echo $h['Hubname']; ?></a></th>
+              <td><?php echo $h['Hublocation']; ?></td>
+              <td><?php echo $h['Firstname'] . ' ' . $h['Lastname'];?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
     </section>
+    <?php endif; ?>
   </main>
   
   <!-- Links JS -->

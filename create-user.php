@@ -1,17 +1,14 @@
 <?php
   include_once(__DIR__ . '/bootstrap.php');
 
-
   session_start();
 
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Manager') {
     // Redirect user to login page or show an error message
     header("Location: index.php");
     exit;
   }
 
-  // Toon alle gebruikers
-  $users = User::getAllUsers();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +39,7 @@
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="create-user.php">Users Overview</a>
             </li>
@@ -78,11 +75,17 @@
 
   <!-- Start Main Content -->
   <main class="container d-flex justify-content-between align-items-center mt-5 pt-5">
-    <section class="col-4">
+    <section class="col-4 pt-5">
       <div class="card p-4 mb-3">
         <h1 class="card-title">Create User</h1>
+        <!-- Error message -->
+        <?php if (isset($error)): ?>
+        <div>
+          <p><?php echo $error; ?></p>
+        </div>
+        <?php endif; ?>
         <!-- Add User Form -->
-        <form action="./includes/create-user.inc.php" method="post" class="login-form">
+        <form action="./includes/create-user.inc.php" method="post" class="login-form" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="firstname" class="form-label">Firstname</label>
             <input class="form-control form-control-lg" type="text" name="firstname" placeholder="Firstname">
@@ -114,55 +117,12 @@
           <!-- Profile Picture Input -->
           <div class="input-group mb-3">
             <label name="profile-picture" class="input-group-text" for="inputGroupFile01">Upload</label>
-            <input type="file" class="form-control form-control-lg" name="profile-picture" id="inputGroupFile01">
+            <input type="file" class="form-control form-control-lg" name="profile-picture-input" id="inputGroupFile01">
           </div>
 
           <!-- Submit Button -->
           <div class="d-grid">
             <input type="submit" value="Add user" class="btn btn-primary">
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- Users Overview Section -->
-    <section>
-      <div class="card p-4">
-        <h1 class="card-title mb-3">All Users</h1>
-        <!-- Users Overview Form -->
-        <div class="card" style="width: 18rem;">
-          <ul class="list-group list-group-flush">
-            <?php foreach ($users as $user): ?>
-            <li class="list-group-item"><?php echo $user['Firstname']; ?></li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Edit User Password Section -->
-    <section>
-      <div class="card p-4 mb-3">
-        <h1 class="card-title">Edit User Password</h1>
-        <!-- Edit Hub Form -->
-        <form action="./includes/edit-user.inc.php" method="post">
-          <!-- Hub Locations Selection -->
-          <div class="mb-3">
-            <label for="user-select" class="form-label">Choose User</label>
-            <select name="user-select" class="form-select form-control-lg" aria-label="Default select example">
-              <?php foreach ($users as $user): ?>
-              <option value="<?php echo $user['Firstname']; ?>"><?php echo $user['Firstname']; ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <!-- Hub Name Input -->
-          <div class="mb-3">
-            <label for="new-password" class="form-label">New Password</label>
-            <input class="form-control form-control-lg" type="password" name="new-password" placeholder="New Password" required>
-          </div>
-          <!-- Submit Button -->
-          <div class="d-grid">
-            <input type="submit" value="Edit password" class="btn btn-primary">
           </div>
         </form>
       </div>

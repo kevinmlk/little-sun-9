@@ -7,6 +7,9 @@
     header('Location: login.php');
   }
 
+  // Shifts
+  $shifts = Shift::getAllShifts();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +18,7 @@
   <!-- Links CSS -->
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Title -->
   <title>Little Sun</title>
@@ -33,23 +37,28 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <img src="" class="rounded mx-auto d-block" alt="...">
+          <?php if (!empty($_SESSION['profile-picture'])): ?>
+          <img src="./images/profile/<?php echo $_SESSION['profile-picture']; ?>" id="img-navbar" class="h-50" alt="<?php echo $_SESSION['name']; ?> profile picture">
+          <?php endif; ?>
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
             </li>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="create-user.php">Users Overview</a>
+              <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="hubs.php">Hub Overview</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tasks.php">Task Overview</a>
+            </li>
             <hr>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Calendar</a>
+              <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Time Tracker</a>
@@ -78,10 +87,10 @@
   <main class="container mt-5 pt-5">
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
     <h2>Dashboard</h2>
-    
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="./assets/js/app.js" ></script>
+  <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
+  <script src="./assets/js/app.js"></script>
 </body>
 </html>

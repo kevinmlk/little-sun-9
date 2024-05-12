@@ -26,7 +26,12 @@ main {
   color: var(--little-sun-gray);
 }
 
-.btn-primary {
+#img-navbar {
+  width: fit-content !important;
+  border-radius: 50%;
+}
+
+.btn.btn-primary, .fc-myCustomButton-button.fc-button {
   background-color: var(--little-sun-yellow);
   border: none;
   color: var(--little-sun-black);

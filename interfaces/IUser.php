@@ -11,4 +11,6 @@ interface IUser {
 
   // Function to get all users
   public static function getAllUsers();
+
+  public static function getLastAddedUser();
 }
