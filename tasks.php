@@ -144,12 +144,25 @@
               <form action="./includes/add-shift.inc.php" method="post">
                 <!-- Hub Select -->
                 <div class="mb-3">
+                  <!-- Manager hub view -->
+                  <?php if ($_SESSION['role'] === 'Manager'): ?>
                   <label for="hub-select" class="col-form-label">Choose hub:</label>
                   <select name="hub-select" class="form-select" aria-label="Hub select" required>
                     <?php foreach($managerHubs as $h): ?>
                       <option value="<?php echo $h['Id']; ?>"><?php echo $h['Hubname'];?> (<?php echo $h['Hublocation']; ?>)</option>
                     <?php endforeach; ?>
                   </select>
+                  <?php endif; ?>
+
+                  <!-- Admin hub view -->
+                  <?php if ($_SESSION['role'] === 'Admin'): ?>
+                  <label for="hub-select" class="col-form-label">Choose hub:</label>
+                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
+                    <?php foreach($locations as $l): ?>
+                      <option value="<?php echo $l['Id']; ?>"><?php echo $l['Hubname'];?> (<?php echo $l['Hublocation']; ?>)</option>
+                    <?php endforeach; ?>
+                  </select> 
+                  <?php endif; ?>
                 </div>
                 <!-- Employee Select -->
                 <div class="mb-3">
@@ -271,7 +284,7 @@
     }
 
     // Disable specific dates
-    var disabledDates = ['2024-05-22']; // Add your disabled dates here
+    var disabledDates = ['2024-05-21']; // Add your disabled dates here
     var inputDate = document.getElementById('start-time');
     
     inputDate.addEventListener('input', function() {
