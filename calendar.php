@@ -38,9 +38,8 @@
           <?php endif; ?>
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
+              <a class="nav-link" href="index.php">Dashboard</a>
             </li>
-            <hr>
             <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
@@ -54,21 +53,13 @@
             <hr>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Calendar</a>
+              <a class="nav-link active" href="#" aria-current="page">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
-            <hr>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Shiftplan</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
-            </li>
-            <hr>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Working hours</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Vacation days</a>

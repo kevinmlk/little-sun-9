@@ -44,7 +44,6 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
             </li>
-            <hr>
             <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
@@ -63,16 +62,8 @@
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
-            <hr>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Shiftplan</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
-            </li>
-            <hr>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Working hours</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Vacation days</a>

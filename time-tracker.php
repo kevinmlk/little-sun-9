@@ -23,6 +23,9 @@
     }
   }
 
+  // Get the total number of absents
+  $absents = Shift::getUserAbsents($_SESSION['id']);
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,9 +94,17 @@
 
   <!-- Main Content -->
   <main class="container pt-5">
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+        <a id="tab-link-shifts" class="nav-link active" href="#">Shifts</a>
+      </li>
+      <li class="nav-item">
+        <a id="tab-link-absents" class="nav-link" href="#">Absent</a>
+      </li>
+    </ul>
 
     <!-- Calendar Section -->
-    <section id="calendar-section" class="mt-5">
+    <section id="shifts-section" class="mt-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Shifts overview</h2>
         <!-- Button trigger modal -->
@@ -193,7 +204,33 @@
         </div>
       </div>
 
+      <!-- Calendar -->
       <div id="calendar"></div>
+    </section>
+
+    <!-- Absents section -->
+    <section id="absents-section" class="mt-5 d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Absents</h2>
+        <a href="create-task.php" class="btn btn-primary">Add a absent for today</a>
+      </div>
+
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Id</strong></th>
+            <th scope="col"><strong>Task type name</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($tasks as $key => $task): ?>
+            <tr>
+              <th scope="row"><?php echo $task['Id']; ?></th>
+              <td><?php echo $task['Taskname']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </section>
   </main>
   <!-- Links JS -->
@@ -201,6 +238,12 @@
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
   <script>
     'use strict';
+
+    // Global variables
+    const shiftsSection = document.querySelector('#shifts-section');
+    const absentsSection = document.querySelector('#absents-section');
+    const shiftsTabLink = document.querySelector('#tab-link-shifts');
+    const absentsTabLink = document.querySelector('#tab-link-absents');
 
     // Setup function - loads when the DOM content is loaded
     const setup = () => {
@@ -220,8 +263,26 @@
       calendar.render();
 
       // Event listeners
-      calendarTabLink.addEventListener('click', showCalendar);
-      taskTypeTabLink.addEventListener('click', showTaskTypes);
+      shiftsTabLink.addEventListener('click', showShifts);
+      absentsTabLink.addEventListener('click', showAbsents);
+    }
+
+    const showShifts = () => {
+      if (shiftsSection.classList.contains('d-none')) {
+        absentsSection.classList.add('d-none');
+        shiftsSection.classList.remove('d-none');
+        shiftsTabLink.classList.add('active');
+        absentsTabLink.classList.remove('active');
+      }
+    }
+
+    const showAbsents = () => {
+      if (absentsSection.classList.contains('d-none')) {
+        shiftsSection.classList.add('d-none');
+        absentsSection.classList.remove('d-none');
+        absentsTabLink.classList.add('active');
+        shiftsTabLink.classList.remove('active');
+      }
     }
 
     // Load setup when the DOM content is loaded
