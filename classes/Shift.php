@@ -192,6 +192,22 @@ class Shift implements IShift {
     return $result;
   }
 
+  public function addAbsent($employeeId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('INSERT INTO absents (Type, ShiftId) VALUES (:type, :shiftid);');
+
+    // Bind query values
+    $statement->bindValue(':type', $this->getType());
+    $statement->bindValue(':shiftid', $this->getShiftId());
+
+    // Execute the query
+    $result = $statement->execute();
+    return $result;
+  }
+
   public static function getAllShifts() {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
@@ -226,5 +242,14 @@ class Shift implements IShift {
     $statement->execute();
     $daysOff = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $daysOff;
+  }
+
+  // Function to get all absents of a specific user
+  public static function getUserAbsents($employeeId) {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT StartTime, EndTime, Taskname, Hubname, Hublocation FROM absents WHERE ');
   }
 }

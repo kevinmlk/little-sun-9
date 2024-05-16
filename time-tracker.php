@@ -212,7 +212,7 @@
     <section id="absents-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Absents</h2>
-        <a href="create-task.php" class="btn btn-primary">Add a absent for today</a>
+        <a href="create-task.php" class="btn btn-primary">Add absent for shift</a>
       </div>
 
       <table class="table table-striped table-hover">
@@ -223,10 +223,10 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($tasks as $key => $task): ?>
+          <?php foreach($absents as $a): ?>
             <tr>
-              <th scope="row"><?php echo $task['Id']; ?></th>
-              <td><?php echo $task['Taskname']; ?></td>
+              <th scope="row"><?php echo $a['Id']; ?></th>
+              <td><?php echo $a['Taskname']; ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

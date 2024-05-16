@@ -250,9 +250,10 @@
 
       let calendar = new FullCalendar.Calendar(calendarEl, {
         themeSystem: 'bootstrap5',
-        initialView: 'listWeek',
+        initialView: 'dayGridMonth',
         headerToolbar: {
           left: 'title',
+          center: 'timeGridDay,timeGridWeek,dayGridMonth',
           right: 'today prev,next',
         },
         events: 'includes/get-all-shifts.inc.php',
