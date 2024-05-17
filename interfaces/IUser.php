@@ -11,6 +11,8 @@ interface IUser {
 
   public function editUserPassword();
 
+  public function resetPassword();
+
   // Function to get all users
   public static function getAllUsers();
 

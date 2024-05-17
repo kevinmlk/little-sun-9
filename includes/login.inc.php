@@ -15,5 +15,6 @@
 			header('Location: ../index.php');
     } else {
       $error = true;
+      header('Location: ../index.php');
     }
   }

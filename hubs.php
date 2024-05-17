@@ -22,8 +22,6 @@
     }
   }
 
-  print_r($locations);
-
   // Array to store rows with ManagerId 3
   $managerHubs = [];
 
@@ -169,7 +167,10 @@
     <section id="managers-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Managers</h2>
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createManagerModal"><i class="bi bi-person-add me-2"></i>Create manager</button>
+        <div class="d-flex gap-4">
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createManagerModal"><i class="bi bi-person-add me-2"></i>Create manager</button>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#resetPasswordModal"><i class="bi bi-pencil-square me-2"></i>Reset password</button>
+        </div>
       </div>
 
       <table class="table table-striped table-hover">
@@ -247,6 +248,41 @@
           </div>
         </div>
       </div>
+
+      <!-- resetPasswordModal -->
+      <div class="modal fade" id="resetPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="restPasswordModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Reset password</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="./includes/reset-password.inc.php" method="post">
+                <!-- Manager Hub Select -->
+                <div class="mb-3">
+                  <label for="manager-select" class="col-form-label">Choose manager:</label>
+                  <select name="manager-select" class="form-select form-select-lg" aria-label="Manager select" required>
+                    <?php foreach($managers as $m): ?>
+                      <option value="<?php echo $m['Id']; ?>"><?php echo $m['Firstname'];?> <?php echo $m['Lastname']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Manager Password Input -->
+                <div class="mb-3">
+                  <label for="new-password" class="form-label">New password:</label>
+                  <input class="form-control form-control-lg" type="password" name="new-password" placeholder="Password" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Reset password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     
     <!-- My Hubs Section -->
@@ -313,7 +349,6 @@
 
     // Load setup when the DOM content is loaded
     document.addEventListener('DOMContentLoaded', setup);
-
   </script>
 </body>
 </html>

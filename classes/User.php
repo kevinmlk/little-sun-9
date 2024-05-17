@@ -7,6 +7,7 @@ include_once(__DIR__ . '/Db.php');
 class User implements IUser {
 
   // Properties
+  private $id;
   private $firstname;
   private $lastname;
   private $email;
@@ -16,6 +17,26 @@ class User implements IUser {
   private $role;
   private $task;
   private $location;
+
+  
+
+  /**
+   * Get the value of id
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Set the value of id
+   */
+  public function setId($id): self
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get the value of firstname
@@ -324,6 +345,30 @@ class User implements IUser {
     $result = $statement->execute();
 
     return $result;  
+  }
+
+  public function resetPassword() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET Password = :newpassword WHERE Id = :id;');
+
+    $id = $this->getId();
+
+    // Hash password with bcrypt
+    $options = [
+      'cost' => 15,
+    ];
+
+    $newPassword = password_hash($this->getNewPassword(), PASSWORD_DEFAULT, $options);
+
+    $statement->bindValue(':newpassword', $newPassword);
+    $statement->bindValue(':id', $id);
+
+    $result = $statement->execute();
+
+    return $result;
   }
 
   public static function getAllUsers() {
