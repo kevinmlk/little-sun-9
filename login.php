@@ -6,20 +6,6 @@
   if (isset($_SESSION['loggedin'])) {
     header('Location: index.php');
   }
-  // Check if theres a login attempt
-  if (!empty($_POST)) {
-    $user = new User();
-    $user->setEmail($_POST['email']);
-    $user->setPassword($_POST['password']);
-
-    if ($user->loginUser()) {
-      session_start();
-      $_SESSION['loggedin'] = true;
-			header('Location: index.php');
-    } else {
-      $error = true;
-    }
-  }
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +51,7 @@
         </div>
         <?php endif; ?>
         <!-- Login form -->
-        <form action="login.php" method="post">
+        <form action="includes/login.inc.php" method="post">
           <!-- Email Input -->
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
