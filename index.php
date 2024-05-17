@@ -25,7 +25,7 @@
 </head>
 <body>
   <!-- Start Navbar -->
-  <nav class="navbar bg-body-tertiary fixed-top">
+  <nav class="navbar bg-dark border-bottom border-body sticky-top mb-5" data-bs-theme="dark">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -44,15 +44,16 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
             </li>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <hr>
             <li class="nav-item">
               <a class="nav-link" href="users.php">Users Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="hubs.php">Hub Overview</a>
+              <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
+              <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
             <hr>
             <?php endif; ?>
@@ -75,7 +76,7 @@
     </div>
   </nav>
   <!-- Start main content -->
-  <main class="container mt-5 pt-5">
+  <main class="container">
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
     <h2>Dashboard</h2>
   </main>

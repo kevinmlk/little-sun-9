@@ -5,12 +5,8 @@
   --little-sun-gray: #F4F4F4;
 }
 
-main {
-  
-}
-
 /* Id's & classes */
-#login-navbar {
+#login-navbar, #main-navbar {
   background: var(--little-sun-black) !important;
 }
 
@@ -30,6 +26,10 @@ main {
   max-width: 450px !important;
   height: 400px !important;
   border-radius: 50%;
+}
+
+.bg-dark, #offcanvasNavbar {
+  background-color: var(--little-sun-black) !important;
 }
 
 .btn.btn-primary, .fc-myCustomButton-button.fc-button {

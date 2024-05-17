@@ -5,6 +5,8 @@ include_once(__DIR__ . '/../interfaces/IUser.php');
 include_once(__DIR__ . '/Db.php');
 
 class User implements IUser {
+
+  // Properties
   private $firstname;
   private $lastname;
   private $email;
@@ -12,6 +14,8 @@ class User implements IUser {
   private $newPassword;
   private $profilePicture;
   private $role;
+  private $task;
+  private $location;
 
   /**
    * Get the value of firstname
@@ -136,6 +140,42 @@ class User implements IUser {
   public function setRole($role): self
   {
     $this->role = $role;
+
+    return $this;
+  }
+  
+  /**
+   * Get the value of task
+   */
+  public function getTask()
+  {
+    return $this->task;
+  }
+
+  /**
+   * Set the value of task
+   */
+  public function setTask($task): self
+  {
+    $this->task = $task;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of location
+   */
+  public function getLocation()
+  {
+    return $this->location;
+  }
+
+  /**
+   * Set the value of location
+   */
+  public function setLocation($location): self
+  {
+    $this->location = $location;
 
     return $this;
   }
