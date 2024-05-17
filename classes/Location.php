@@ -141,7 +141,7 @@ class Location implements ILocation {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT locations.Id, Hubname, Hublocation, ManagerId, Firstname, Lastname FROM locations INNER JOIN users ON locations.ManagerId = users.Id;');
+    $statement = $conn->prepare('SELECT * FROM locations LIMIT 999999999999999999 OFFSET 1;');
     $statement->execute();
     $locations = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $locations;

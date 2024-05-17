@@ -223,6 +223,36 @@ class User implements IUser {
     }
   }
 
+  public function createManager() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, ProfilePicture, RoleId, TaskId, LocationId) VALUES(:firstname, :lastname, :email, :password, :profilepicture, :roleid, :taskid, :locationid);');
+
+    // Bind query values
+    $statement->bindValue(':firstname', $this->getFirstname());
+    $statement->bindValue(':lastname', $this->getLastname());
+    $statement->bindValue(':email', $this->getEmail());
+
+    // Hash password with bcrypt
+    $options = [
+      'cost' => 15,
+    ];
+
+    $password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
+
+    $statement->bindValue(':password', $password);
+    $statement->bindValue(':profilepicture', $this->getProfilePicture());
+    $statement->bindValue(':roleid', $this->getRole());
+    $statement->bindValue(':taskid', $this->getTask());
+    $statement->bindValue(':locationid', $this->getLocation());
+
+    // Store the results of the query execution
+    $result = $statement->execute();
+    return $result;
+  }
+
   // Create user function for admin
   public function createUser() {
     $conn = Db::getConnection();
@@ -301,7 +331,7 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, RoleName FROM users INNER JOIN roles ON users.RoleId = roles.Id;');
+    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, RoleName, Taskname, Hubname, Hublocation FROM users INNER JOIN roles ON users.RoleId = roles.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id;');
     $statement->execute();
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;

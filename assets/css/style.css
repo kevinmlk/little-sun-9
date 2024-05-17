@@ -43,6 +43,11 @@
   color: var(--little-sun-yellow);
 }
 
+.btn.btn-link {
+  color: var(--little-sun-black);
+  text-decoration: none;
+}
+
 .text-bg-dark {
   background-color: var(--little-sun-black);
 }

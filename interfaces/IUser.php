@@ -7,6 +7,8 @@ interface IUser {
   // User creation method for Admin only
   public function createUser();
 
+  public function createManager();
+
   public function editUserPassword();
 
   // Function to get all users
