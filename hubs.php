@@ -51,7 +51,7 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="profile.php"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</a>
+      <span class="navbar-brand"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</span>
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Little Sun</h5>
@@ -67,9 +67,6 @@
             </li>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <hr>
-            <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
             </li>
