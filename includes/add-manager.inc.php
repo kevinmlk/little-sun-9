@@ -29,7 +29,7 @@
     $user->setLocation($_POST['hub-select']);
 
     // Run create user method
-    $user->createManager();
+    $user->createUser();
   }
 
   // Redirect user to login page or show an error message

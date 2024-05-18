@@ -20,18 +20,18 @@
     } else {
       $error = 'There was an error uploading the file.';
       // Redirect user to login page or show an error message
-      header("Location: ../hubs.php");
+      header("Location: ../hub-details.php?id=" . $_POST['hub-input']);
       exit;
     }
 
-    $user->setRole(3);
+    $user->setRole(1);
     $user->setTask(1);
-    $user->setLocation($_POST['hub-select']);
+    $user->setLocation($_POST['hub-input']);
 
     // Run create user method
-    $user->createManager();
+    $user->createUser();
   }
 
   // Redirect user to login page or show an error message
-  header("Location: ../hubs.php");
+  header("Location: ../hub-details.php?id=" . $_POST['hub-input']);
   exit;

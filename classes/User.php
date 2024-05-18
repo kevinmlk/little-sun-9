@@ -244,7 +244,7 @@ class User implements IUser {
     }
   }
 
-  public function createManager() {
+  public function createUser() {
     // Make a Db connection
     $conn = Db::getConnection();
 
@@ -274,52 +274,18 @@ class User implements IUser {
     return $result;
   }
 
-  // Create user function for admin
-  public function createUser() {
+  public function assignTask() {
+    // Make a Db connection
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, ProfilePicture, RoleId) VALUES(:firstname, :lastname, :email, :password, :profilepicture, :role);');
+    $statement = $conn->prepare('UPDATE users SET TaskId = :taskid WHERE Id = :id;');
 
-    // Plaats de input van de SETTERS in een variabele met GETTERS
-    $firstname = $this->getFirstname();
-    $lastname = $this->getLastname();
-    $email = $this->getEmail();
-    $profilePicture = $this->getProfilePicture();
+    $statement->bindValue(':taskid', $this->getTask());
+    $statement->bindValue(':id', $this->getId());
 
-    // Hash password with bcrypt
-		$options = [
-			'cost' => 15,
-		];
-
-		$password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
-    
-    $selectedRole = $this->getRole();
-
-    function roleSetter($r) {
-      switch ($r) {
-        case 'Manager':
-           return 3;
-          break;
-        case 'Admin':
-          return 2;
-          break;
-        default:
-          return 1;
-      }
-    }
-
-    $role = roleSetter($selectedRole);
-    
-    $statement->bindValue(':firstname', $firstname);
-    $statement->bindValue(':lastname', $lastname);
-    $statement->bindValue(':email', $email);
-    $statement->bindValue(':password', $password);
-    $statement->bindValue(':profilepicture', $profilePicture);
-    $statement->bindValue(':role', $role);
-
+    // Store the results of the query execution
     $result = $statement->execute();
-    // Return result
     return $result;
   }
 
