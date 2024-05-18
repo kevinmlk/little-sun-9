@@ -5,12 +5,12 @@
   // Checks if a form has been sent
   if (!empty($_POST)) {
     $location = new Location();
-    $location->setHubName($_POST['hub-overview']);
+    $location->setId($_POST['hub-input']);
 
     // Run create user method
-    $location->removeHubLocation();
+    $location->deleteHub();
   }
 
-  // Redirect user to login page or show an error message
-  header("Location: ../create-hub.php");
+  // Redirect user to hubs overview page
+  header("Location: ../hubs.php");
   exit;

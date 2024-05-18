@@ -5,10 +5,31 @@ include_once(__DIR__ . '/../interfaces/ILocation.php');
 include_once(__DIR__ . '/Db.php');
 
 class Location implements ILocation {
+
+  private $id;
   private $hubName;
   private $hubLocation;
   private $newHubName;
   private $newHubLocation;
+
+
+  /**
+   * Get the value of id
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Set the value of id
+   */
+  public function setId($id): self
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get the value of newHubName
@@ -105,13 +126,13 @@ class Location implements ILocation {
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('UPDATE locations SET Hubname = :newhubname, Hublocation = :newhublocation WHERE Hubname = :oldhubname;');
+    $statement = $conn->prepare('UPDATE locations SET Hubname = :newhubname, Hublocation = :newhublocation WHERE Id = :id;');
 
-    $oldHubName = $this->getHubName();
+    $id = $this->getId();
     $newHubName = $this->getNewHubName();
     $newHubLocation = $this->getNewHubLocation();
 
-    $statement->bindValue(':oldhubname', $oldHubName);
+    $statement->bindValue(':id', $id);
     $statement->bindValue(':newhubname', $newHubName);
     $statement->bindValue(':newhublocation', $newHubLocation);
 
@@ -120,16 +141,16 @@ class Location implements ILocation {
     return $result;    
   }
 
-  public function removeHubLocation() {
+  public function deleteHub() {
     // Make a Db connection
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('DELETE FROM locations WHERE Hubname = :hubname');
+    $statement = $conn->prepare('DELETE FROM locations WHERE Id = :id;');
 
-    $hubName = $this->getHubName();
+    $id = $this->getId();
 
-    $statement->bindValue(':hubname', $hubName);
+    $statement->bindValue(':id', $id);
 
     $result = $statement->execute();
 

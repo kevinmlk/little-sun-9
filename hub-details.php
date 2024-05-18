@@ -298,20 +298,22 @@
           <tr>
             <th scope="col"><strong>Name</strong></th>
             <th scope="col"><strong>Location</strong></th>
+            <?php if (!empty($hubManager)): ?>
             <th scope="col"><strong>Manager</strong></th>
+            <?php endif; ?>
             <th scope="col"><strong>Employees</strong></th>
           </tr>
         </thead>
-        <?php if (!empty($hubManager)): ?>
         <tbody>
             <tr>
               <th scope="row"><?php echo $currentHub['Hubname']; ?></th>
               <td><?php echo $currentHub['Hublocation']; ?></td>
+              <?php if (!empty($hubManager)): ?>
               <td><?php echo $hubManager['Firstname']; ?> <?php echo $hubManager['Lastname']; ?></td>
+              <?php endif; ?>
               <td><?php echo count($employees); ?></td>
             </tr>
         </tbody>
-        <?php endif; ?>
       </table>
 
       <!-- editHubModal -->
@@ -326,13 +328,14 @@
               <form action="./includes/edit-hub.inc.php" method="post">
                 <!-- Hub Name Input -->
                 <div class="mb-3">
-                  <label for="hub-name" class="form-label">Hub name:</label>
-                  <input type="text" name="hub-name" class="form-control form-control-lg" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
+                  <label for="new-hub-name" class="form-label">Hub name:</label>
+                  <input type="text" name="new-hub-name" class="form-control form-control-lg" placeholder="<?php echo $currentHub['Hubname']; ?>" required>
+                  <input type="text" name="hub-input" class="form-control form-control-lg d-none" value="<?php echo $currentHub['Id']; ?>">
                 </div>
                 <!-- Hub Location Input -->
                 <div class="mb-3">
-                  <label for="hub-location" class="form-label">Hub location:</label>
-                  <input type="text" name="hub-location" class="form-control form-control-lg" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
+                  <label for="new-hub-location" class="form-label">Hub location:</label>
+                  <input type="text" name="new-hub-location" class="form-control form-control-lg" placeholder="<?php echo $currentHub['Hublocation']; ?>" required>
                 </div>
                 <!-- Submit Button -->
                 <div class="modal-footer">

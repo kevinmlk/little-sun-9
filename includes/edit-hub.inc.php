@@ -6,7 +6,7 @@
   if (!empty($_POST)) {
     $location = new Location();
     // Old hub name
-    $location->setHubName($_POST['hub-select']);
+    $location->setId($_POST['hub-input']);
     // New hub name & location
     $location->setNewHubName($_POST['new-hub-name']);
     $location->setNewHubLocation($_POST['new-hub-location']);
@@ -15,6 +15,6 @@
     $location->editHubLocation();
   }
 
-  // Redirect user to login page or show an error message
-  header("Location: ../create-hub.php");
+  // Redirect user to hub details page
+  header("Location: ../hub-details.php?id=" . $_POST['hub-input']);
   exit;
