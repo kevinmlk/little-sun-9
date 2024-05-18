@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <title>Create Hub Locations | Little Sun Shiftplanner</title>
+  <title>Hubs overview | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -123,10 +123,10 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($locations as $key => $location): ?>
+          <?php foreach($locations as $l): ?>
             <tr>
-              <th scope="row"><a href="hub-details.php?id=<?php echo $key; ?>"><?php echo $location['Hubname']; ?></a></th>
-              <td><?php echo $location['Hublocation']; ?></td>
+              <th scope="row"><a href="hub-details.php?id=<?php echo $l['Id']; ?>"><?php echo $l['Hubname']; ?></a></th>
+              <td><?php echo $l['Hublocation']; ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

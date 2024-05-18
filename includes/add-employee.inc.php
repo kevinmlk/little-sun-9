@@ -20,26 +20,18 @@
     } else {
       $error = 'There was an error uploading the file.';
       // Redirect user to login page or show an error message
-      header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit;
+      header("Location: ../hubs.php");
+      exit;
     }
 
-    $user->setRole($_POST['role']);
+    $user->setRole(3);
+    $user->setTask(1);
+    $user->setLocation($_POST['hub-select']);
 
     // Run create user method
-    if ($user->createUser()) {
-      // Get the newly created employee back
-      $newEmployee = User::getLastAddedUser();
-    
-      $shift = new Shift();
-      $shift->setEmployee($newEmployee['Id']);
-      $shift->setTask(1);
-      $shift->setLocation($_POST['location']);
-      $shift->addShift();
-    }
-
+    $user->createManager();
   }
 
   // Redirect user to login page or show an error message
-  header('Location: ' . $_SERVER['HTTP_REFERER']);
+  header("Location: ../hubs.php");
   exit;

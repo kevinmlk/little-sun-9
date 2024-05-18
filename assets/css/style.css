@@ -5,6 +5,10 @@
   --little-sun-gray: #F4F4F4;
 }
 
+a {
+  color: var(--little-sun-black);
+}
+
 /* Id's & classes */
 #login-navbar, #main-navbar {
   background: var(--little-sun-black) !important;
