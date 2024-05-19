@@ -104,6 +104,13 @@
             </li>
             <hr>
             <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Manager'): ?>
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Hub Overview</a>
+            </li>
+            <hr>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
@@ -127,7 +134,9 @@
   <main class="container d-flex flex-column">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h1><?php echo $currentHub['Hubname']; ?> information</h1>
+      <?php if ($_SESSION['role'] === 'Admin'): ?>
       <a href="hubs.php" class="btn btn-primary">Back to overview</a>
+      <?php endif; ?>
     </div>
 
     <ul class="nav nav-tabs mt-5">
@@ -273,7 +282,7 @@
                 <!-- Submit Button -->
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Add new employee</button>
+                  <button type="submit" class="btn btn-primary">Assign task</button>
                 </div>
               </form>
             </div>
@@ -286,10 +295,12 @@
     <section id="hub-settings-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Hub settings</h2>
+        <?php if ($_SESSION['role'] === 'Admin'): ?>
         <div class="d-flex gap-4">
           <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editHubModal"><i class="bi bi-pencil-square me-2"></i>Edit hub</button>
           <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteHubModal"><i class="bi bi-trash me-2"></i>Delete hub</button>
         </div>
+        <?php endif; ?>
       </div>        
       
       <!-- Hub Settings Table -->

@@ -7,8 +7,20 @@
     header('Location: login.php');
   }
 
-  // Shifts
-  $shifts = Shift::getAllShifts();
+  // Show all locations
+  $locations = Location::getAllHubs();
+
+  // Loop through the array
+  function filterHub($hubId, $hubs) {
+    foreach ($hubs as $h) {
+      if ($h['Id'] == $hubId) {
+          $hub = $h;
+          return $hub;
+      }
+    }
+  }
+
+  $currentHub = filterHub($_SESSION['hubId'], $locations);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -51,6 +63,13 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
+            </li>
+            <hr>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Manager'): ?>
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
             <hr>
             <?php endif; ?>

@@ -237,7 +237,8 @@ class User implements IUser {
       $_SESSION['id'] = $user['Id'];
       $_SESSION['role'] = roleSetter($user['RoleId']);
       $_SESSION['name'] = $user['Firstname'];
-      $_SESSION['profile-picture'] = $user['ProfilePicture'];
+      $_SESSION['profilePicture'] = $user['ProfilePicture'];
+      $_SESSION['hubId'] = $user['LocationId'];
       return true;
     } else {
       return false;
