@@ -17,5 +17,7 @@
     ];
   }
 
+  // print_r($shifts);
+
   echo json_encode($data);
   

@@ -78,9 +78,21 @@
 
   <!-- Start main content -->
   <main class="container mt-5">
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+        <a id="tab-link-calendar" class="nav-link active" href="#">Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a id="tab-link-task-types" class="nav-link" href="#">Shifts</a>
+      </li>
+    </ul>
+
     <!-- Calendar Section -->
-    <div id="calendar">
-    </div>
+    <section class="mt-5">
+      <div id="calendar">
+      </div>
+
+    </section>
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
@@ -99,11 +111,11 @@
         themeSystem: 'bootstrap5',
         initialView: 'dayGridMonth',
         headerToolbar: {
-          left: 'title',
-          center: 'timeGridDay,timeGridWeek,dayGridMonth',
-          right: 'today prev,next'
+          left: 'prev,next today',
+          center: 'title',
+          right: 'listWeek,timeGridDay,timeGridWeek,dayGridMonth'
         },
-        events: 'includes/get-user-shifts.inc.php',
+        events: 'includes/get-all-shifts.inc.php',
       });
 
       calendar.render();
