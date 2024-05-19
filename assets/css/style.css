@@ -32,6 +32,11 @@ a {
   border-radius: 50%;
 }
 
+.badge.rounded-pill.text-bg-warning {
+  background-color: var(--little-sun-yellow) !important;
+  color: var(--little-sun-black) !important;
+}
+
 .bg-dark, #offcanvasNavbar {
   background-color: var(--little-sun-black) !important;
 }
