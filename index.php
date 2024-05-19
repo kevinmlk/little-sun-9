@@ -46,6 +46,9 @@
             <li class="nav-item">
               <a class="nav-link" href="create-hub.php">Hub Overview</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="rapport.php">Absence rapport</a>
+            </li>
             <hr>
             <?php endif; ?>
             <li class="nav-item">
