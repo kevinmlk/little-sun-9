@@ -21,7 +21,7 @@
 </head>
 <body>
   <!-- Start Navbar -->
-  <nav class="navbar bg-body-tertiary fixed-top">
+  <nav class="navbar bg-dark border-bottom border-body sticky-top mb-5" data-bs-theme="dark">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,20 +40,25 @@
             <li class="nav-item">
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
+            <hr>
             <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
+              <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="hubs.php">Hub Overview</a>
+              <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
+            <hr>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Manager'): ?>
+            <hr>
             <li class="nav-item">
-              <a class="nav-link" href="tasks.php">Task Overview</a>
+              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
             <hr>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link active" href="#" aria-current="page">Calendar</a>
+              <a class="nav-link active" aria-current="page" href="#">Calendar</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
@@ -70,10 +75,9 @@
       </div>
     </div>
   </nav>
-  <!-- Start main content -->
-  <main class="container mt-5 pt-5">
-    <h2><?php echo $_SESSION['name']; ?>'s calendar</h2>
 
+  <!-- Start main content -->
+  <main class="container mt-5">
     <!-- Calendar Section -->
     <div id="calendar">
     </div>
@@ -81,6 +85,33 @@
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
-  <script src="./assets/js/app.js"></script>
+  <script>
+    'use strict';
+
+    // Global variables
+
+    // Setup function - loads when the DOM content is loaded
+    const setup = () => {
+      // Calendar
+      const calendarEl = document.querySelector('#calendar');
+
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap5',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'title',
+          center: 'timeGridDay,timeGridWeek,dayGridMonth',
+          right: 'today prev,next'
+        },
+        events: 'includes/get-user-shifts.inc.php',
+      });
+
+      calendar.render();
+    }
+
+    // Load setup when the DOM content is loaded
+    document.addEventListener('DOMContentLoaded', setup);
+
+  </script>
 </body>
 </html>
