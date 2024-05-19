@@ -82,18 +82,100 @@
   <main class="container mt-5">
     <ul class="nav nav-tabs mt-5">
       <li class="nav-item">
-        <a id="tab-link-calendar" class="nav-link active" href="#">Calendar</a>
+        <a id="tab-link-calendar" class="nav-link active" href="#calendar-section">Calendar</a>
       </li>
       <li class="nav-item">
-        <a id="tab-link-task-types" class="nav-link" href="#">Shifts</a>
+        <a id="tab-link-shifts" class="nav-link" href="#shifts-section">Shifts</a>
       </li>
     </ul>
 
     <!-- Calendar Section -->
-    <section class="mt-5">
+    <section id="calendar-section" class="mt-5">
       <div id="calendar">
       </div>
 
+    </section>
+
+    <!-- Shifts section -->
+    <section id="shifts-section" class="mt-5 d-none">
+      <div id="calendar-list"></div>
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Add shift</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Login error message -->
+              <?php	if (!empty($error)): ?>
+              <div class="form-error">
+                <p>
+                  Sorry, the selected employee has a day off on that day. Select another day to plan the shift.
+                </p>
+              </div>
+              <?php endif; ?>
+              <form action="./includes/add-shift.inc.php" method="post">
+                <!-- Hub Select -->
+                <div class="mb-3">
+                  <!-- Manager hub view -->
+                  <?php if ($_SESSION['role'] === 'Manager'): ?>
+                  <label for="hub-select" class="col-form-label">Choose hub:</label>
+                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
+                    <?php foreach($managerHubs as $h): ?>
+                      <option value="<?php echo $h['Id']; ?>"><?php echo $h['Hubname'];?> (<?php echo $h['Hublocation']; ?>)</option>
+                    <?php endforeach; ?>
+                  </select>
+                  <?php endif; ?>
+
+                  <!-- Admin hub view -->
+                  <?php if ($_SESSION['role'] === 'Admin'): ?>
+                  <label for="hub-select" class="col-form-label">Choose hub:</label>
+                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
+                    <?php foreach($locations as $l): ?>
+                      <option value="<?php echo $l['Id']; ?>"><?php echo $l['Hubname'];?> (<?php echo $l['Hublocation']; ?>)</option>
+                    <?php endforeach; ?>
+                  </select> 
+                  <?php endif; ?>
+                </div>
+                <!-- Employee Select -->
+                <div class="mb-3">
+                  <label for="employee-select" class="col-form-label">Choose an employee from hub:</label>
+                  <select name="employee-select" class="form-select" aria-label="Employee select" required>
+                    <?php foreach($employees as $e): ?>
+                      <option value="<?php echo $e['Id']; ?>"><?php echo $e['Firstname'];?> <?php echo $e['Lastname']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Task -->
+                <div class="mb-3">
+                  <label for="task-select" class="col-form-label">Assign task:</label>
+                  <select name="task-select" class="form-select" aria-label="Task select" required>
+                    <?php foreach($tasks as $t): ?>
+                      <option value="<?php echo $t['Id']; ?>"><?php echo $t['Taskname'];?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Start Shift -->
+                <div class="mb-3">
+                  <label for="start-time" class="col-form-label">Start shift:</label>
+                  <input name="start-time" id="start-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
+                </div>
+                <!-- End Shift -->
+                <div class="mb-3">
+                  <label for="end-time" class="col-form-label">End shift:</label>
+                  <input name="end-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add new shift</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
   <!-- Links JS -->
@@ -103,6 +185,10 @@
     'use strict';
 
     // Global variables
+    const calendarSection = document.querySelector('#calendar-section');
+    const shiftsSection = document.querySelector('#shifts-section');
+    const calendarTabLink = document.querySelector('#tab-link-calendar');
+    const shiftsTabLink = document.querySelector('#tab-link-shifts');
 
     // Setup function - loads when the DOM content is loaded
     const setup = () => {
@@ -115,12 +201,48 @@
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'listWeek,timeGridDay,timeGridWeek,dayGridMonth'
+          right: 'timeGridDay,timeGridWeek,dayGridMonth'
         },
         events: 'includes/get-all-shifts.inc.php',
       });
+      
+      // Calendar list
+      const calendarListEl = document.querySelector('#calendar-list');
 
+      let calendarList = new FullCalendar.Calendar(calendarListEl, {
+        themeSystem: 'bootstrap5',
+        initialView: 'listWeek',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+        },
+        events: 'includes/get-all-shifts.inc.php',
+      });
+      
+      calendarList.render();
       calendar.render();
+
+      // Event listeners
+      calendarTabLink.addEventListener('click', showCalendar);
+      shiftsTabLink.addEventListener('click', showShifts);
+    }
+
+    const showCalendar = () => {
+      if (calendarSection.classList.contains('d-none')) {
+        shiftsSection.classList.add('d-none');
+        calendarSection.classList.remove('d-none');
+        calendarTabLink.classList.add('active');
+        shiftsTabLink.classList.remove('active');
+      }
+    }
+
+    const showShifts = () => {
+      if (shiftsSection.classList.contains('d-none')) {
+        calendarSection.classList.add('d-none');
+        shiftsSection.classList.remove('d-none');
+        shiftsTabLink.classList.add('active');
+        calendarTabLink.classList.remove('active');
+      }
     }
 
     // Load setup when the DOM content is loaded

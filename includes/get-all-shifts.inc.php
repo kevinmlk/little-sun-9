@@ -11,7 +11,7 @@
     $endTime = (new DateTime($s['EndTime']))->format('Y-m-d\TH:i:s');
 
     $data[] = [
-      'title' => $s['Taskname'] . ' by ' . $s['Firstname'] . ' ' . $s['Lastname'] . ' in ' . $s['Hubname'] . ' (' . $s['Hublocation'] . ')',
+      'title' => $s['Firstname'] . ' ' . $s['Lastname'],
       'start' => $startTime,
       'end' => $endTime,
     ];
@@ -20,4 +20,3 @@
   // print_r($shifts);
 
   echo json_encode($data);
-  
