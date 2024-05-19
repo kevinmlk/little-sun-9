@@ -250,11 +250,11 @@
         </thead>
         <tbody>
           <?php if (!empty($absents)): ?>
-          <?php foreach($absents as $a): ?>
+          <?php foreach($currentAbsents as $c): ?>
             <tr>
-              <th scope="row"><?php echo $a['Id']; ?></th>
-              <td><?php echo $a['Type']; ?></td>
-              <td><?php echo $a['StartTime']; ?> - <?php echo $a['EndTime']; ?></td>
+              <th scope="row"><?php echo $c['Id']; ?></th>
+              <td><?php echo $c['Type']; ?></td>
+              <td><?php echo $c['StartTime']; ?> - <?php echo $c['EndTime']; ?></td>
             </tr>
           <?php endforeach; ?>
           <?php endif; ?>
