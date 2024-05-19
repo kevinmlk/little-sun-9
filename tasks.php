@@ -4,7 +4,7 @@
 
   session_start();
 
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Manager') {
+  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
     // Redirect user to login page or show an error message
     header("Location: index.php");
     exit;
@@ -14,28 +14,28 @@
   $tasks = Task::getAllTaskTypes();
 
   // Get all hub locations from db
-  $locations = Location::getAllHubs();
+  // $locations = Location::getAllHubs();
 
   // Array to store rows with ManagerId 3
-  $managerHubs = [];
+  // $managerHubs = [];
 
-  // Loop through the array and store rows where ManagerId is 3
-  foreach ($locations as $l) {
-    if ($l['ManagerId'] === $_SESSION['id']) {
-        $managerHubs[] = $l;
-    }
-  }
+  // // Loop through the array and store rows where ManagerId is 3
+  // foreach ($locations as $l) {
+  //   if ($l['ManagerId'] === $_SESSION['id']) {
+  //       $managerHubs[] = $l;
+  //   }
+  // }
 
-  // Get all employees from db
-  $users = User::getAllUsers();
+  // // Get all employees from db
+  // $users = User::getAllUsers();
 
-  $employees = [];
+  // $employees = [];
 
-  foreach ($users as $u) {
-    if ($u['RoleName'] === 'Employee') {
-      $employees[] = $u;
-    }
-  }
+  // foreach ($users as $u) {
+  //   if ($u['RoleName'] === 'Employee') {
+  //     $employees[] = $u;
+  //   }
+  // }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -51,32 +51,32 @@
 </head>
 <body>
   <!-- Start Navbar -->
-  <nav class="navbar bg-body-tertiary fixed-top">
+  <nav class="navbar bg-dark border-bottom border-body sticky-top mb-5" data-bs-theme="dark">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="profile.php"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</a>
+      <span class="navbar-brand"><?php echo $_SESSION['name']; ?> (<?php echo $_SESSION['role']; ?>)</span>
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Little Sun</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
+          <?php if (!empty($_SESSION['profile-picture'])): ?>
+          <img src="./images/profile/<?php echo $_SESSION['profile-picture']; ?>" id="img-navbar" class="h-50" alt="<?php echo $_SESSION['name']; ?> profile picture">
+          <?php endif; ?>
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
               <a class="nav-link" href="index.php">Dashboard</a>
             </li>
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
             <hr>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
-            <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Task Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Tasks Overview</a>
             </li>
             <hr>
             <?php endif; ?>
@@ -84,16 +84,10 @@
               <a class="nav-link" href="calendar.php">Calendar</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Time Tracker</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Shiftplan</a>
+              <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Working hours</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Vacation days</a>
@@ -106,110 +100,15 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="container pt-5">
-    <ul class="nav nav-tabs mt-5">
-      <li class="nav-item">
-        <a id="tab-link-calendar" class="nav-link active" href="#">Calendar</a>
-      </li>
-      <li class="nav-item">
-        <a id="tab-link-task-types" class="nav-link" href="#">Task types</a>
-      </li>
-    </ul>
-
-    <!-- Calendar Section -->
-    <section id="calendar-section" class="mt-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Shift's week overview</h2>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add shift</button>
-      </div>
-
-      <!-- Modal -->
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Add shift</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <!-- Login error message -->
-              <?php	if (!empty($error)): ?>
-              <div class="form-error">
-                <p>
-                  Sorry, the selected employee has a day off on that day. Select another day to plan the shift.
-                </p>
-              </div>
-              <?php endif; ?>
-              <form action="./includes/add-shift.inc.php" method="post">
-                <!-- Hub Select -->
-                <div class="mb-3">
-                  <!-- Manager hub view -->
-                  <?php if ($_SESSION['role'] === 'Manager'): ?>
-                  <label for="hub-select" class="col-form-label">Choose hub:</label>
-                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
-                    <?php foreach($managerHubs as $h): ?>
-                      <option value="<?php echo $h['Id']; ?>"><?php echo $h['Hubname'];?> (<?php echo $h['Hublocation']; ?>)</option>
-                    <?php endforeach; ?>
-                  </select>
-                  <?php endif; ?>
-
-                  <!-- Admin hub view -->
-                  <?php if ($_SESSION['role'] === 'Admin'): ?>
-                  <label for="hub-select" class="col-form-label">Choose hub:</label>
-                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
-                    <?php foreach($locations as $l): ?>
-                      <option value="<?php echo $l['Id']; ?>"><?php echo $l['Hubname'];?> (<?php echo $l['Hublocation']; ?>)</option>
-                    <?php endforeach; ?>
-                  </select> 
-                  <?php endif; ?>
-                </div>
-                <!-- Employee Select -->
-                <div class="mb-3">
-                  <label for="employee-select" class="col-form-label">Choose an employee from hub:</label>
-                  <select name="employee-select" class="form-select" aria-label="Employee select" required>
-                    <?php foreach($employees as $e): ?>
-                      <option value="<?php echo $e['Id']; ?>"><?php echo $e['Firstname'];?> <?php echo $e['Lastname']; ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <!-- Task -->
-                <div class="mb-3">
-                  <label for="task-select" class="col-form-label">Assign task:</label>
-                  <select name="task-select" class="form-select" aria-label="Task select" required>
-                    <?php foreach($tasks as $t): ?>
-                      <option value="<?php echo $t['Id']; ?>"><?php echo $t['Taskname'];?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-                <!-- Start Shift -->
-                <div class="mb-3">
-                  <label for="start-time" class="col-form-label">Start shift:</label>
-                  <input name="start-time" id="start-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
-                </div>
-                <!-- End Shift -->
-                <div class="mb-3">
-                  <label for="end-time" class="col-form-label">End shift:</label>
-                  <input name="end-time" class="form-control" min="<?php echo date("Y-m-d\TH:i"); ?>" type="datetime-local" required>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Add new shift</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="calendar"></div>
-    </section>
-
+  <main class="container">
     <!-- Task Types Section -->
-    <section id="task-type-section" class="mt-5 d-none">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Tasks types overview</h2>
-        <a href="create-task.php" class="btn btn-primary">Add new task type</a>
+    <section id="task-type-section" class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>All Tasks overview</h2>
+        <div>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createTaskTypeModal"><i class="bi bi-file-plus me-2"></i>Create task type</button>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteTaskTypeModal"><i class="bi bi-trash me-2"></i>Delete task type</button>
+        </div>
       </div>
 
       <table class="table table-striped table-hover">
@@ -220,7 +119,7 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($tasks as $key => $task): ?>
+          <?php foreach($tasks as $task): ?>
             <tr>
               <th scope="row"><?php echo $task['Id']; ?></th>
               <td><?php echo $task['Taskname']; ?></td>
@@ -228,6 +127,60 @@
           <?php endforeach; ?>
         </tbody>
       </table>
+
+      <!-- createTaskTypeModal -->
+      <div class="modal fade" id="createTaskTypeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createTaskTypeModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Create task type</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="./includes/add-task.inc.php" method="post">
+                <div class="mb-3">
+                  <label for="task-typ-name" class="form-label">Task type name</label>
+                  <input class="form-control form-control-lg" type="text" name="task-type-name" placeholder="Task type name" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add new task type</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- deleteTaskTypeModal -->
+      <div class="modal fade" id="deleteTaskTypeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteTaskTypeModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete task type</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="./includes/delete-task-type.inc.php" method="post">
+                <div class="mb-3">
+                  <label for="task-typ-select" class="form-label">Choose task type:</label>
+                  <select class="form-select form-select-lg" name="task-type-select">
+                    <?php foreach ($tasks as $task): ?>
+                      <option value="<?php echo $task['Id']; ?>"><?php echo $task['Taskname']; ?></option>
+                    <?php endforeach; ?>
+                  </select>                  
+                </div>
+                <!-- Submit Button -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Delete task type</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
   

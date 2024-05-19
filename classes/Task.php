@@ -8,7 +8,26 @@
   class Task implements ITask {
 
     // Task properties
+    private $id;
     private $taskName;
+    
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     */
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     
     /**
      * Get the value of taskName
@@ -40,6 +59,21 @@
 
       // Bind query values
       $statement->bindValue(':taskname', $this->getTaskName());
+
+      // Execute the query
+      $result = $statement->execute();
+      return $result;
+    }
+
+    public function deleteTaskType() {
+      // Make db connection
+      $conn = Db::getConnection();
+
+      // Prepare query statement
+      $statement = $conn->prepare('DELETE FROM tasks WHERE Id = :id;');
+
+      // Bind query values
+      $statement->bindValue(':id', $this->getId());
 
       // Execute the query
       $result = $statement->execute();

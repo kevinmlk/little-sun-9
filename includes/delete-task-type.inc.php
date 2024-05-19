@@ -5,12 +5,12 @@
   // Checks if a form has been sent
   if (!empty($_POST)) {
     $task = new Task();
-    $task->setTaskName($_POST['task-type-name']);
+    $task->setId($_POST['task-type-select']);
 
     // Run create user method
-    $task->createTaskType();
+    $task->deleteTaskType();
   }
 
-  // Redirect user to login page or show an error message
+  // Redirect user to hubs overview page
   header("Location: ../tasks.php");
   exit;

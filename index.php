@@ -42,7 +42,7 @@
           <?php endif; ?>
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 mb-5">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.php">Dashboard</a>
+              <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
             </li>
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <hr>
