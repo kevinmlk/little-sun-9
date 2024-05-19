@@ -13,6 +13,8 @@ interface IUser {
 
   public function resetPassword();
 
+  public function deleteAllHubUsers();
+
   // Function to get all users
   public static function getAllUsers();
 

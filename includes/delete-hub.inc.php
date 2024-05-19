@@ -8,6 +8,9 @@
     $location->setId($_POST['hub-input']);
 
     // Run create user method
+    $users = new User();
+    $users->setLocation($_POST['hub-input']);
+    $users->deleteAllHubUsers();
     $location->deleteHub();
   }
 

@@ -8,7 +8,7 @@
   }
 
   // Shifts
-  $shifts = Shift::getUserShifts($_SESSION['id']);
+  $shifts = Shift::getAllShifts();
 
   $currentShifts = [];
   $today = date('Y-m-d');

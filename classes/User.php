@@ -290,6 +290,22 @@ class User implements IUser {
     return $result;
   }
 
+  public function deleteAllHubUsers() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('DELETE FROM users WHERE LocationId = :locationid;');
+
+    $locationId = $this->getLocation();
+
+    $statement->bindValue(':locationid', $locationId);
+
+    // Store the results of the query execution
+    $result = $statement->execute();
+    return $result;
+  }
+
   public function editUserPassword() {
     // Make a Db connection
     $conn = Db::getConnection();

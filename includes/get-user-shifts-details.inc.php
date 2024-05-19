@@ -13,7 +13,7 @@
       $endTime = (new DateTime($s['EndTime']))->format('Y-m-d\TH:i:s');
   
       $data[] = [
-        'title' => $s['Taskname'],
+        'title' => $s['Taskname'] . ' at ' . $s['Hubname'] . ' (' . $s['Hublocation'] . ')',
         'start' => $startTime,
         'end' => $endTime,
       ];
