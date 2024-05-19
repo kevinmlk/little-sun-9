@@ -75,11 +75,26 @@
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar.php">Calendar Overview</a>
+            </li>
             <hr>
             <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Manager'): ?>
+            <hr>
             <li class="nav-item">
-              <a class="nav-link" href="calendar.php">Calendar</a>
+              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar-manager.php">Calendar Overview</a>
+            </li>
+            <hr>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Employee'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar-employee.php">Calendar</a>
+            </li>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>

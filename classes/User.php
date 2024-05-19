@@ -343,7 +343,7 @@ class User implements IUser {
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, RoleName, Taskname, Hubname, Hublocation FROM users INNER JOIN roles ON users.RoleId = roles.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id;');
+    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, LocationId, RoleName, Taskname, Hubname, Hublocation FROM users INNER JOIN roles ON users.RoleId = roles.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id;');
     $statement->execute();
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;

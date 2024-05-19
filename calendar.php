@@ -6,6 +6,10 @@
   if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
   }
+
+  // Show all locations
+  $locations = Location::getAllHubs();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +54,6 @@
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
-            <hr>
             <?php endif; ?>
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
@@ -59,9 +62,12 @@
             </li>
             <hr>
             <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Employee'): ?>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Calendar</a>
+              <a class="nav-link active" aria-current="page" href="#">Calendar Overview</a>
             </li>
+            <hr>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
@@ -91,16 +97,17 @@
 
     <!-- Calendar Section -->
     <section id="calendar-section" class="mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Work schedule</h2>
+        <div>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addShiftModal"><i class="bi bi-file-plus me-2"></i>Add shift</button>
+        </div>
+      </div>
       <div id="calendar">
       </div>
 
-    </section>
-
-    <!-- Shifts section -->
-    <section id="shifts-section" class="mt-5 d-none">
-      <div id="calendar-list"></div>
-      <!-- Modal -->
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <!-- addShiftModal -->
+      <div class="modal fade" id="addShiftModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addShiftModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -108,53 +115,26 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <!-- Login error message -->
-              <?php	if (!empty($error)): ?>
-              <div class="form-error">
-                <p>
-                  Sorry, the selected employee has a day off on that day. Select another day to plan the shift.
-                </p>
-              </div>
-              <?php endif; ?>
               <form action="./includes/add-shift.inc.php" method="post">
                 <!-- Hub Select -->
                 <div class="mb-3">
-                  <!-- Manager hub view -->
-                  <?php if ($_SESSION['role'] === 'Manager'): ?>
                   <label for="hub-select" class="col-form-label">Choose hub:</label>
-                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
-                    <?php foreach($managerHubs as $h): ?>
-                      <option value="<?php echo $h['Id']; ?>"><?php echo $h['Hubname'];?> (<?php echo $h['Hublocation']; ?>)</option>
-                    <?php endforeach; ?>
-                  </select>
-                  <?php endif; ?>
-
-                  <!-- Admin hub view -->
-                  <?php if ($_SESSION['role'] === 'Admin'): ?>
-                  <label for="hub-select" class="col-form-label">Choose hub:</label>
-                  <select name="hub-select" class="form-select" aria-label="Hub select" required>
+                  <select name="hub-select" class="form-select" aria-label="Hub select" id="hub-select" required>
                     <?php foreach($locations as $l): ?>
                       <option value="<?php echo $l['Id']; ?>"><?php echo $l['Hubname'];?> (<?php echo $l['Hublocation']; ?>)</option>
                     <?php endforeach; ?>
-                  </select> 
-                  <?php endif; ?>
+                  </select>
                 </div>
                 <!-- Employee Select -->
                 <div class="mb-3">
                   <label for="employee-select" class="col-form-label">Choose an employee from hub:</label>
-                  <select name="employee-select" class="form-select" aria-label="Employee select" required>
-                    <?php foreach($employees as $e): ?>
-                      <option value="<?php echo $e['Id']; ?>"><?php echo $e['Firstname'];?> <?php echo $e['Lastname']; ?></option>
-                    <?php endforeach; ?>
+                  <select name="employee-select" class="form-select" id="employee-select" aria-label="Employee select" required>
                   </select>
                 </div>
                 <!-- Task -->
                 <div class="mb-3">
                   <label for="task-select" class="col-form-label">Assign task:</label>
-                  <select name="task-select" class="form-select" aria-label="Task select" required>
-                    <?php foreach($tasks as $t): ?>
-                      <option value="<?php echo $t['Id']; ?>"><?php echo $t['Taskname'];?></option>
-                    <?php endforeach; ?>
+                  <select name="task-select" class="form-select" id="task-select" aria-label="Task select" required>
                   </select>
                 </div>
                 <!-- Start Shift -->
@@ -177,10 +157,16 @@
         </div>
       </div>
     </section>
+
+    <!-- Shifts section -->
+    <section id="shifts-section" class="mt-5 d-none">
+      <div id="calendar-list"></div>
+    </section>
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
+  <script src="./assets/js/app.js"></script>
   <script>
     'use strict';
 
@@ -190,10 +176,14 @@
     const calendarTabLink = document.querySelector('#tab-link-calendar');
     const shiftsTabLink = document.querySelector('#tab-link-shifts');
 
+    // Calendar
+    const calendarEl = document.querySelector('#calendar');
+
+    // Calendar list
+    const calendarListEl = document.querySelector('#calendar-list');
+
     // Setup function - loads when the DOM content is loaded
     const setup = () => {
-      // Calendar
-      const calendarEl = document.querySelector('#calendar');
 
       let calendar = new FullCalendar.Calendar(calendarEl, {
         themeSystem: 'bootstrap5',
@@ -205,21 +195,20 @@
         },
         events: 'includes/get-all-shifts.inc.php',
       });
-      
-      // Calendar list
-      const calendarListEl = document.querySelector('#calendar-list');
 
       let calendarList = new FullCalendar.Calendar(calendarListEl, {
         themeSystem: 'bootstrap5',
         initialView: 'listWeek',
         headerToolbar: {
-          left: 'prev,next today',
+          left: 'prev,next',
           center: 'title',
+          right: 'today'
         },
-        events: 'includes/get-all-shifts.inc.php',
+        events: 'includes/get-shifts-details.inc.php',
       });
       
       calendarList.render();
+
       calendar.render();
 
       // Event listeners
@@ -231,6 +220,10 @@
       if (calendarSection.classList.contains('d-none')) {
         shiftsSection.classList.add('d-none');
         calendarSection.classList.remove('d-none');
+        setTimeout(function() {
+          // Your function code goes here
+          calendarEl.classList.add('min-vh-100');
+        }, 1000);
         calendarTabLink.classList.add('active');
         shiftsTabLink.classList.remove('active');
       }
@@ -240,6 +233,10 @@
       if (shiftsSection.classList.contains('d-none')) {
         calendarSection.classList.add('d-none');
         shiftsSection.classList.remove('d-none');
+        setTimeout(function() {
+          // Your function code goes here
+          calendarListEl.classList.add('min-vh-100');
+        }, 1000);
         shiftsTabLink.classList.add('active');
         calendarTabLink.classList.remove('active');
       }

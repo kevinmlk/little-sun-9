@@ -11,7 +11,7 @@
     $endTime = (new DateTime($s['EndTime']))->format('Y-m-d\TH:i:s');
 
     $data[] = [
-      'title' => $s['Firstname'] . ' ' . $s['Lastname'],
+      'title' => $s['Taskname'] . ' by ' . $s['Firstname'] . ' ' . $s['Lastname'] . ' at ' . $s['Hubname'] . ' (' . $s['Hublocation'] . ')',	
       'start' => $startTime,
       'end' => $endTime,
     ];

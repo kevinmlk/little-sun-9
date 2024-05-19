@@ -96,26 +96,25 @@
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link" href="users.php">Users Overview</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
-            <hr>
             <?php endif; ?>
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Hub Overview</a>
+              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
             <hr>
             <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Employee'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="calendar.php">Calendar</a>
+              <a class="nav-link" href="calendar.php">Calendar Overview</a>
             </li>
+            <hr>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>

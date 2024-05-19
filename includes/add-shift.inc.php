@@ -4,9 +4,7 @@
 
   if (!empty($_POST)) {
     $shift = new Shift();
-    $shift->setLocation($_POST['hub-select']);
     $shift->setEmployee($_POST['employee-select']);
-    $shift->setTask($_POST['task-select']);
     $shift->setStartTime($_POST['start-time']);
     $shift->setEndTime($_POST['end-time']);
 
@@ -15,5 +13,5 @@
   }
 
   // Redirect user to login page or show an error message
-  header('Location: ../tasks.php');
+  header('Location: ../calendar.php');
   exit;

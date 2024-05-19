@@ -1,25 +1,38 @@
-'use strict';
+document.querySelector('#hub-select').addEventListener('change', function() {
+  let locationId = document.querySelector('#hub-select').value;
 
-// Global variables
+  let formData = new FormData();
+  formData.append('LocationId', locationId);
 
-// Setup function - loads when the DOM content is loaded
-const setup = () => {
-  // Calendar
-  const calendarEl = document.querySelector('#calendar');
+  fetch('assets/ajax/get-employees.php', {
+      method: 'POST',
+      body: formData,
+  })
+  .then(response => response.json())
+  .then(result => {
+      if (result.status === 'success') {
+          // Clear previous options for both employee and task select boxes
+          document.querySelector('#employee-select').innerHTML = "";
+          document.querySelector('#task-select').innerHTML = "";
 
-  let calendar = new FullCalendar.Calendar(calendarEl, {
-    themeSystem: 'bootstrap5',
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'title',
-      center: 'timeGridDay,timeGridWeek,dayGridMonth',
-      right: 'today prev,next'
-    },
-    events: 'includes/get-user-shifts.inc.php',
+          // Loop through employees and create options
+          result.body.forEach(employee => {
+              let employeeOption = document.createElement('option');
+              employeeOption.value = employee.Id;
+              employeeOption.textContent = employee.Firstname + ' ' + employee.Lastname;
+              document.querySelector('#employee-select').appendChild(employeeOption);
+
+              // Create option for associated taskname
+              let taskOption = document.createElement('option');
+              taskOption.value = employee.Taskname;
+              taskOption.textContent = employee.Taskname;
+              document.querySelector('#task-select').appendChild(taskOption);
+          });
+      } else {
+          console.log('Error:', result.message);
+      }
+  })
+  .catch(error => {
+      console.log('Error:', error);
   });
-
-  calendar.render();
-}
-
-// Load setup when the DOM content is loaded
-document.addEventListener('DOMContentLoaded', setup);
+});
