@@ -1,28 +1,40 @@
 <?php
-$servername = "localhost";
-$username = "root";  // Verander naar je eigen gebruikersnaam
-$password = "root";      // Voer hier je eigen wachtwoord in
-$dbname = "little_sun1";  // Verander naar de naam van je database
 
-// Maak de verbinding
+$servername = "localhost";
+$username = "root";
+$password = "root"; // 
+$dbname = "little_sun1"; 
+
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Controleer de verbinding
+
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
 
-// Huidige maand en jaar
-$year = date("Y");
-$month = date("m");
-$startDate = "$year-$month-01 10:00:00";
-$endDate = date("Y-m-t", strtotime($startDate)) . " 11:00:00";
-
-// SQL-query
-$sql = "SELECT employee_id, start_time, end_time, status FROM absence";
+$sql = "SELECT SUM(TIMESTAMPDIFF(HOUR, start_time, end_time)) AS total_sick_hours FROM absence WHERE status = 'sick'";
 $result = $conn->query($sql);
 
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    echo "Totale ziekteuren: " . $row["total_sick_hours"] . " uur";
+} else {
+    echo "Geen ziekteuren gevonden";
+}
+
+$selectedMonth = $_POST['month'] ?? date('m'); 
+$selectedYear = $_POST['year'] ?? date('Y');  
+
+
+$sql = "SELECT employee_id, start_time, end_time, status FROM absence
+        WHERE YEAR(start_time) = $selectedYear AND MONTH(start_time) = $selectedMonth";
+
+$result = $conn->query($sql);
+
+
+$conn->close();
 ?>
 
 
