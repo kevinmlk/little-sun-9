@@ -83,7 +83,6 @@
             <li class="nav-item">
               <a class="nav-link" href="calendar.php">Calendar Overview</a>
             </li>
-            <hr>
             <?php endif; ?>
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>

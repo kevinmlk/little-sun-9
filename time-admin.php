@@ -18,21 +18,15 @@
     // Extract the date from StartTime
     $shiftDate = date("Y-m-d", strtotime($s["StartTime"]));
     // If the task's date is today, add it to $tasksToday array
-    if ($shiftDate == $today && $s['EmployeeId'] === $_SESSION['id']) {
+    if ($shiftDate == $today) {
         $currentShifts[] = $s;
     }
   }
-
+  
   // Get the total number of absents
   $absents = Absent::getAllAbsents();
 
-  $currentAbsents = [];
-
-  foreach ($absents as $a) {
-    if ($a['EmployeeId'] === $_SESSION['id']) {
-        $currentAbsents[] = $a;
-    }
-  }
+  
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -234,39 +228,13 @@
     <section id="absents-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Absents</h2>
-        <?php if ($_SESSION['role'] === 'Employee'): ?>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAbsentModal">Add absent</button>
-        <?php endif; ?>
       </div>
 
-      <?php if ($_SESSION['role'] === 'Employee'): ?>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col"><strong>Id</strong></th>
-            <th scope="col"><strong>Reason</strong></th>
-            <th scope="col"><strong>Shift</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (!empty($absents)): ?>
-          <?php foreach($absents as $a): ?>
-            <tr>
-              <th scope="row"><?php echo $a['Id']; ?></th>
-              <td><?php echo $a['Type']; ?></td>
-              <td><?php echo $a['StartTime']; ?> - <?php echo $a['EndTime']; ?></td>
-            </tr>
-          <?php endforeach; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
-      <?php endif; ?>
-
-      <?php if ($_SESSION['role'] === 'Admin'): ?>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col"><strong>Name</strong></th>
             <th scope="col"><strong>Reason</strong></th>
             <th scope="col"><strong>Shift</strong></th>
           </tr>
@@ -283,7 +251,6 @@
           <?php endif; ?>
         </tbody>
       </table>
-      <?php endif; ?>
 
       <!-- Modal Add Absent -->
       <div class="modal fade" id="addAbsentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addAbsentModal" aria-hidden="true">
