@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon_io/favicon.ico">
   <!-- Tab Title -->
   <title>Login | Little Sun Shiftplanner</title>
 </head>

@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/bootstrap/icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon_io/favicon.ico">
   <!-- Title -->
   <title>Calendar | Little Sun Shiftplanner</title>
 </head>
