@@ -101,28 +101,39 @@
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar.php">Calendar Overview</a>
+            </li>
+            <hr>
             <?php endif; ?>
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
             <li class="nav-item">
               <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
-            <hr>
-            <?php endif; ?>
-            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Employee'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="calendar.php">Calendar Overview</a>
+              <a class="nav-link" href="calendar-manager.php">Calendar Overview</a>
             </li>
             <hr>
             <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Employee'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar-employee.php">Calendar</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Shiftswap</a>
+              <a class="nav-link" href="time-records.php">Time Records</a>
+            </li>
+            <?php endif; ?>
+            <li class="nav-item">
+              <a class="nav-link" href="shiftswap.php">Shiftswap</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Vacation days</a>
+              <a class="nav-link" href="vacation.php">Vacation days</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>

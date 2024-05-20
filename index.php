@@ -85,10 +85,15 @@
             <li class="nav-item">
               <a class="nav-link" href="calendar-employee.php">Calendar</a>
             </li>
-            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="time-tracker.php">Time Tracker</a>
             </li>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="time-records.php">Time Records</a>
+            </li>
+            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link" href="#">Shiftswap</a>
             </li>

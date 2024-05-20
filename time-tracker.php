@@ -26,7 +26,10 @@
   $employeeAllShifts = [];
 
   foreach ($shifts as $s) {
-    if ($s['EmployeeId'] === $_SESSION['id']) {
+    // Extract the date from StartTime
+    $shiftDate = date("Y-m-d", strtotime($s["StartTime"]));
+
+    if ($s['EmployeeId'] === $_SESSION['id'] && $shiftDate >= $today) {
         $employeeAllShifts[] = $s;
     }
   }
@@ -307,7 +310,6 @@
                 <i class="mb-3">
                   <label for="employee-name" class="col-form-label">Name:</label>
                   <input name="employee-name" type="text" class="form-control" value="<?php echo $_SESSION['name']; ?>" disabled>
-                  <input name="shift-id" type="text" class="form-control d-none" value="<?php echo $currentShifts[0]['Id']; ?>">
                 </i>
                 <!-- Task -->
                 <div class="mb-3">

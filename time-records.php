@@ -18,15 +18,32 @@
     // Extract the date from StartTime
     $shiftDate = date("Y-m-d", strtotime($s["StartTime"]));
     // If the task's date is today, add it to $tasksToday array
-    if ($shiftDate == $today) {
+    if ($shiftDate == $today && $s['EmployeeId'] === $_SESSION['id']) {
         $currentShifts[] = $s;
     }
   }
-  
+
+  $employeeAllShifts = [];
+
+  foreach ($shifts as $s) {
+    // Extract the date from StartTime
+    $shiftDate = date("Y-m-d", strtotime($s["StartTime"]));
+
+    if ($s['EmployeeId'] === $_SESSION['id'] && $shiftDate >= $today) {
+        $employeeAllShifts[] = $s;
+    }
+  }
+
   // Get the total number of absents
   $absents = Absent::getAllAbsents();
 
-  
+  $currentAbsents = [];
+
+  foreach ($absents as $a) {
+    if ($a['EmployeeId'] === $_SESSION['id']) {
+        $currentAbsents[] = $a;
+    }
+  }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -89,15 +106,15 @@
             <li class="nav-item">
               <a class="nav-link" href="calendar-employee.php">Calendar</a>
             </li>
-            <?php endif; ?>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Time Tracker</a>
             </li>
+            <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Shiftswap</a>
+              <a class="nav-link" href="shiftswap.php">Shiftswap</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Vacation days</a>
+              <a class="nav-link" href="vacation.php">Vacation days</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>
@@ -228,13 +245,39 @@
     <section id="absents-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Absents</h2>
+        <?php if ($_SESSION['role'] === 'Employee'): ?>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAbsentModal">Add absent</button>
+        <?php endif; ?>
       </div>
 
+      <?php if ($_SESSION['role'] === 'Employee'): ?>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col"><strong>Id</strong></th>
+            <th scope="col"><strong>Reason</strong></th>
+            <th scope="col"><strong>Shift</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if (!empty($absents)): ?>
+          <?php foreach($currentAbsents as $c): ?>
+            <tr>
+              <th scope="row"><?php echo $c['Id']; ?></th>
+              <td><?php echo $c['Type']; ?></td>
+              <td><?php echo $c['StartTime']; ?> - <?php echo $c['EndTime']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
+      </table>
+      <?php endif; ?>
+
+      <?php if ($_SESSION['role'] === 'Admin'): ?>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Name</strong></th>
             <th scope="col"><strong>Reason</strong></th>
             <th scope="col"><strong>Shift</strong></th>
           </tr>
@@ -251,6 +294,7 @@
           <?php endif; ?>
         </tbody>
       </table>
+      <?php endif; ?>
 
       <!-- Modal Add Absent -->
       <div class="modal fade" id="addAbsentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addAbsentModal" aria-hidden="true">
@@ -266,7 +310,6 @@
                 <i class="mb-3">
                   <label for="employee-name" class="col-form-label">Name:</label>
                   <input name="employee-name" type="text" class="form-control" value="<?php echo $_SESSION['name']; ?>" disabled>
-                  <input name="shift-id" type="text" class="form-control d-none" value="<?php echo $currentShifts[0]['Id']; ?>">
                 </i>
                 <!-- Task -->
                 <div class="mb-3">
@@ -275,13 +318,12 @@
                 </div>
                 <!-- Start Shift -->
                 <div class="mb-3">
-                  <label for="start-time" class="col-form-label">Start shift:</label>
-                  <input name="start-time" class="form-control" type="text" value="<?php echo $currentShifts[0]['StartTime']; ?>" disabled>
-                </div>
-                <!-- End Shift -->
-                <div class="mb-3">
-                  <label for="end-time" class="col-form-label">End shift:</label>
-                  <input name="end-time" class="form-control" type="text" value="<?php echo $currentShifts[0]['EndTime']; ?>" disabled>
+                  <label for="start-time" class="col-form-label">Choose shift:</label>
+                  <select name="shift-select" class="form-select form-select-lg" id="shift-select">
+                    <?php foreach ($employeeAllShifts as $es): ?>
+                    <option value="<?php echo $es['Id']; ?>"><?php echo $es['StartTime']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
                 <!-- Sick Leave Reason -->
                 <div class="mb-3">
