@@ -23,6 +23,14 @@
     }
   }
 
+  $employeeAllShifts = [];
+
+  foreach ($shifts as $s) {
+    if ($s['EmployeeId'] === $_SESSION['id']) {
+        $employeeAllShifts[] = $s;
+    }
+  }
+
   // Get the total number of absents
   $absents = Absent::getAllAbsents();
 
@@ -308,13 +316,12 @@
                 </div>
                 <!-- Start Shift -->
                 <div class="mb-3">
-                  <label for="start-time" class="col-form-label">Start shift:</label>
-                  <input name="start-time" class="form-control" type="text" value="<?php echo $currentShifts[0]['StartTime']; ?>" disabled>
-                </div>
-                <!-- End Shift -->
-                <div class="mb-3">
-                  <label for="end-time" class="col-form-label">End shift:</label>
-                  <input name="end-time" class="form-control" type="text" value="<?php echo $currentShifts[0]['EndTime']; ?>" disabled>
+                  <label for="start-time" class="col-form-label">Choose shift:</label>
+                  <select name="shift-select" class="form-select form-select-lg" id="shift-select">
+                    <?php foreach ($employeeAllShifts as $es): ?>
+                    <option value="<?php echo $es['Id']; ?>"><?php echo $es['StartTime']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
                 <!-- Sick Leave Reason -->
                 <div class="mb-3">
