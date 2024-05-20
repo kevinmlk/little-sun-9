@@ -11,6 +11,8 @@ interface IUser {
 
   public function editUserPassword();
 
+  public function editTaskType();
+
   public function resetPassword();
 
   public function deleteAllHubUsers();

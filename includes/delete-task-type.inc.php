@@ -7,6 +7,11 @@
     $task = new Task();
     $task->setId($_POST['task-type-select']);
 
+    $user = new User();
+    $user->setTask($_POST['task-type-select']);
+    $user->setNewTask(1);
+    $user->editTaskType();
+
     // Run create user method
     $task->deleteTaskType();
   }

@@ -16,6 +16,8 @@ class User implements IUser {
   private $profilePicture;
   private $role;
   private $task;
+
+  private $newTask;
   private $location;
 
   
@@ -184,6 +186,24 @@ class User implements IUser {
   }
 
   /**
+   * Get the value of newTask
+   */
+  public function getNewTask()
+  {
+    return $this->newTask;
+  }
+
+  /**
+   * Set the value of newTask
+   */
+  public function setNewTask($newTask): self
+  {
+    $this->newTask = $newTask;
+
+    return $this;
+  }
+
+  /**
    * Get the value of location
    */
   public function getLocation()
@@ -300,6 +320,21 @@ class User implements IUser {
     $locationId = $this->getLocation();
 
     $statement->bindValue(':locationid', $locationId);
+
+    // Store the results of the query execution
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function editTaskType() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET TaskId = :newtaskid WHERE TaskId = :oldtaskid;');
+
+    $statement->bindValue(':newtaskid', $this->getNewTask());
+    $statement->bindValue(':oldtaskid', $this->getTask());
 
     // Store the results of the query execution
     $result = $statement->execute();
