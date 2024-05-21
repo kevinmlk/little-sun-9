@@ -10,6 +10,8 @@
     exit;
   }
 
+  $tasks = Task::getAllTaskTypes();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

@@ -197,6 +197,7 @@
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
   <script src="./assets/js/calendar-manager.js"></script>
+  <script src="./assets/js/check-time-off.js"></script>
   <script>
     'use strict';
 
