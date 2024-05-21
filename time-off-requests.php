@@ -13,6 +13,16 @@
   // Get all time off requests from db
   $timeOffRequests = TimeOffRequest::getAllTimeOffRequests();
 
+  $currentTimeOffRequests = [];
+
+  foreach ($timeOffRequests as $tor) {
+    if ($tor['LocationId'] === $_SESSION['hubId']) {
+        $currentTimeOffRequests[] = $tor;
+    }
+  }
+
+  print_r($currentTimeOffRequests);
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +74,7 @@
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
+              <a class="nav-link" href="hub-details.php?id=<?php echo $_SESSION['hubId']; ?>">Hub Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="calendar-manager.php">Calendar Overview</a>
@@ -95,7 +105,7 @@
   </nav>
 
   <!-- Main Content -->
-  <s class="container">
+  <main class="container">
     <?php if ($_SESSION['role'] === 'Manager' || $_SESSION['role'] === 'Admin'): ?>
     <!-- Time Off Request Manager Section -->
     <section id="time-off-request-manager" class="mt-5">
@@ -121,15 +131,15 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($timeOffRequests as $tor): ?>
+          <?php foreach($currentTimeOffRequests as $ctor): ?>
             <tr>
-              <th scope="row"><?php echo $tor['TimeOffRequestId']; ?></th>
-              <td><?php echo $tor['Firstname'] . ' ' . $tor['Lastname']; ?></td>
-              <td><?php echo $tor['Type']; ?></td>
-              <td><?php echo $tor['StartDate']; ?></td>
-              <td><?php echo $tor['EndDate']; ?></td>
-              <td><?php echo $tor['Status']; ?></td>
-              <td><?php echo $tor['Reason']; ?></td>
+              <th scope="row"><?php echo $ctor['TimeOffRequestId']; ?></th>
+              <td><?php echo $ctor['Firstname'] . ' ' . $ctor['Lastname']; ?></td>
+              <td><?php echo $ctor['Type']; ?></td>
+              <td><?php echo $ctor['StartDate']; ?></td>
+              <td><?php echo $ctor['EndDate']; ?></td>
+              <td><?php echo $ctor['Status']; ?></td>
+              <td><?php echo $ctor['Reason']; ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -194,7 +204,7 @@
     <section id="time-request-employee">
       
     </section>
-  </s>
+  </main>
   
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>

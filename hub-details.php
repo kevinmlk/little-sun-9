@@ -109,7 +109,7 @@
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="hub-details.php?id=<?php echo $_SESSION['hubId']; ?>">Hub Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="calendar-manager.php">Calendar Overview</a>
