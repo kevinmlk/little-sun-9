@@ -95,10 +95,7 @@
             </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="#">Shiftswap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Vacation days</a>
+              <a class="nav-link" href="time-off-requests.php">Time Off Requests</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>

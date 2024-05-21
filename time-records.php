@@ -133,14 +133,16 @@
               <a class="nav-link" href="calendar-employee.php">Calendar</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Time Tracker</a>
+              <a class="nav-link" href="time-tracker.php">Time Tracker</a>
+            </li>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Manager'): ?>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Time Records</a>
             </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="shiftswap.php">Shiftswap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vacation.php">Vacation days</a>
+              <a class="nav-link" href="time-off-requests.php">Time Off Requests</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>

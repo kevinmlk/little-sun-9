@@ -96,7 +96,7 @@
             <?php if ($_SESSION['role'] === 'Admin'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="hubs.php">Hubs Overview</a>
+              <a class="nav-link active" aria-current="page" href="#">Hubs Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tasks.php">Tasks Overview</a>
@@ -109,7 +109,7 @@
             <?php if ($_SESSION['role'] === 'Manager'): ?>
             <hr>
             <li class="nav-item">
-              <a class="nav-link" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
+              <a class="nav-link active" aria-current="page" href="hub-details.php?id=<?php echo $currentHub['Id']; ?>">Hub Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="calendar-manager.php">Calendar Overview</a>
@@ -130,10 +130,7 @@
             </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="shiftswap.php">Shiftswap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vacation.php">Vacation days</a>
+              <a class="nav-link" href="time-off-requests.php">Time Off Requests</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>

@@ -4,11 +4,14 @@
 
   session_start();
 
-  if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+  if (!isset($_SESSION['loggedin'])) {
     // Redirect user to login page or show an error message
     header("Location: index.php");
     exit;
   }
+
+  // Get all time off requests from db
+  $timeOffRequests = TimeOffRequest::getAllTimeOffRequests();
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -22,7 +25,7 @@
   <link rel="stylesheet" href="./assets/css/style.css">
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="./assets/images/favicon_io/favicon.ico">
-  <title>Tasks overview | Little Sun Shiftplanner</title>
+  <title>Time Off Requests | Little Sun Shiftplanner</title>
 </head>
 <body>
   <!-- Start Navbar -->
@@ -51,7 +54,7 @@
               <a class="nav-link" href="hubs.php">Hubs Overview</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#">Tasks Overview</a>
+              <a class="nav-link" href="tasks.php">Tasks Overview</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="calendar.php">Calendar Overview</a>
@@ -82,7 +85,7 @@
             </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="time-off-requests.php">Time Off Requests</a>
+              <a class="nav-link active" href="#">Time Off Requests</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>
@@ -92,35 +95,47 @@
   </nav>
 
   <!-- Main Content -->
-  <main class="container">
-    <!-- Task Types Section -->
-    <section id="task-type-section" class="mt-5">
+  <s class="container">
+    <?php if ($_SESSION['role'] === 'Manager' || $_SESSION['role'] === 'Admin'): ?>
+    <!-- Time Off Request Manager Section -->
+    <section id="time-off-request-manager" class="mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>All Tasks overview</h2>
+        <h2>All time off requests</h2>
+        <?php if ($_SESSION['role'] === 'Manager'): ?>
         <div>
-          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createTaskTypeModal"><i class="bi bi-file-plus me-2"></i>Create task type</button>
-          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteTaskTypeModal"><i class="bi bi-trash me-2"></i>Delete task type</button>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createTaskTypeModal"><i class="bi bi-pencil-square me-2"></i>Set time off request</button>
         </div>
+        <?php endif; ?>
       </div>
 
       <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col"><strong>Id</strong></th>
-            <th scope="col"><strong>Task type name</strong></th>
+            <th scope="col"><strong>Employee</strong></th>
+            <th scope="col"><strong>Time off type</strong></th>
+            <th scope="col"><strong>Start date</strong></th>
+            <th scope="col"><strong>End date</strong></th>
+            <th scope="col"><strong>Status</strong></th>
+            <th scope="col"><strong>Reason</strong></th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach($tasks as $task): ?>
+          <?php foreach($timeOffRequests as $tor): ?>
             <tr>
-              <th scope="row"><?php echo $task['Id']; ?></th>
-              <td><?php echo $task['Taskname']; ?></td>
+              <th scope="row"><?php echo $tor['TimeOffRequestId']; ?></th>
+              <td><?php echo $tor['Firstname'] . ' ' . $tor['Lastname']; ?></td>
+              <td><?php echo $tor['Type']; ?></td>
+              <td><?php echo $tor['StartDate']; ?></td>
+              <td><?php echo $tor['EndDate']; ?></td>
+              <td><?php echo $tor['Status']; ?></td>
+              <td><?php echo $tor['Reason']; ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
 
-      <!-- createTaskTypeModal -->
+      <!-- setTimeOffRequestModal -->
       <div class="modal fade" id="createTaskTypeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createTaskTypeModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -174,7 +189,12 @@
         </div>
       </div>
     </section>
-  </main>
+    <?php endif; ?>
+
+    <section id="time-request-employee">
+      
+    </section>
+  </s>
   
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>

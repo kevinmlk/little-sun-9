@@ -24,13 +24,6 @@
 
   // Array to store rows with ManagerId 3
   $managerHubs = [];
-
-  // Loop through the array and store rows where ManagerId is 3
-  // foreach ($locations as $l) {
-  //   if ($l['ManagerId'] === $_SESSION['id']) {
-  //       $managerHubs[] = $l;
-  //   }
-  // }
   
 ?><!DOCTYPE html>
 <html lang="en">
@@ -104,10 +97,7 @@
             </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a class="nav-link" href="shiftswap.php">Shiftswap</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vacation.php">Vacation days</a>
+              <a class="nav-link" href="time-off-requests.php">Time Off Requests</a>
             </li>
           </ul>
           <a class="btn btn-outline-success mt-5" href="logout.php">Logout</a>
