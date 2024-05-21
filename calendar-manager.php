@@ -7,8 +7,31 @@
     header('Location: login.php');
   }
 
-  // Show all locations
+  // Toon alle hubs
   $locations = Location::getAllHubs();
+
+  // Loop through the array
+  function filterHub($hubId, $hubs) {
+    foreach ($hubs as $h) {
+      if ($h['Id'] == $hubId) {
+          $hub = $h;
+          return $hub;
+      }
+    }
+  }
+
+  $currentHub = filterHub($_SESSION['hubId'], $locations);
+
+  // Get all the employees of the current hub
+  $users = User::getAllUsers();
+
+  $employees = [];
+
+  foreach ($users as $u) {
+    if ($u['Hubname'] === $currentHub['Hubname'] && $u['RoleName'] === 'Employee') {
+      $employees[] = $u;
+    }
+  }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -118,22 +141,21 @@
               <form action="./includes/add-shift.inc.php" method="post">
                 <!-- Hub Select -->
                 <div class="mb-3">
-                  <label for="hub-select" class="col-form-label">Choose hub:</label>
-                  <select name="hub-select" class="form-select" aria-label="Hub select" id="hub-select" required>
-                    <?php foreach($locations as $l): ?>
-                      <option value="<?php echo $l['Id']; ?>"><?php echo $l['Hubname'];?> (<?php echo $l['Hublocation']; ?>)</option>
-                    <?php endforeach; ?>
-                  </select>
+                  <label for="hub-select" class="col-form-label">Current hub:</label>
+                  <input type="text" class="form-control" id="hub-select" value="<?php echo $currentHub['Hubname']; ?>" disabled>
                 </div>
                 <!-- Employee Select -->
                 <div class="mb-3">
                   <label for="employee-select" class="col-form-label">Choose an employee from hub:</label>
                   <select name="employee-select" class="form-select" id="employee-select" aria-label="Employee select" required>
+                    <?php foreach ($employees as $e): ?>
+                    <option value="<?php echo $e['Id']; ?>"><?php echo $e['Firstname'] . ' ' . $e['Lastname']; ?></option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
                 <!-- Task -->
                 <div class="mb-3">
-                  <label for="task-select" class="col-form-label">Assign task:</label>
+                  <label for="task-select" class="col-form-label">Employee task:</label>
                   <select name="task-select" class="form-select" id="task-select" aria-label="Task select" required>
                   </select>
                 </div>
@@ -166,7 +188,7 @@
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
-  <script src="./assets/js/app.js"></script>
+  <script src="./assets/js/calendar-manager.js"></script>
   <script>
     'use strict';
 
@@ -193,7 +215,7 @@
           center: 'title',
           right: 'timeGridDay,timeGridWeek,dayGridMonth'
         },
-        events: 'includes/get-all-shifts.inc.php',
+        events: 'includes/get-manager-shifts.inc.php',
       });
 
       let calendarList = new FullCalendar.Calendar(calendarListEl, {
@@ -204,7 +226,7 @@
           center: 'title',
           right: 'today'
         },
-        events: 'includes/get-shifts-details.inc.php',
+        events: 'includes/get-manager-shifts-details.inc.php',
       });
       
       calendarList.render();

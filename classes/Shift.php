@@ -212,7 +212,7 @@ class Shift implements IShift {
 
     // Insert query
     // $statement = $conn->prepare('SELECT Taskname, Firstname, Lastname, Hubname, Hublocation FROM shifts INNER JOIN users ON shifts.EmployeeId = users.Id INNER JOIN tasks ON shifts.TaskId = tasks.Id INNER JOIN locations ON shifts.LocationId = locations.Id;');
-    $statement = $conn->prepare('SELECT shifts.Id, StartTime, EndTime, EmployeeId, CheckIn, CheckOut, Firstname, Lastname, Hubname, Hublocation, Taskname, RoleName FROM shifts INNER JOIN users ON shifts.EmployeeId = users.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id INNER JOIN roles ON users.RoleId = roles.Id;');
+    $statement = $conn->prepare('SELECT shifts.Id, StartTime, EndTime, EmployeeId, CheckIn, CheckOut, Firstname, Lastname, locations.Id AS hubId, Hubname, Hublocation, Taskname, RoleName FROM shifts INNER JOIN users ON shifts.EmployeeId = users.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id INNER JOIN roles ON users.RoleId = roles.Id;');
     $statement->execute();
     $shifts = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $shifts;
