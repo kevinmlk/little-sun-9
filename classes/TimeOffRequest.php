@@ -146,6 +146,20 @@ class TimeOffRequest implements ITimeOffRequest {
   }
 
   public function setTimeOffRequestStatus() {
+    // Make db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE timeoffrequests SET Status = :status, Reason = :reason WHERE Id = :id;');
+
+    // Bind values
+    $statement->bindValue(':id', $this->id);
+    $statement->bindValue(':status', $this->status);
+    $statement->bindValue(':reason', $this->reason);
+
+    // Execute statement
+    $result = $statement->execute();
+    return $result;
 
   }
 

@@ -21,8 +21,6 @@
     }
   }
 
-  print_r($currentTimeOffRequests);
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +111,7 @@
         <h2>All time off requests</h2>
         <?php if ($_SESSION['role'] === 'Manager'): ?>
         <div>
-          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createTaskTypeModal"><i class="bi bi-pencil-square me-2"></i>Set time off request</button>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#setTimeOffRequestModal"><i class="bi bi-pencil-square me-2"></i>Set time off request</button>
         </div>
         <?php endif; ?>
       </div>
@@ -146,23 +144,54 @@
       </table>
 
       <!-- setTimeOffRequestModal -->
-      <div class="modal fade" id="createTaskTypeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createTaskTypeModal" aria-hidden="true">
+      <div class="modal fade" id="setTimeOffRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="setTimeOffRequestModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Create task type</h1>
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Time off request</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="./includes/add-task.inc.php" method="post">
+              <form action="./includes/set-time-off-request.inc.php" method="post">
+                <!-- Employee Select -->
                 <div class="mb-3">
-                  <label for="task-typ-name" class="form-label">Task type name</label>
-                  <input class="form-control form-control-lg" type="text" name="task-type-name" placeholder="Task type name" required>
+                  <label for="employee-select" class="col-form-label">Employee:</label>
+                  <select name="employee-select" class="form-select" id="employee-select" aria-label="Employee select" required>
+                    <?php foreach ($currentTimeOffRequests as $ctor): ?>
+                    <option value="<?php echo $ctor['EmployeeId']; ?>"><?php echo $ctor['Firstname'] . ' ' . $ctor['Lastname']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <!-- Time Off Period -->
+                <div class="mb-3">
+                  <label for="period-select" class="col-form-label">Time off period:</label>
+                  <select name="period-select" class="form-select" id="period-select" aria-label="Period select" required>
+                  </select>
+                </div>
+                <!-- Time Off Type -->
+                <div class="mb-3">
+                  <label for="type-select" class="col-form-label">Reason time off:</label>
+                  <select name="type-select" class="form-select" id="type-select" aria-label="Type select" required>
+                  </select>
+                </div>
+                <!-- Time Off Status -->
+                <div class="mb-3">
+                  <label for="status-select" class="col-form-label">Status time off:</label>
+                  <select name="status-select" class="form-select" id="status-select" aria-label="Status select" required>
+                    <option value="pending">pending</option>
+                    <option value="approved">approved</option>
+                    <option value="denied">denied</option>
+                  </select>
+                </div>
+                <!-- Reason Decision -->
+                <div class="mb-3">
+                  <label for="decision-input" class="col-form-label">Reason decision:</label>
+                  <input type="text" name="decision-input" class="form-control" id="decision-input">
                 </div>
                 <!-- Submit Button -->
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Add new task type</button>
+                  <button type="submit" class="btn btn-primary">Update time off request</button>
                 </div>
               </form>
             </div>
@@ -170,34 +199,6 @@
         </div>
       </div>
 
-      <!-- deleteTaskTypeModal -->
-      <div class="modal fade" id="deleteTaskTypeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteTaskTypeModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete task type</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form action="./includes/delete-task-type.inc.php" method="post">
-                <div class="mb-3">
-                  <label for="task-typ-select" class="form-label">Choose task type:</label>
-                  <select class="form-select form-select-lg" name="task-type-select">
-                    <?php foreach ($tasks as $task): ?>
-                      <option value="<?php echo $task['Id']; ?>"><?php echo $task['Taskname']; ?></option>
-                    <?php endforeach; ?>
-                  </select>                  
-                </div>
-                <!-- Submit Button -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Delete task type</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
     <?php endif; ?>
 
@@ -209,73 +210,9 @@
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="./assets/fullcalendar/dist/index.global.min.js"></script>
+  <script src="./assets/js/time-off-request.js"></script>
   <script>
     'use strict';
-
-    // Global variables
-    const calendarSection = document.querySelector('#calendar-section');
-    const taskTypeSection = document.querySelector('#task-type-section');
-    const calendarTabLink = document.querySelector('#tab-link-calendar');
-    const taskTypeTabLink = document.querySelector('#tab-link-task-types');
-
-    // Setup function - loads when the DOM content is loaded
-    const setup = () => {
-      // Calendar
-      const calendarEl = document.querySelector('#calendar');
-
-      let calendar = new FullCalendar.Calendar(calendarEl, {
-        themeSystem: 'bootstrap5',
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-          left: 'title',
-          center: 'timeGridDay,timeGridWeek,dayGridMonth',
-          right: 'today prev,next',
-        },
-        events: 'includes/get-all-shifts.inc.php',
-      });
-
-      calendar.render();
-
-      // Event listeners
-      calendarTabLink.addEventListener('click', showCalendar);
-      taskTypeTabLink.addEventListener('click', showTaskTypes);
-    }
-
-    const showCalendar = () => {
-      if (calendarSection.classList.contains('d-none')) {
-        taskTypeSection.classList.add('d-none');
-        calendarSection.classList.remove('d-none');
-        calendarTabLink.classList.add('active');
-        taskTypeTabLink.classList.remove('active');
-      }
-    }
-
-    const showTaskTypes = () => {
-      if (taskTypeSection.classList.contains('d-none')) {
-        calendarSection.classList.add('d-none');
-        taskTypeSection.classList.remove('d-none');
-        taskTypeTabLink.classList.add('active');
-        calendarTabLink.classList.remove('active');
-      }
-    }
-
-    // Disable specific dates
-    var disabledDates = ['2024-05-21']; // Add your disabled dates here
-    var inputDate = document.getElementById('start-time');
-    
-    inputDate.addEventListener('input', function() {
-        var selectedDate = new Date(inputDate.value);
-        var formattedDate = selectedDate.toISOString().slice(0, 10); // Get the date in YYYY-MM-DD format
-        
-        if (disabledDates.includes(formattedDate)) {
-            inputDate.setCustomValidity('Employee has time off on this date, please select another date.');
-        } else {
-            inputDate.setCustomValidity('');
-        }
-    });
-
-    // Load setup when the DOM content is loaded
-    document.addEventListener('DOMContentLoaded', setup);
   </script>
 </body>
 </html>
