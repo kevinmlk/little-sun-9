@@ -45,6 +45,16 @@
     }
   }
 
+  $allTasks = Task::getAllTaskTypes();
+
+  $currentUserTask = '';
+
+  foreach ($allTasks as $t) {
+    if ($t['Id'] === $_SESSION['taskId']) {
+        $currentUserTask = $t;
+    }
+  }
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -316,7 +326,7 @@
                 <!-- Task -->
                 <div class="mb-3">
                   <label for="task" class="col-form-label">Task:</label>
-                  <input name="task" type="text" class="form-control" value="<?php echo $currentShifts[0]['Taskname']; ?>" disabled>
+                  <input name="task" type="text" class="form-control" value="<?php echo $currentUserTask['Taskname']; ?>" disabled>
                 </div>
                 <!-- Start Shift -->
                 <div class="mb-3">

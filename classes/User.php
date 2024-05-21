@@ -259,6 +259,7 @@ class User implements IUser {
       $_SESSION['name'] = $user['Firstname'];
       $_SESSION['profilePicture'] = $user['ProfilePicture'];
       $_SESSION['hubId'] = $user['LocationId'];
+      $_SESSION['taskId'] = $user['TaskId'];
       return true;
     } else {
       return false;
