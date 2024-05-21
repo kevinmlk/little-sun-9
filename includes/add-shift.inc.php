@@ -13,5 +13,12 @@
   }
 
   // Redirect user to login page or show an error message
-  header('Location: ../calendar.php');
-  exit;
+  session_start();
+
+  if ($_SESSION['role'] === 'Admin') {
+    header('Location: ../calendar.php');
+    exit;
+  } else {
+    header('Location: ../calendar-manager.php');
+    exit;
+  }

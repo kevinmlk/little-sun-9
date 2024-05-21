@@ -104,9 +104,92 @@
     </div>
   </nav>
   <!-- Start main content -->
-  <main class="container">
+  <main class="container mb-5">
     <h1>Welcome back <?php echo $_SESSION['name']; ?>!</h1>
     <h2>Dashboard</h2>
+
+    <section class="mt-5 d-flex flex-wrap gap-5">
+      <?php if ($_SESSION['role'] === 'Manager'): ?>
+      <div class="card" style="width: 18rem;">
+        <img src="./assets/images/hub-card.jpg" class="card-img-top" alt="hub card image">
+        <div class="card-body">
+          <h5 class="card-title"><?php echo $currentHub['Hubname']; ?></h5>
+          <a href="hub-details.php?id=<?php echo $_SESSION['hubId']; ?>" class="btn btn-primary mt-3">Visit hub</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;">
+        <img src="./assets/images/calendar-card.jpg" class="card-img-top" alt="calendar card image">
+        <div class="card-body">
+          <h5 class="card-title"><?php echo $_SESSION['name']; ?>'s calendar</h5>
+          <a href="calendar-manager.php" class="btn btn-primary mt-3">My calendar</a>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      <?php if ($_SESSION['role'] === 'Admin'): ?>
+        <div class="card" style="width: 18rem;">
+          <img src="./assets/images/hub-card.jpg" class="card-img-top" alt="hub card image">
+          <div class="card-body">
+            <h5 class="card-title">All active hubs</h5>
+            <a href="hubs.php" class="btn btn-primary mt-3">Visit hubs</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <img src="./assets/images/calendar-card.jpg" class="card-img-top" alt="calendar card image">
+          <div class="card-body">
+            <h5 class="card-title">Calendar</h5>
+            <a href="calendar.php" class="btn btn-primary mt-3">See calendar</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <img src="./assets/images/task-card.jpg" class="card-img-top" alt="calendar card image">
+          <div class="card-body">
+            <h5 class="card-title">Tasks overview</h5>
+            <a href="calendar.php" class="btn btn-primary mt-3">Manage tasks</a>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if ($_SESSION['role'] !== 'Employee'): ?>
+      <div class="card" style="width: 18rem;">
+        <img src="./assets/images/time-records-card.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Time records</h5>
+          <a href="time-records.php" class="btn btn-primary mt-3">See time records</a>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      <?php if ($_SESSION['role'] === 'Employee'): ?>
+        <div class="card" style="width: 18rem;">
+          <img src="./assets/images/calendar-card.jpg" class="card-img-top" alt="calendar card image">
+          <div class="card-body">
+            <h5 class="card-title"><?php echo $_SESSION['name']; ?>'s calendar</h5>
+            <a href="calendar-employee.php" class="btn btn-primary mt-3">See calendar</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <img src="./assets/images/time-tracker-card.jpg" class="card-img-top" alt="calendar card image">
+          <div class="card-body">
+            <h5 class="card-title">Time tracker</h5>
+            <a href="time-tracker.php" class="btn btn-primary mt-3">Go to time tracker</a>
+          </div>
+        </div>
+
+      <?php endif; ?>
+
+      <div class="card" style="width: 18rem;">
+        <img src="./assets/images/time-off-card.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Time off requests</h5>
+          <a href="time-off-requests.php" class="btn btn-primary mt-3">See time off request</a>
+        </div>
+      </div>
+    </section>
   </main>
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>

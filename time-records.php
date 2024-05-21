@@ -166,7 +166,7 @@
     <section id="overtime-section" class="mt-5">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Overtime</h2>
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#overtimeModal"><i class="bi bi-funnel me-2"></i>Extra options</button>
+        <!-- <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#overtimeModal"><i class="bi bi-funnel me-2"></i>Extra options</button> -->
       </div>
 
       <table class="table table-striped table-hover">
@@ -230,7 +230,9 @@
     <section id="absents-section" class="mt-5 d-none">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Absents</h2>
-        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#filterAbsentsModal"><i class="bi bi-funnel me-2"></i>Filter employees</button>
+        <?php if ($_SESSION['role'] === 'Manager'): ?>
+        <a class="btn btn-link" href="rapport.php"><i class="bi bi-funnel me-2"></i>Extra options</a>
+        <?php endif; ?>
       </div>
 
       <table class="table table-striped table-hover">
