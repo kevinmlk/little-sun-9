@@ -21,6 +21,15 @@
     }
   }
 
+  $userTimeOffRequests = [];
+
+  foreach ($timeOffRequests as $tor) {
+    if ($tor['LocationId'] === $_SESSION['hubId'] && $tor['EmployeeId'] === $_SESSION['id']) {
+        $userTimeOffRequests[] = $tor;
+    }
+  }
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,10 +210,83 @@
 
     </section>
     <?php endif; ?>
-
+    
+    <?php if ($_SESSION['role'] === 'Employee'): ?>
     <section id="time-request-employee">
-      
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>My time off requests</h2>
+        <div>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createTimeOffRequestModal"><i class="bi bi-file-plus me-2"></i>Create time off request</button>
+        </div>
+      </div>
+
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Id</strong></th>
+            <th scope="col"><strong>Time off type</strong></th>
+            <th scope="col"><strong>Start date</strong></th>
+            <th scope="col"><strong>End date</strong></th>
+            <th scope="col"><strong>Status</strong></th>
+            <th scope="col"><strong>Reason</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($userTimeOffRequests as $utor): ?>
+            <tr>
+              <th scope="row"><?php echo $utor['TimeOffRequestId']; ?></th>
+              <td><?php echo $utor['Type']; ?></td>
+              <td><?php echo $utor['StartDate']; ?></td>
+              <td><?php echo $utor['EndDate']; ?></td>
+              <td><?php echo $utor['Status']; ?></td>
+              <td><?php echo $utor['Reason']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <!-- createTimeOffRequestModal -->
+      <div class="modal fade" id="createTimeOffRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createTimeOffRequestModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Time off request</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="./includes/add-time-off-request.inc.php" method="post">
+                <!-- Time Off Type -->
+                <div class="mb-3">
+                  <label for="type-select" class="col-form-label">Status time off:</label>
+                  <select name="type-select" class="form-select" id="type-select" aria-label="Status select" required>
+                    <option value="vacation">vacation</option>
+                    <option value="marriage">marriage</option>
+                    <option value="birthday">birthday</option>
+                    <option value="maternity">maternity</option>
+                  </select>
+                </div>
+                <!-- Start Shift -->
+                <div class="mb-3">
+                  <label for="start-date" class="col-form-label">Start date:</label>
+                  <input name="start-date" id="start-date" class="form-control" min="<?php echo date("Y-m-d"); ?>" type="date" required>
+                </div>
+                <!-- End Shift -->
+                <div class="mb-3">
+                  <label for="end-date" class="col-form-label">End date:</label>
+                  <input name="end-date" id="end-date" class="form-control" min="<?php echo date("Y-m-d"); ?>" type="date" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add time off request</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
+    <?php endif; ?>
   </main>
   
   <!-- Links JS -->

@@ -142,7 +142,23 @@ class TimeOffRequest implements ITimeOffRequest {
   }
 
   public function addTimeOffRequest() {
+    // Make db connection
+    $conn = Db::getConnection();
 
+    // Prepare query statement
+    $statement = $conn->prepare('INSERT INTO timeoffrequests (EmployeeId, Type, StartDate, EndDate, Status, Reason) VALUES (:employee, :type, :startdate, :enddate, :status, :reason);');
+
+    // Bind values
+    $statement->bindValue(':employee', $this->employee);
+    $statement->bindValue(':type', $this->type);
+    $statement->bindValue(':startdate', $this->startDate);
+    $statement->bindValue(':enddate', $this->endDate);
+    $statement->bindValue(':status', $this->status);
+    $statement->bindValue(':reason', $this->status);
+
+    // Execute statement
+    $result = $statement->execute();
+    return $result;
   }
 
   public function setTimeOffRequestStatus() {
