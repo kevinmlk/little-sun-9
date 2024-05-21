@@ -29,6 +29,15 @@
     }
   }
 
+  $users = User::getAllUsers();
+
+  $currentHubEmployees = [];
+
+  foreach ($users as $u) {
+    if ($u['LocationId'] === $_SESSION['hubId'] && $u['RoleName'] === 'Employee') {
+      $currentHubEmployees[] = $u;
+    }
+  }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -164,10 +173,10 @@
               <form action="./includes/set-time-off-request.inc.php" method="post">
                 <!-- Employee Select -->
                 <div class="mb-3">
-                  <label for="employee-select" class="col-form-label">Employee:</label>
+                  <label for="employee-select" class="col-form-label">Time Request employee:</label>
                   <select name="employee-select" class="form-select" id="employee-select" aria-label="Employee select" required>
-                    <?php foreach ($currentTimeOffRequests as $ctor): ?>
-                    <option value="<?php echo $ctor['EmployeeId']; ?>"><?php echo $ctor['Firstname'] . ' ' . $ctor['Lastname']; ?></option>
+                    <?php foreach ($currentHubEmployees as $che): ?>
+                    <option value="<?php echo $che['Id']; ?>"><?php echo $che['Firstname'] . ' ' . $che['Lastname']; ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>

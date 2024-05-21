@@ -16,7 +16,7 @@ if (!empty($_POST['employeeId'])) {
       $timeOffRequest[] = [
         'id' => $tor['TimeOffRequestId'],
         'type' => $tor['Type'],	
-        'period' => $tor['StartDate'] . ' - ' . $tor['EndDate'],
+        'period' => $tor['TimeOffRequestId'] . ' - ' . $tor['StartDate'] . ' - ' . $tor['EndDate'],
       ];
     }
   }
