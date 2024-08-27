@@ -5,6 +5,9 @@ include_once(__DIR__ . '/../interfaces/IUser.php');
 include_once(__DIR__ . '/Db.php');
 
 class User implements IUser {
+
+  // Properties
+  private $id;
   private $firstname;
   private $lastname;
   private $email;
@@ -12,6 +15,30 @@ class User implements IUser {
   private $newPassword;
   private $profilePicture;
   private $role;
+  private $task;
+
+  private $newTask;
+  private $location;
+
+  
+
+  /**
+   * Get the value of id
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Set the value of id
+   */
+  public function setId($id): self
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get the value of firstname
@@ -139,6 +166,60 @@ class User implements IUser {
 
     return $this;
   }
+  
+  /**
+   * Get the value of task
+   */
+  public function getTask()
+  {
+    return $this->task;
+  }
+
+  /**
+   * Set the value of task
+   */
+  public function setTask($task): self
+  {
+    $this->task = $task;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of newTask
+   */
+  public function getNewTask()
+  {
+    return $this->newTask;
+  }
+
+  /**
+   * Set the value of newTask
+   */
+  public function setNewTask($newTask): self
+  {
+    $this->newTask = $newTask;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of location
+   */
+  public function getLocation()
+  {
+    return $this->location;
+  }
+
+  /**
+   * Set the value of location
+   */
+  public function setLocation($location): self
+  {
+    $this->location = $location;
+
+    return $this;
+  }
 
   // Login function for login page
   public function loginUser() {
@@ -173,58 +254,91 @@ class User implements IUser {
         }
       }
       session_start();
+      $_SESSION['id'] = $user['Id'];
       $_SESSION['role'] = roleSetter($user['RoleId']);
       $_SESSION['name'] = $user['Firstname'];
+      $_SESSION['profilePicture'] = $user['ProfilePicture'];
+      $_SESSION['hubId'] = $user['LocationId'];
+      $_SESSION['taskId'] = $user['TaskId'];
       return true;
     } else {
       return false;
     }
   }
 
-  // Create user function for admin
   public function createUser() {
+    // Make a Db connection
     $conn = Db::getConnection();
 
     // Prepare query statement
-    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, RoleId) VALUES(:firstname, :lastname, :email, :password, :role);');
+    $statement = $conn->prepare('INSERT INTO users (Firstname, Lastname, Email, Password, ProfilePicture, RoleId, TaskId, LocationId) VALUES(:firstname, :lastname, :email, :password, :profilepicture, :roleid, :taskid, :locationid);');
 
-    // Plaats de input van de SETTERS in een variabele met GETTERS
-    $firstname = $this->getFirstname();
-    $lastname = $this->getLastname();
-    $email = $this->getEmail();
+    // Bind query values
+    $statement->bindValue(':firstname', $this->getFirstname());
+    $statement->bindValue(':lastname', $this->getLastname());
+    $statement->bindValue(':email', $this->getEmail());
 
     // Hash password with bcrypt
-		$options = [
-			'cost' => 15,
-		];
+    $options = [
+      'cost' => 15,
+    ];
 
-		$password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
-    
-    $selectedRole = $this->getRole();
+    $password = password_hash($this->getPassword(), PASSWORD_DEFAULT, $options);
 
-    function roleSetter($r) {
-      switch ($r) {
-        case 'Manager':
-           return 3;
-          break;
-        case 'Admin':
-          return 2;
-          break;
-        default:
-          return 1;
-      }
-    }
-
-    $role = roleSetter($selectedRole);
-    
-    $statement->bindValue(':firstname', $firstname);
-    $statement->bindValue(':lastname', $lastname);
-    $statement->bindValue(':email', $email);
     $statement->bindValue(':password', $password);
-    $statement->bindValue(':role', $role);
+    $statement->bindValue(':profilepicture', $this->getProfilePicture());
+    $statement->bindValue(':roleid', $this->getRole());
+    $statement->bindValue(':taskid', $this->getTask());
+    $statement->bindValue(':locationid', $this->getLocation());
 
+    // Store the results of the query execution
     $result = $statement->execute();
-    // Return result
+    return $result;
+  }
+
+  public function assignTask() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET TaskId = :taskid WHERE Id = :id;');
+
+    $statement->bindValue(':taskid', $this->getTask());
+    $statement->bindValue(':id', $this->getId());
+
+    // Store the results of the query execution
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function deleteAllHubUsers() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('DELETE FROM users WHERE LocationId = :locationid;');
+
+    $locationId = $this->getLocation();
+
+    $statement->bindValue(':locationid', $locationId);
+
+    // Store the results of the query execution
+    $result = $statement->execute();
+    return $result;
+  }
+
+  public function editTaskType() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET TaskId = :newtaskid WHERE TaskId = :oldtaskid;');
+
+    $statement->bindValue(':newtaskid', $this->getNewTask());
+    $statement->bindValue(':oldtaskid', $this->getTask());
+
+    // Store the results of the query execution
+    $result = $statement->execute();
     return $result;
   }
 
@@ -252,14 +366,49 @@ class User implements IUser {
     return $result;  
   }
 
+  public function resetPassword() {
+    // Make a Db connection
+    $conn = Db::getConnection();
+
+    // Prepare query statement
+    $statement = $conn->prepare('UPDATE users SET Password = :newpassword WHERE Id = :id;');
+
+    $id = $this->getId();
+
+    // Hash password with bcrypt
+    $options = [
+      'cost' => 15,
+    ];
+
+    $newPassword = password_hash($this->getNewPassword(), PASSWORD_DEFAULT, $options);
+
+    $statement->bindValue(':newpassword', $newPassword);
+    $statement->bindValue(':id', $id);
+
+    $result = $statement->execute();
+
+    return $result;
+  }
+
   public static function getAllUsers() {
     // Conn met db via rechtstreekse roeping
     $conn = Db::getConnection();
 
     // Insert query
-    $statement = $conn->prepare('SELECT * FROM users;');
+    $statement = $conn->prepare('SELECT users.Id, Firstname, Lastname, Email, LocationId, RoleName, Taskname, Hubname, Hublocation FROM users INNER JOIN roles ON users.RoleId = roles.Id INNER JOIN tasks ON users.TaskId = tasks.Id INNER JOIN locations ON users.LocationId = locations.Id;');
     $statement->execute();
     $users = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $users;
+  }
+
+  public static function getLastAddedUser() {
+    // Conn met db via rechtstreekse roeping
+    $conn = Db::getConnection();
+
+    // Insert query
+    $statement = $conn->prepare('SELECT * FROM users ORDER BY Id DESC LIMIT 1;');
+    $statement->execute();
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    return $user;
   }
 }

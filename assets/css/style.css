@@ -5,12 +5,12 @@
   --little-sun-gray: #F4F4F4;
 }
 
-main {
-  
+a {
+  color: var(--little-sun-black);
 }
 
 /* Id's & classes */
-#login-navbar {
+#login-navbar, #main-navbar {
   background: var(--little-sun-black) !important;
 }
 
@@ -26,7 +26,22 @@ main {
   color: var(--little-sun-gray);
 }
 
-.btn-primary {
+#img-navbar {
+  max-width: 450px !important;
+  height: 400px !important;
+  border-radius: 50%;
+}
+
+.badge.rounded-pill.text-bg-warning {
+  background-color: var(--little-sun-yellow) !important;
+  color: var(--little-sun-black) !important;
+}
+
+.bg-dark, #offcanvasNavbar {
+  background-color: var(--little-sun-black) !important;
+}
+
+.btn.btn-primary, .fc-myCustomButton-button.fc-button {
   background-color: var(--little-sun-yellow);
   border: none;
   color: var(--little-sun-black);
@@ -35,6 +50,11 @@ main {
 .btn-primary:hover {
   background-color: var(--little-sun-black);
   color: var(--little-sun-yellow);
+}
+
+.btn.btn-link {
+  color: var(--little-sun-black);
+  text-decoration: none;
 }
 
 .text-bg-dark {

@@ -6,6 +6,7 @@
   if (isset($_SESSION['loggedin'])) {
     header('Location: index.php');
   }
+
   // Check if theres a login attempt
   if (!empty($_POST)) {
     $user = new User();
@@ -13,7 +14,6 @@
     $user->setPassword($_POST['password']);
 
     if ($user->loginUser()) {
-      session_start();
       $_SESSION['loggedin'] = true;
 			header('Location: index.php');
     } else {
@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon_io/favicon.ico">
   <!-- Tab Title -->
   <title>Login | Little Sun Shiftplanner</title>
 </head>
@@ -40,31 +42,21 @@
         <img src="./assets/images/sun.png" alt="Little Sun Logo">
         <p class="fs-3 mb-0">Little Sun</p>
       </a>
-      <div class="d-flex">
-        <a class="navbar-brand" href="">Link</a>
-        <a class="navbar-brand" href="">Link</a>
-        <a class="navbar-brand" href="">Help</a>
-        <a class="btn btn-secondary" type="submit">Button</a>
-      </div>
     </div>
   </nav>
   <!-- Main Content -->
   <main class="container d-flex justify-content-between align-items-center vh-100">
     <!-- Intro Text -->
-    <section class="col-5">
-      <h1 class="mb-3">Little Sun Shifplanner</h1>
+    <section id="login-intro" class="col-5">
+      <h1 class="mb-3">Little Sun Shiftplanner</h1>
       <p class="fs-5 lh-base">
-        Welcome to Little Sun Shiftplanner, the ultimate platform fro shift planner in Zambia!
-        At Little Sun Shiftplanner, we empower workers to take control of their schedules by
-        defining their roles and selecting preferred work locations. Our user-friendly interface
-        allows workers to plan their availability for shifts and even schedule well-deserved
-        vacations with ease.
+        Welcome to Little Sun Shiftplanner, the ultimate shift planning platform in Zambia where we empower workers to take control of their schedules!
       </p>
     </section>
 
     <!-- Login Form -->
     <section class="col-4">
-      <div class="card p-4 mb-3">
+      <div class="card p-4">
         <h1 class="card-title text-center">Welcome</h1>
         <!-- Login error message -->
         <?php	if (isset($error)): ?>
@@ -92,16 +84,10 @@
           </div>
         </form>
       </div>
-      <!-- Extra links -->
-      <ul class="text-center">
-        <li><a href="" class="link-light">Forgot password?</a></li>
-        <li><a href="" class="link-light">Don't have an account?</a></li>
-      </ul>
     </section>
   </main>
 
   <!-- Links JS -->
   <script src="./assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="./assets/js/app.js" ></script>
 </body>
 </html>

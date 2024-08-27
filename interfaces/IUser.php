@@ -7,8 +7,18 @@ interface IUser {
   // User creation method for Admin only
   public function createUser();
 
+  public function assignTask();
+
   public function editUserPassword();
+
+  public function editTaskType();
+
+  public function resetPassword();
+
+  public function deleteAllHubUsers();
 
   // Function to get all users
   public static function getAllUsers();
+
+  public static function getLastAddedUser();
 }

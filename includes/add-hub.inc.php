@@ -13,5 +13,5 @@
   }
 
   // Redirect user to login page or show an error message
-  header("Location: ../create-hub.php");
+  header("Location: ../hubs.php");
   exit;
